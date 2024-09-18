@@ -13,9 +13,9 @@ namespace TheEmptyApp.Controllers
     [ApiController]
     public class ArtistsController : ControllerBase
     {
-        private readonly MusicDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public ArtistsController(MusicDbContext context)
+        public ArtistsController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -29,7 +29,7 @@ namespace TheEmptyApp.Controllers
 
         // GET: api/Artists/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Artist>> GetArtist(long id)
+        public async Task<ActionResult<Artist>> GetArtist(int id)
         {
             var artist = await _context.Artists.FindAsync(id);
 
@@ -44,7 +44,7 @@ namespace TheEmptyApp.Controllers
         // PUT: api/Artists/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutArtist(long id, Artist artist)
+        public async Task<IActionResult> PutArtist(int id, Artist artist)
         {
             if (id != artist.Id)
             {
@@ -85,7 +85,7 @@ namespace TheEmptyApp.Controllers
 
         // DELETE: api/Artists/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteArtist(long id)
+        public async Task<IActionResult> DeleteArtist(int id)
         {
             var artist = await _context.Artists.FindAsync(id);
             if (artist == null)
@@ -99,7 +99,7 @@ namespace TheEmptyApp.Controllers
             return NoContent();
         }
 
-        private bool ArtistExists(long id)
+        private bool ArtistExists(int id)
         {
             return _context.Artists.Any(e => e.Id == id);
         }

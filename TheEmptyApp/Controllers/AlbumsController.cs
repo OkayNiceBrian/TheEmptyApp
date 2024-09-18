@@ -13,9 +13,9 @@ namespace TheEmptyApp.Controllers
     [ApiController]
     public class AlbumsController : ControllerBase
     {
-        private readonly MusicDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public AlbumsController(MusicDbContext context)
+        public AlbumsController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -29,7 +29,7 @@ namespace TheEmptyApp.Controllers
 
         // GET: api/Albums/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Album>> GetAlbum(long id)
+        public async Task<ActionResult<Album>> GetAlbum(int id)
         {
             var album = await _context.Albums.FindAsync(id);
 
@@ -44,7 +44,7 @@ namespace TheEmptyApp.Controllers
         // PUT: api/Albums/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAlbum(long id, Album album)
+        public async Task<IActionResult> PutAlbum(int id, Album album)
         {
             if (id != album.Id)
             {
@@ -85,7 +85,7 @@ namespace TheEmptyApp.Controllers
 
         // DELETE: api/Albums/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAlbum(long id)
+        public async Task<IActionResult> DeleteAlbum(int id)
         {
             var album = await _context.Albums.FindAsync(id);
             if (album == null)
@@ -99,7 +99,7 @@ namespace TheEmptyApp.Controllers
             return NoContent();
         }
 
-        private bool AlbumExists(long id)
+        private bool AlbumExists(int id)
         {
             return _context.Albums.Any(e => e.Id == id);
         }
