@@ -8,7 +8,8 @@ public static class AlbumMappers {
         return new AlbumDto {
             Id = albumModel.Id,
             Name = albumModel.Name,
-            ArtistId = albumModel.ArtistId
+            ArtistId = albumModel.ArtistId,
+            Songs = albumModel.Songs.Select(s => s.ToSongDto()).ToList(),
         };
     }
 

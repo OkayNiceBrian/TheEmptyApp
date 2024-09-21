@@ -7,5 +7,5 @@ public class Album {
     public int? ArtistId { get; set; }
     public Artist? Artist { get; set; }
 
-    public ICollection<Song>? Songs { get; set; }
+    public ICollection<Song> Songs { get; set; } = new List<Song>();
 }

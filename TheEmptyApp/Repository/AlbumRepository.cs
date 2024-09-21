@@ -12,11 +12,11 @@ public class AlbumRepository : IAlbumRepository {
     public AlbumRepository(ApplicationDbContext ctx) => _ctx = ctx;
 
     public async Task<List<Album>> GetAllAsync() {
-        return await _ctx.Albums.ToListAsync();
+        return await _ctx.Albums.Include(s => s.Songs).ToListAsync();
     }
 
     public async Task<Album?> GetByIdAsync(int id) {
-        return await _ctx.Albums.FindAsync(id);
+        return await _ctx.Albums.Include(s => s.Songs).FirstOrDefaultAsync(a => a.Id == id);
     }
 
     public async Task<Album> CreateAsync(Album albumModel) {

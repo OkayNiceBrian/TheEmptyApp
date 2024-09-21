@@ -27,8 +27,8 @@ public class SongsController : ControllerBase {
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetSong([FromRoute] int id) {
-        var song = await _sr.GetByIdAsync(id);
-        return song == null ? NotFound() : Ok(song.ToSongDto());
+        var s = await _sr.GetByIdAsync(id);
+        return s == null ? NotFound() : Ok(s.ToSongDto());
     }
 
     [HttpPost]

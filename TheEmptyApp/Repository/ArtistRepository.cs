@@ -11,11 +11,17 @@ public class ArtistRepository : IArtistRepository {
     public ArtistRepository(ApplicationDbContext ctx) => _ctx = ctx;
 
     public async Task<List<Artist>> GetAllAsync() {
-        return await _ctx.Artists.ToListAsync();
+        return await _ctx.Artists
+            .Include(a => a.Albums)
+            .Include(a => a.Songs)
+            .ToListAsync();
     }
 
     public async Task<Artist?> GetByIdAsync(int id) {
-        return await _ctx.Artists.FindAsync(id);
+        return await _ctx.Artists
+            .Include(a => a.Albums)
+            .Include(a => a.Songs)
+            .FirstOrDefaultAsync(a => a.Id == id);
     }
 
     public async Task<Artist> CreateAsync(Artist artistModel) {

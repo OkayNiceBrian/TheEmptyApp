@@ -7,7 +7,9 @@ public static class ArtistMappers {
     public static ArtistDto ToArtistDto(this Artist artistModel) {
         return new ArtistDto {
             Id = artistModel.Id,
-            Name = artistModel.Name
+            Name = artistModel.Name,
+            Albums = artistModel.Albums.Select(a => a.ToAlbumDto()).ToList(),
+            Songs = artistModel.Songs.Select(a =>a.ToSongDto()).ToList(),
         };
     }
 
