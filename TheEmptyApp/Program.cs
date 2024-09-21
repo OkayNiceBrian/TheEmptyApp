@@ -13,6 +13,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<ISongRepository, SongRepository>();
+builder.Services.AddScoped<IArtistRepository, ArtistRepository>();
+builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();
 
 var app = builder.Build();
 
@@ -21,7 +23,7 @@ if (app.Environment.IsDevelopment()) {
     app.UseSwaggerUI();
 }
 
-app.MapGet("/", () => "Hello World!");
+app.MapGet("/", () => "Empty API");
 
 app.MapControllers();
 
