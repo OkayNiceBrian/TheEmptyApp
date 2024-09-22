@@ -1,14 +1,24 @@
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Layout from "./pages/Layout";
+import Home from "./pages/Home";
+import Artist from "./pages/Artist";
+import Album from "./pages/Album";
+import Contact from "./pages/Contact";
+import NoPage from "./pages/NoPage";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Hey
-        </p>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout/>}>
+          <Route index element={<Home/>}/>
+          <Route path="/artist/:id" element={<Artist/>}/>
+          <Route path="/album/:id" element={<Album/>}/>
+          <Route path="/contact" element={<Contact/>}/>
+          <Route path="*" element={<NoPage/>}/>
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
