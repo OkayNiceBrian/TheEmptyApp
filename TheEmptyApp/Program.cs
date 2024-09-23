@@ -3,7 +3,16 @@ using Microsoft.EntityFrameworkCore;
 using TheEmptyApp.Interfaces;
 using TheEmptyApp.Repository;
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options => {
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+        policy => {
+            policy.WithOrigins("http://localhost:3001");
+        });
+});
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -20,8 +29,9 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment()) {
     app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    app.UseSwaggerUI();}
+
+app.UseCors(MyAllowSpecificOrigins);
 
 app.MapGet("/", () => "Empty API");
 

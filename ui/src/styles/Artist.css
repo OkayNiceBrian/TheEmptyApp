@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    background-color: #003135;
+}
+
+.header-container {
+    margin: 20px;
+}
+
+.header-text {
+    font-size: 36pt;
+}
+
+.album-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-bottom: 50px;
+}
+
+.album-header-container {
+    margin-right: 50px;
+}
+
+.album-header-text {
+    font-size: 20pt;
+}
+
+.songs-container {
+    margin-top: 10px;
+}
