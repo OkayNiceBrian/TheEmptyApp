@@ -10,6 +10,8 @@ public static class AlbumMappers {
             Name = albumModel.Name,
             ArtistId = albumModel.ArtistId,
             Songs = albumModel.Songs.Select(s => s.ToSongDto()).ToList(),
+            ReleaseDate = albumModel.ReleaseDate,
+            CoverImageGuid = albumModel.CoverImageGuid,
         };
     }
 
@@ -17,11 +19,15 @@ public static class AlbumMappers {
         return new Album {
             Name = albumDto.Name,
             ArtistId = albumDto.ArtistId,
+            ReleaseDate = albumDto.ReleaseDate,
+            CoverImageGuid = albumDto.CoverImageGuid,
         };
     }
 
     public static void UpdateModelFromDto(this Album albumModel, UpdateAlbumDto albumDto) {
         albumModel.Name = albumDto.Name;
         albumModel.ArtistId = albumDto.ArtistId;
+        albumModel.ReleaseDate = albumDto.ReleaseDate;
+        albumModel.CoverImageGuid = albumDto.CoverImageGuid;
     }
 }
