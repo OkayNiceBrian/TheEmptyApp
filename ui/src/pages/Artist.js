@@ -57,7 +57,7 @@ const Artist = () => {
             <div class="header-container">
                 <p class="header-text">{artist?.name}</p>
             </div>
-            {artist ? renderAlbums() : null}
+            {!isApiLoading ? renderAlbums() : null}
         </div>
     );
 };
