@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import apiHost from "../config/global";
-import "../styles/Artist.css";
+import { useNavigate, useParams } from "react-router-dom";
+import apiHost from "src/config/global";
+import "src/styles/Artist.css";
 
 const Artist = () => {
     const { artistId } = useParams();
 
     const [isLoading, setIsLoading] = useState(true);
     const [artist, setArtist] = useState(null);
+
+    const [isDeleted, setIsDeleted] = useState(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchArtist = async () => {
@@ -30,6 +34,12 @@ const Artist = () => {
         }
     }, [artistId, isLoading]);
 
+    useEffect(() => {
+        if (isDeleted) {
+            navigate("/");
+        }
+    }, [isDeleted, navigate])
+
     const renderAlbums = () => {
         return artist.albums.map(album => 
             <div class="album-container">
@@ -51,12 +61,26 @@ const Artist = () => {
         );
     }
 
+    const onClickDelete = async () => {
+        try {
+            const url = apiHost + "/artists/" + artistId;
+            await fetch(url, {
+                method: "DELETE"
+            });
+        } catch (e) {
+            console.error(e);
+        } finally {
+            setIsDeleted(true);
+        }
+    }
+
     if (isLoading) return <div class="container" />;
 
     return (
         <div class="container">
             <div class="header-container">
                 <p class="header-text">{artist.name}</p>
+                <button onClick={onClickDelete}>DELETE</button>
             </div>
             {renderAlbums()}
         </div>

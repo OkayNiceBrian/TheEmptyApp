@@ -1,10 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./pages/Layout";
-import Home from "./pages/Home";
-import Artist from "./pages/Artist";
-import Album from "./pages/Album";
-import Contact from "./pages/Contact";
-import NoPage from "./pages/NoPage";
+import Layout from "src/pages/Layout";
+import Home from "src/pages/Home";
+import Artist from "src/pages/Artist";
+import Album from "src/pages/Album";
+import Contact from "src/pages/Contact";
+import NoPage from "src/pages/NoPage";
+import CreateArtist from "src/pages/CreateArtist";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/artist/:artistId" element={<Artist/>}/>
           <Route path="/album/:albumId" element={<Album/>}/>
           <Route path="/contact" element={<Contact/>}/>
+          <Route path="/create/artist" element={<CreateArtist/>}/>
           <Route path="*" element={<NoPage/>}/>
         </Route>
       </Routes>
