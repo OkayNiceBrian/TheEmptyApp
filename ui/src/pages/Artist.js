@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import apiHost from "src/config/global";
+import { apiHost } from "src/config/global";
 import "src/styles/Artist.css";
 
 const Artist = () => {
@@ -21,11 +21,12 @@ const Artist = () => {
                     method: "GET"
                 })
                 .then((response) => response.json())
-                .then((data) => setArtist(data));
+                .then((data) => {
+                    setArtist(data)
+                    setIsLoading(false);
+                });
             } catch (e) {
                 console.error(e);
-            } finally {
-                setIsLoading(false);
             }
         }
 
@@ -66,11 +67,11 @@ const Artist = () => {
             const url = apiHost + "/artists/" + artistId;
             await fetch(url, {
                 method: "DELETE"
+            }).then(rsp => {
+                if (rsp.status === 204) setIsDeleted(true);
             });
         } catch (e) {
             console.error(e);
-        } finally {
-            setIsDeleted(true);
         }
     }
 
@@ -80,7 +81,8 @@ const Artist = () => {
         <div class="container">
             <div class="header-container">
                 <p class="header-text">{artist.name}</p>
-                <button onClick={onClickDelete}>DELETE</button>
+                <button onClick={() => navigate(`/artist/${artistId}/create/album`)}>CREATE NEW Album</button>
+                <button onClick={onClickDelete}>DELETE Artist</button>
             </div>
             {renderAlbums()}
         </div>

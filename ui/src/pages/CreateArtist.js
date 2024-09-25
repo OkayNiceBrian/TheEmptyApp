@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import apiHost from "src/config/global";
-import "src/styles/CreateArtist.css";
+import { apiHost } from "src/config/global";
+import "src/styles/CreateForm.css";
 
 const CreateArtist = () => {
 
@@ -16,7 +16,7 @@ const CreateArtist = () => {
         if (isCreated) {
             navigate("/artist/" + id);
         }
-    }, [isCreated, id, navigate])
+    }, [isCreated, id, navigate]);
 
     const onClickSubmit = async () => {
         try {
@@ -33,11 +33,12 @@ const CreateArtist = () => {
                 },
                 body: JSON.stringify(artist)
             }).then(rsp => rsp.json())
-            .then(data => setId(data.id));
+            .then(data => {
+                setId(data.id)
+                setIsCreated(true);
+            });
         } catch (e) {
             console.error(e);
-        } finally {
-            setIsCreated(true);
         }
     }
 
