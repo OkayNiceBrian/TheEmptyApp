@@ -6,14 +6,14 @@ import "../styles/Artist.css";
 const Artist = () => {
     const { artistId } = useParams();
 
-    const [isApiLoading, setIsApiLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
     const [artist, setArtist] = useState(null);
 
     useEffect(() => {
         const fetchArtist = async () => {
             try {
                 const url = apiHost + "/artists/" + artistId;
-                fetch(url, {
+                await fetch(url, {
                     method: "GET"
                 })
                 .then((response) => response.json())
@@ -21,15 +21,14 @@ const Artist = () => {
             } catch (e) {
                 console.error(e);
             } finally {
-                setIsApiLoading(false);
+                setIsLoading(false);
             }
         }
 
-        if (isApiLoading) {
+        if (isLoading) {
             fetchArtist();
-            setIsApiLoading(false);
         }
-    }, [artistId, isApiLoading]);
+    }, [artistId, isLoading]);
 
     const renderAlbums = () => {
         return artist.albums.map(album => 
@@ -52,12 +51,14 @@ const Artist = () => {
         );
     }
 
+    if (isLoading) return <div class="container" />;
+
     return (
         <div class="container">
             <div class="header-container">
-                <p class="header-text">{artist?.name}</p>
+                <p class="header-text">{artist.name}</p>
             </div>
-            {!isApiLoading ? renderAlbums() : null}
+            {renderAlbums()}
         </div>
     );
 };

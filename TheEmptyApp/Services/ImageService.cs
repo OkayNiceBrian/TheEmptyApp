@@ -4,6 +4,7 @@ using Azure.Storage.Blobs.Models;
 using TheEmptyApp.Options;
 using Microsoft.Extensions.Options;
 
+
 namespace TheEmptyApp.Services;
 
 public class ImageService : IImageService {
@@ -25,7 +26,7 @@ public class ImageService : IImageService {
                 ContentType = "image/bitmap"
             }
         }, cancellationToken: default);
-
+        
         return guid;
     }
 }
