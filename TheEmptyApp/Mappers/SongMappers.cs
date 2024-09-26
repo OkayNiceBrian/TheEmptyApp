@@ -10,7 +10,8 @@ public static class SongMappers {
             Id = songModel.Id,
             Name = songModel.Name,
             ArtistId = songModel.ArtistId,
-            AlbumId = songModel.AlbumId
+            AlbumId = songModel.AlbumId,
+            AudioFileGuid = songModel.AudioFileGuid
         };
     }
 
@@ -18,7 +19,8 @@ public static class SongMappers {
         return new Song {
             Name = songDto.Name,
             ArtistId = songDto.ArtistId,
-            AlbumId = songDto.AlbumId
+            AlbumId = songDto.AlbumId,
+            AudioFileGuid = songDto.AudioFileGuid
         };
     }
 
