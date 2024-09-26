@@ -13,6 +13,7 @@ const CreateAlbum = () => {
     const [areFieldsFilled, setAreFieldsFilled] = useState(false);
 
     const [hasCoverUploaded, setHasCoverUploaded] = useState(false);
+    const [isAlbumUploading, setIsAlbumUploading] = useState(false);
     const [isAlbumCreated, setIsAlbumCreated] = useState(false);
 
     const navigate = useNavigate();
@@ -29,17 +30,50 @@ const CreateAlbum = () => {
         }
     }, [isAlbumCreated, artistId, navigate]);
 
+    useEffect(() => {
+        const createAlbum = () => {
+            const apiUrl = apiHost + "/albums";
+            fetch(apiUrl, {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    name: title,
+                    artistId: parseInt(artistId),
+                    releaseDate: releaseDate,
+                    coverImageGuid: coverGuid
+                })
+            }).then(rsp => {
+                if (rsp.ok) setIsAlbumCreated(true);
+                setIsAlbumUploading(false);
+            });
+        }
+
+        if (isAlbumUploading) {
+            try {
+                createAlbum();
+            } catch (e) {
+                console.error(e);
+            } finally {
+                setIsAlbumUploading(false);
+            }
+        }
+        
+    }, [isAlbumUploading, artistId, coverGuid, releaseDate, title])
+
     const getTodaysDate = () => {
         const currentDate = new Date();
         return currentDate.toISOString().split("T")[0];
     }
 
-    const uploadAlbumCover = async () => {
+    const uploadAlbumCoverThenAlbum = () => {
         const apiUrl = apiHost + "/files/images";
         let imageData = new FormData();
         imageData.append("name", coverFile.name);
         imageData.append("file", coverFile);
-        await fetch(apiUrl, {
+        fetch(apiUrl, {
             method: "POST",
             body: imageData
         }).then(rsp => {
@@ -47,32 +81,13 @@ const CreateAlbum = () => {
             return rsp.json();
         }).then(data => {
             setCoverGuid(data.guid);
+            setIsAlbumUploading(true); // Trigger album upload
         });
     }
 
-    const createAlbum = async () => {
-        const apiUrl = apiHost + "/albums";
-        await fetch(apiUrl, {
-            method: "POST",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                name: title,
-                artistId: parseInt(artistId),
-                releaseDate: releaseDate,
-                coverImageGuid: coverGuid
-            })
-        }).then(rsp => {
-            if (rsp.ok) setIsAlbumCreated(true);
-        });
-    }
-
-    const onClickSubmit = async () => {
+    const onClickSubmit = () => {
         try {
-            await uploadAlbumCover();
-            await createAlbum();
+            uploadAlbumCoverThenAlbum();
         } catch (e) {
             console.error(e);
         }
