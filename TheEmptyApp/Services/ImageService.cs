@@ -4,7 +4,6 @@ using Azure.Storage.Blobs.Models;
 using TheEmptyApp.Options;
 using Microsoft.Extensions.Options;
 
-
 namespace TheEmptyApp.Services;
 
 public class ImageService : IImageService {
