@@ -7,4 +7,6 @@ public class AlbumDto {
     public string? Name { get; set; }
     public int? ArtistId { get; set; }
     public List<SongDto> Songs { get; set; } = new List<SongDto>();
+    public DateOnly? ReleaseDate { get; set; }
+    public string? CoverImageGuid { get; set; }
 }

@@ -1,6 +1,6 @@
 import { Outlet, Link } from "react-router-dom";
-import logo from "../assets/logo.png"
-import '../styles/Layout.css';
+import logo from "src/assets/logo.png"
+import 'src/styles/Layout.css';
 
 const Layout = () => {
     return(
@@ -13,6 +13,9 @@ const Layout = () => {
                     </li>
                     <li class="nav-item">
                         <Link class="link" to="/artist/1"><p class="nav-text">My Music</p></Link>
+                    </li>
+                    <li class="nav-item">
+                        <Link class="link" to="/create/artist"><p class="nav-text">Create Artist</p></Link>
                     </li>
                     <li class="nav-item">
                         <Link class="link" to="/contact"><p class="nav-text">Contact</p></Link>

@@ -12,7 +12,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options => {
     options.AddPolicy(name: MyAllowSpecificOrigins,
         policy => {
-            policy.WithOrigins("http://localhost:3000");
+            policy.WithOrigins("http://localhost:3000")
+            .AllowAnyMethod()
+            .AllowAnyHeader();
         });
 });
 
@@ -24,6 +26,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.Configure<AzureOptions>(builder.Configuration.GetSection("Azure"));
+builder.Services.Configure<IISServerOptions>(opts => {
+    opts.MaxRequestBodySize = null;
+});
 
 builder.Services.AddScoped<ISongRepository, SongRepository>();
 builder.Services.AddScoped<IArtistRepository, ArtistRepository>();
