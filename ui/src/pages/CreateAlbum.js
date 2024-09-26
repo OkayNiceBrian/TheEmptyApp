@@ -1,6 +1,6 @@
-import { apiHost, blobUrl } from "src/config/global";
-import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { apiHost, blobUrl } from "src/config/host";
 import "src/styles/CreateForm.css";
 
 const CreateAlbum = () => {
@@ -10,14 +10,24 @@ const CreateAlbum = () => {
     const [releaseDate, setReleaseDate] = useState("");
     const [coverFile, setCoverFile] = useState("");
     const [coverGuid, setCoverGuid] = useState("");
+    const [areFieldsFilled, setAreFieldsFilled] = useState(false);
 
     const [hasCoverUploaded, setHasCoverUploaded] = useState(false);
+    const [isAlbumCreated, setIsAlbumCreated] = useState(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
-        if (hasCoverUploaded) {
-
+        if (title !== "" && releaseDate !== "" && coverFile !== "") {
+            setAreFieldsFilled(true);
         }
-    }, [hasCoverUploaded]);
+    }, [title, releaseDate, coverFile]);
+
+    useEffect(() => {
+        if (isAlbumCreated) {
+            navigate("/artist/" + artistId);
+        }
+    }, [isAlbumCreated, artistId, navigate]);
 
     const getTodaysDate = () => {
         const currentDate = new Date();
@@ -25,27 +35,44 @@ const CreateAlbum = () => {
     }
 
     const uploadAlbumCover = async () => {
-        try {
-            const apiUrl = apiHost + "/files/images";
-            let imageData = new FormData();
-            imageData.append("name", coverFile.name);
-            imageData.append("file", coverFile);
-            await fetch(apiUrl, {
-                method: "POST",
-                body: imageData
-            }).then(rsp => rsp.json())
-            .then(data => {
-                setCoverGuid(data.guid);
-                setHasCoverUploaded(true);
-            });
-        } catch (e) {
-            console.error(e);
-        }
+        const apiUrl = apiHost + "/files/images";
+        let imageData = new FormData();
+        imageData.append("name", coverFile.name);
+        imageData.append("file", coverFile);
+        await fetch(apiUrl, {
+            method: "POST",
+            body: imageData
+        }).then(rsp => {
+            if (rsp.ok) setHasCoverUploaded(true);
+            return rsp.json();
+        }).then(data => {
+            setCoverGuid(data.guid);
+        });
+    }
+
+    const createAlbum = async () => {
+        const apiUrl = apiHost + "/albums";
+        await fetch(apiUrl, {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name: title,
+                artistId: parseInt(artistId),
+                releaseDate: releaseDate,
+                coverImageGuid: coverGuid
+            })
+        }).then(rsp => {
+            if (rsp.ok) setIsAlbumCreated(true);
+        });
     }
 
     const onClickSubmit = async () => {
         try {
             await uploadAlbumCover();
+            await createAlbum();
         } catch (e) {
             console.error(e);
         }
@@ -64,13 +91,15 @@ const CreateAlbum = () => {
             <div class="input-container">
                 <p class="field-text">Album Cover</p>
                 {hasCoverUploaded ? (
-                    <img src={blobUrl + "/" + coverGuid} alt="Album Cover"/>
+                    <img class="image-thumbnail" src={blobUrl + "/" + coverGuid} alt="Album Cover"/>
                 ) : null}
                 <input type="file" onChange={e => setCoverFile(e.target.files[0])} style={{display: "flex"}}/>
             </div>
-            <div class="input-container">
-                <button onClick={onClickSubmit}>Submit</button>
-            </div>
+            { areFieldsFilled ? (
+                <div class="input-container">
+                    <button onClick={onClickSubmit}>Submit</button>
+                </div>
+            ) : null}
         </div>
     );
 }

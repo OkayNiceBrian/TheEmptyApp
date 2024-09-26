@@ -11,4 +11,10 @@
 }
 
 .field-text {
+    font-size: 14pt;
+}
+
+.image-thumbnail {
+    height: 100px;
+    width: auto;
 }

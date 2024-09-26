@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { apiHost } from "src/config/global";
+import { apiHost } from "src/config/host";
 import "src/styles/CreateForm.css";
 
 const CreateArtist = () => {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { apiHost } from "src/config/global";
+import { apiHost, blobUrl } from "src/config/host";
 import "src/styles/Artist.css";
 
 const Artist = () => {
@@ -46,6 +46,7 @@ const Artist = () => {
             <div class="album-container">
                 <div class="album-header-container">
                     <p class="album-header-text">{album.name}</p>
+                    <img class="album-cover" src={blobUrl + "/" + album.coverImageGuid} alt={album.name}/>
                 </div>
                 <div class="songs-container">
                     {renderSongs(album)}

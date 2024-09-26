@@ -27,6 +27,10 @@
     font-size: 20pt;
 }
 
+.album-cover {
+    height: 300px;
+}
+
 .songs-container {
     margin-top: 10px;
 }
