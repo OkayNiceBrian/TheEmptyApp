@@ -1,14 +1,14 @@
 import { useState } from "react";
 import "src/styles/CreateForm.css";
 
-const CreateSong = (artistId, albumId, trackNum) => {
+const CreateSong = ({artistId, trackNum}) => {
     const [name, setName] = useState("");
     const [songFile, setSongFile] = useState("");
 
     return (
         <div class="container">
             <div class="input-container">
-                <p class="field-text">Song Title</p>
+                <p class="field-text">{trackNum}. Song Title</p>
                 <input value={name} onChange={e => setName(e.target.value)}/>
             </div>
             <div class="input-container">

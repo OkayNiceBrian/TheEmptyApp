@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import CreateSong from "./components/CreateSong";
 import { apiHost, blobUrl } from "src/config/host";
 import "src/styles/CreateForm.css";
 
@@ -10,6 +11,7 @@ const CreateAlbum = () => {
     const [releaseDate, setReleaseDate] = useState("");
     const [coverFile, setCoverFile] = useState("");
     const [coverGuid, setCoverGuid] = useState("");
+    const [songComponents, setSongComponents] = useState([]);
     const [areFieldsFilled, setAreFieldsFilled] = useState(false);
 
     const [hasCoverUploaded, setHasCoverUploaded] = useState(false);
@@ -68,6 +70,10 @@ const CreateAlbum = () => {
         return currentDate.toISOString().split("T")[0];
     }
 
+    const addSongToCreate = () => {
+        setSongComponents(prev => [...prev, {artistId: artistId}]);
+    }
+
     const uploadAlbumCoverThenAlbum = () => {
         const apiUrl = apiHost + "/files/images";
         let imageData = new FormData();
@@ -109,6 +115,11 @@ const CreateAlbum = () => {
                     <img class="image-thumbnail" src={blobUrl + "/" + coverGuid} alt="Album Cover"/>
                 ) : null}
                 <input type="file" onChange={e => setCoverFile(e.target.files[0])} style={{display: "flex"}}/>
+            </div>
+            <div class="input-container">
+                <p class="field-text">Songs</p>
+                {songComponents.map((song, index) => <CreateSong artistId={song.artistId} trackNum={index + 1}/>)}
+                <button onClick={addSongToCreate}>Add Song</button>
             </div>
             { areFieldsFilled ? (
                 <div class="input-container">
