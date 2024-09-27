@@ -3,6 +3,8 @@ using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using TheEmptyApp.Options;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Mvc;
+using Azure;
 
 namespace TheEmptyApp.Services;
 
@@ -27,5 +29,16 @@ public class ImageService : IImageService {
         }, cancellationToken: default);
         
         return guid;
+    }
+
+    public async Task<bool> DeleteImageFromStorage(string guid) {
+        BlobContainerClient bcc = new(_ao.ConnectionString, _ao.Container);
+        BlobClient bc = bcc.GetBlobClient(guid);
+        var res = await bc.DeleteAsync();
+
+        if (res.IsError)
+            return false;
+
+        return true;
     }
 }

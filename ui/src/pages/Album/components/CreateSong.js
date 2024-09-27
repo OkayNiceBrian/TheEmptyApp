@@ -6,7 +6,7 @@ const CreateSong = ({artistId, trackNum}) => {
     const [songFile, setSongFile] = useState("");
 
     return (
-        <div class="container">
+        <div class="form-container">
             <div class="input-container">
                 <p class="field-text">{trackNum}. Song Title</p>
                 <input value={name} onChange={e => setName(e.target.value)}/>

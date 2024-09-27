@@ -43,7 +43,7 @@ const CreateArtist = () => {
     }
 
     return (
-        <div class="container">
+        <div class="form-container">
             <div class="input-container">
                 <p class="field-text">Artist Name: </p>
                 <input name="artistName" value={name} onChange={(e) => setName(e.target.value)}/>

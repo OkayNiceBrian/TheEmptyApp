@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using TheEmptyApp.Dtos.Album;
 using TheEmptyApp.Dtos.Artist;
 using TheEmptyApp.Interfaces;
@@ -9,7 +10,11 @@ namespace TheEmptyApp.Repository;
 
 public class AlbumRepository : IAlbumRepository {
     readonly ApplicationDbContext _ctx;
-    public AlbumRepository(ApplicationDbContext ctx) => _ctx = ctx;
+    readonly IImageService _is;
+    public AlbumRepository(ApplicationDbContext ctx, IImageService imageService) {
+        _ctx = ctx;
+        _is = imageService;
+    } 
 
     public async Task<List<Album>> GetAllAsync() {
         return await _ctx.Albums.Include(s => s.Songs).ToListAsync();
@@ -37,8 +42,16 @@ public class AlbumRepository : IAlbumRepository {
         var am = await _ctx.Albums.FirstOrDefaultAsync(a => a.Id == id);
         if (am == null) return null;
 
-        _ctx.Albums.Remove(am);
-        await _ctx.SaveChangesAsync();
+        var rsp = true;
+        if (am.CoverImageGuid != null && am.CoverImageGuid != string.Empty) {
+            rsp = await _is.DeleteImageFromStorage(am.CoverImageGuid);
+        }
+
+        if (rsp) {
+            _ctx.Albums.Remove(am);
+            await _ctx.SaveChangesAsync();
+        }
+
         return am;
     }
 }
