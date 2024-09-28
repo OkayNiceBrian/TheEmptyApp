@@ -10,11 +10,21 @@ namespace TheEmptyApp.Controllers;
 [ApiController]
 public class FilesController : ControllerBase {
     readonly IImageService _is;
-    public FilesController(IImageService imageService) => _is = imageService;
+    readonly IAudioService _as;
+    public FilesController(IImageService imageService, IAudioService audioService) {
+        _is = imageService;
+        _as = audioService;
+    }
 
     [HttpPost("images")]
     public async Task<IActionResult> UploadImage(UploadImageDto imageDto) {
         var guid = await _is.UploadImageToStorage(imageDto.File);
+        return Ok(FileMappers.ToFileGuidDto(guid));
+    }
+
+    [HttpPost("audio")]
+    public async Task<IActionResult> UploadAudio(UploadAudioDto audioDto) {
+        var guid = await _as.UploadAudioToStorage(audioDto.File);
         return Ok(FileMappers.ToFileGuidDto(guid));
     }
 }

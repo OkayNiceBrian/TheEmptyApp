@@ -1,13 +1,18 @@
-.container {
+.form-container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    background-color: #003135;
+    padding-left: 80px;
+    border-style: dashed;
+    border-width: 3px;
+    border-color: black;
 }
 
 .input-container {
     display: flex;
     flex-direction: column;
-    margin: 20px
+    margin: 10px
 }
 
 .field-text {

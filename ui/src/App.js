@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "src/pages/Layout";
 import Home from "src/pages/Home";
-import Artist from "src/pages/Artist";
-import Album from "src/pages/Album";
+import Artist from "src/pages/Artist/Artist";
+import Album from "src/pages/Album/Album";
 import Contact from "src/pages/Contact";
 import NoPage from "src/pages/NoPage";
-import CreateArtist from "src/pages/CreateArtist";
-import CreateAlbum from "src/pages/CreateAlbum";
+import CreateArtist from "src/pages/Artist/CreateArtist";
+import CreateAlbum from "src/pages/Album/CreateAlbum";
 
 function App() {
   return (

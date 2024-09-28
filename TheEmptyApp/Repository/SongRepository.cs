@@ -8,8 +8,12 @@ namespace TheEmptyApp.Repository;
 
 public class SongRepository : ISongRepository {
     readonly ApplicationDbContext _ctx;
-    public SongRepository(ApplicationDbContext ctx) => _ctx = ctx;
-    
+    readonly IAudioService _as;
+    public SongRepository(ApplicationDbContext ctx, IAudioService auds) {
+        _ctx = ctx;
+        _as = auds;
+    }
+
     public async Task<List<Song>> GetAllAsync() {
         return await _ctx.Songs.ToListAsync();
     }
@@ -35,6 +39,10 @@ public class SongRepository : ISongRepository {
     public async Task<Song?> DeleteAsync(int id) {
         var sm = await _ctx.Songs.FirstOrDefaultAsync(s => s.Id == id);
         if (sm == null) return null;
+
+        if (sm.AudioFileGuid != null && sm.AudioFileGuid != string.Empty) {
+            await _as.DeleteAudioFromStorage(sm.AudioFileGuid);
+        }
 
         _ctx.Songs.Remove(sm);
         await _ctx.SaveChangesAsync();

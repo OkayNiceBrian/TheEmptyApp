@@ -10,4 +10,6 @@ public class Song {
 
     public int? AlbumId { get; set; }
     public Album? Album { get; set; }
+
+    public string? AudioFileGuid { get; set; }
 }
