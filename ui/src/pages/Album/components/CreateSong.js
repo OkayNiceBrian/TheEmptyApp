@@ -1,19 +1,28 @@
-import { useState } from "react";
 import "src/styles/CreateForm.css";
 
-const CreateSong = ({artistId, trackNum}) => {
-    const [name, setName] = useState("");
-    const [songFile, setSongFile] = useState("");
+const CreateSong = ({i, songComponents, setSongComponents}) => {
+    
+    const assignName = (e) => {
+        setSongComponents(songComponents.map((song, index) => {
+            return i === index ? Object.assign({}, song, {name: e.target.value}) : song
+        }))
+    }
+
+    const assignFile = (e) => {
+        setSongComponents(songComponents.map((song, index) => {
+            return i === index ? Object.assign({}, song, {file: e.target.files[0], trackNum: i + 1}) : song
+        }));
+    }
 
     return (
         <div class="form-container">
             <div class="input-container">
-                <p class="field-text">{trackNum}. Song Title</p>
-                <input value={name} onChange={e => setName(e.target.value)}/>
+                <p class="field-text">{i + 1}. Song Title</p>
+                <input value={songComponents[i].name} onChange={e => assignName(e)}/>
             </div>
             <div class="input-container">
-                <p class="field-text">Upload Song (.mp3 only)</p>
-                <input type="file" onChange={e => setSongFile(e.target.files[0])}/>
+                <p class="field-text">Audio File (.mp3 only)</p>
+                <input type="file" onChange={e => assignFile(e)}/>
             </div>
         </div>
     );

@@ -11,9 +11,11 @@ namespace TheEmptyApp.Repository;
 public class AlbumRepository : IAlbumRepository {
     readonly ApplicationDbContext _ctx;
     readonly IImageService _is;
-    public AlbumRepository(ApplicationDbContext ctx, IImageService imageService) {
+    readonly ISongRepository _sr;
+    public AlbumRepository(ApplicationDbContext ctx, IImageService imageService, ISongRepository sr) {
         _ctx = ctx;
         _is = imageService;
+        _sr = sr;
     } 
 
     public async Task<List<Album>> GetAllAsync() {
@@ -45,9 +47,18 @@ public class AlbumRepository : IAlbumRepository {
         var rsp = true;
         if (am.CoverImageGuid != null && am.CoverImageGuid != string.Empty) {
             rsp = await _is.DeleteImageFromStorage(am.CoverImageGuid);
+            if (rsp) {
+                am.CoverImageGuid = "";
+                await _ctx.SaveChangesAsync();
+            }
         }
 
         if (rsp) {
+            var ls = _ctx.Songs.Where(s => s.AlbumId == am.Id).ToList();
+            foreach (Song s in ls) {
+                await _sr.DeleteAsync(s.Id);
+            }
+
             _ctx.Albums.Remove(am);
             await _ctx.SaveChangesAsync();
         }

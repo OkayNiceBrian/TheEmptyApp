@@ -11,20 +11,29 @@ const CreateAlbum = () => {
     const [releaseDate, setReleaseDate] = useState("");
     const [coverFile, setCoverFile] = useState("");
     const [coverGuid, setCoverGuid] = useState("");
-    const [songComponents, setSongComponents] = useState([]);
     const [areFieldsFilled, setAreFieldsFilled] = useState(false);
+    const [albumId, setAlbumId] = useState(0);
+
+    const [songComponents, setSongComponents] = useState([]);
 
     const [hasCoverUploaded, setHasCoverUploaded] = useState(false);
-    const [isAlbumUploading, setIsAlbumUploading] = useState(false);
     const [isAlbumCreated, setIsAlbumCreated] = useState(false);
+    const [areSongsUploading, setAreSongsUploading] = useState(false);
 
     const navigate = useNavigate();
 
     useEffect(() => {
         if (title !== "" && releaseDate !== "" && coverFile !== "") {
             setAreFieldsFilled(true);
+            for (let i = 0; i < songComponents.length; i++) {
+                const s = songComponents[i];
+                if (s.name === "" || s.trackNum === 0 || s.file == {}) {
+                    setAreFieldsFilled(false);
+                    break;
+                }
+            }
         }
-    }, [title, releaseDate, coverFile]);
+    }, [title, releaseDate, coverFile, songComponents]);
 
     useEffect(() => {
         if (isAlbumCreated) {
@@ -33,9 +42,75 @@ const CreateAlbum = () => {
     }, [isAlbumCreated, artistId, navigate]);
 
     useEffect(() => {
-        const createAlbum = () => {
-            const apiUrl = apiHost + "/albums";
-            fetch(apiUrl, {
+        const uploadSongs = async () => {
+            const audioUrl = apiHost + "/files/audio";
+            const songUrl = apiHost + "/songs";
+            for (let i = 0; i < songComponents.length; i++) {
+                const songComponent = songComponents[i];
+                let audioData = new FormData();
+                audioData.append("file", songComponent.file);
+                await fetch(audioUrl, {
+                    method: "POST",
+                    body: audioData
+                }).then(rsp => rsp.json())
+                .then(data => {
+                    const song = {
+                        name: songComponent.name,
+                        artistId: parseInt(artistId),
+                        albumId: parseInt(albumId),
+                        trackNum: parseInt(songComponent.trackNum),
+                        audioFileGuid: data.guid
+                    };
+                    console.log(song);
+                    fetch(songUrl, {
+                        method: "POST",
+                        headers: {
+                            "Accept": "applicatin/json",
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(song)
+                    }).then(rsp => {
+                        if (i === songComponents.length - 1) {
+                            setIsAlbumCreated(true);
+                        }
+                    })
+                })
+            }
+        }
+
+        if (areSongsUploading) {
+            try {
+                uploadSongs();
+            } catch(e) {
+                console.error(e);
+            }
+        }
+    }, [areSongsUploading, songComponents, albumId, artistId, setIsAlbumCreated])
+
+    const getTodaysDate = () => {
+        const currentDate = new Date();
+        return currentDate.toISOString().split("T")[0];
+    }
+
+    const addSongToCreate = () => {
+        setSongComponents(prev => [...prev, {artistId: artistId, name: "", trackNum: 0, file: {}}]);
+    }
+
+    const uploadAlbumCoverThenAlbum = async () => {
+        const imagesUrl = apiHost + "/files/images";
+        let imageData = new FormData();
+        imageData.append("name", coverFile.name);
+        imageData.append("file", coverFile);
+        await fetch(imagesUrl, {
+            method: "POST",
+            body: imageData
+        }).then(rsp => {
+            if (rsp.ok) setHasCoverUploaded(true);
+            return rsp.json();
+        }).then(data => {
+            setCoverGuid(data.guid);
+            const albumsUrl = apiHost + "/albums";
+            fetch(albumsUrl, {
                 method: "POST",
                 headers: {
                     "Accept": "application/json",
@@ -45,55 +120,20 @@ const CreateAlbum = () => {
                     name: title,
                     artistId: parseInt(artistId),
                     releaseDate: releaseDate,
-                    coverImageGuid: coverGuid
+                    coverImageGuid: data.guid
                 })
             }).then(rsp => {
-                if (rsp.ok) setIsAlbumCreated(true);
-                setIsAlbumUploading(false);
+                return rsp.json();
+            }).then(data => {
+                setAlbumId(data.id);
+                setAreSongsUploading(true);
             });
-        }
-
-        if (isAlbumUploading) {
-            try {
-                createAlbum();
-            } catch (e) {
-                console.error(e);
-            } finally {
-                setIsAlbumUploading(false);
-            }
-        }
-        
-    }, [isAlbumUploading, artistId, coverGuid, releaseDate, title])
-
-    const getTodaysDate = () => {
-        const currentDate = new Date();
-        return currentDate.toISOString().split("T")[0];
-    }
-
-    const addSongToCreate = () => {
-        setSongComponents(prev => [...prev, {artistId: artistId}]);
-    }
-
-    const uploadAlbumCoverThenAlbum = () => {
-        const apiUrl = apiHost + "/files/images";
-        let imageData = new FormData();
-        imageData.append("name", coverFile.name);
-        imageData.append("file", coverFile);
-        fetch(apiUrl, {
-            method: "POST",
-            body: imageData
-        }).then(rsp => {
-            if (rsp.ok) setHasCoverUploaded(true);
-            return rsp.json();
-        }).then(data => {
-            setCoverGuid(data.guid);
-            setIsAlbumUploading(true); // Trigger album upload
         });
     }
 
-    const onClickSubmit = () => {
+    const onClickSubmit = async () => {
         try {
-            uploadAlbumCoverThenAlbum();
+            await uploadAlbumCoverThenAlbum();
         } catch (e) {
             console.error(e);
         }
@@ -118,7 +158,7 @@ const CreateAlbum = () => {
             </div>
             <div class="input-container">
                 <p class="field-text">Songs</p>
-                {songComponents.map((song, index) => <CreateSong artistId={song.artistId} trackNum={index + 1}/>)}
+                {songComponents.map((song, index) => <CreateSong i={index} songComponents={songComponents} setSongComponents={setSongComponents} />)}
                 <button onClick={addSongToCreate}>Add Song</button>
             </div>
             { areFieldsFilled ? (

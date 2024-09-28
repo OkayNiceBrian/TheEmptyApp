@@ -24,9 +24,6 @@ public class FilesController : ControllerBase {
 
     [HttpPost("audio")]
     public async Task<IActionResult> UploadAudio(UploadAudioDto audioDto) {
-        if (Path.GetExtension(audioDto.File.FileName) != ".mp3") 
-            return new UnsupportedMediaTypeResult();
-
         var guid = await _as.UploadAudioToStorage(audioDto.File);
         return Ok(FileMappers.ToFileGuidDto(guid));
     }
