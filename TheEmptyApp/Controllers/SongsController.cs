@@ -17,7 +17,7 @@ namespace TheEmptyApp.Controllers;
 [ApiController]
 public class SongsController : ControllerBase {
     readonly ISongRepository _sr;
-    public SongsController(ISongRepository sr, IAudioService ads) => _sr = sr;
+    public SongsController(ISongRepository sr) => _sr = sr;
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<SongDto>>> GetSongs() {
