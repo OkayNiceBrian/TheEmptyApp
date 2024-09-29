@@ -3,6 +3,7 @@ using TheEmptyApp.Dtos.Artist;
 using TheEmptyApp.Interfaces;
 using TheEmptyApp.Models;
 using TheEmptyApp.Mappers;
+using TheEmptyApp.Data;
 
 namespace TheEmptyApp.Repository;
 
