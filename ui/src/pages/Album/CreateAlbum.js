@@ -140,29 +140,29 @@ const CreateAlbum = () => {
     }
 
     return (
-        <div class="form-container">
-            <div class="input-container">
-                <p class="field-text">Album Title</p>
+        <div className="form-container">
+            <div className="input-container">
+                <p className="field-text">Album Title</p>
                 <input value={title} onChange={e => {setTitle(e.target.value)}}></input>
             </div>
-            <div class="input-container">
-                <p class="field-text">Release Date</p>
+            <div className="input-container">
+                <p className="field-text">Release Date</p>
                 <input type="date" value={releaseDate} max={getTodaysDate()} onChange={e => setReleaseDate(e.target.value)}/>
             </div>
-            <div class="input-container">
-                <p class="field-text">Album Cover</p>
+            <div className="input-container">
+                <p className="field-text">Album Cover</p>
                 {hasCoverUploaded ? (
-                    <img class="image-thumbnail" src={blobUrl + "/" + coverGuid} alt="Album Cover"/>
+                    <img className="image-thumbnail" src={blobUrl + "/" + coverGuid} alt="Album Cover"/>
                 ) : null}
                 <input type="file" onChange={e => setCoverFile(e.target.files[0])} style={{display: "flex"}}/>
             </div>
-            <div class="input-container">
-                <p class="field-text">Songs</p>
+            <div className="input-container">
+                <p className="field-text">Songs</p>
                 {songComponents.map((song, index) => <CreateSong i={index} songComponents={songComponents} setSongComponents={setSongComponents} />)}
                 <button onClick={addSongToCreate}>Add Song</button>
             </div>
             { areFieldsFilled ? (
-                <div class="input-container">
+                <div className="input-container">
                     <button onClick={onClickSubmit}>Submit</button>
                 </div>
             ) : null}

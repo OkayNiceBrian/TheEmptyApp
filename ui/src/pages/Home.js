@@ -2,8 +2,8 @@ import "src/styles/Home.css";
 
 const Home = () => {
     return (
-        <div class="container">
-            <p class="home-text">
+        <div className="container">
+            <p className="home-text">
                 WELCOME!!!
             </p>
         </div>

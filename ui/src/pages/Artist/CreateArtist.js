@@ -43,12 +43,12 @@ const CreateArtist = () => {
     }
 
     return (
-        <div class="form-container">
-            <div class="input-container">
-                <p class="field-text">Artist Name: </p>
+        <div className="form-container">
+            <div className="input-container">
+                <p className="field-text">Artist Name: </p>
                 <input name="artistName" value={name} onChange={(e) => setName(e.target.value)}/>
             </div>
-            <div class="input-container">
+            <div className="input-container">
                 <button onClick={onClickSubmit}>Submit</button>
             </div>
         </div>

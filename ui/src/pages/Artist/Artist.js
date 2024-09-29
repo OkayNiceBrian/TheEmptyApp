@@ -43,13 +43,13 @@ const Artist = () => {
 
     const renderAlbums = () => {
         return artist.albums.map(album => 
-            <div class="album-container">
-                <div class="album-header-container">
-                    <p class="album-header-text">{album.name}</p>
-                    <img class="album-cover" src={blobUrl + "/" + album.coverImageGuid} alt={album.name}/>
+            <div className="album-container">
+                <div className="album-header-container">
+                    <p className="album-header-text">{album.name}</p>
+                    <img className="album-cover" src={blobUrl + "/" + album.coverImageGuid} alt={album.name}/>
                     <button onClick={() => onClickDeleteAlbum(album.id)}>DELETE Album</button>
                 </div>
-                <div class="songs-container">
+                <div className="songs-container">
                     {renderSongs(album)}
                 </div>
             </div>
@@ -58,8 +58,8 @@ const Artist = () => {
 
     const renderSongs = (album) => {
         return album.songs.map(song => 
-            <div class="song-container">
-                <p class="song-text">{song.name}</p>
+            <div className="song-container">
+                <p className="song-text">{song.name}</p>
             </div>
         );
     }
@@ -94,12 +94,12 @@ const Artist = () => {
         }
     }
 
-    if (isLoading) return <div class="container" />;
+    if (isLoading) return <div className="container" />;
 
     return (
-        <div class="artist-container">
-            <div class="header-container">
-                <p class="header-text">{artist.name}</p>
+        <div className="artist-container">
+            <div className="header-container">
+                <p className="header-text">{artist.name}</p>
                 <button onClick={() => navigate(`/artist/${artistId}/create/album`)}>CREATE NEW Album</button>
                 <button onClick={onClickDelete}>DELETE Artist</button>
             </div>
