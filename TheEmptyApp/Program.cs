@@ -34,7 +34,8 @@ builder.Services.AddIdentity<User, IdentityRole>(opt => {
     opt.Password.RequireDigit = true;
     opt.Password.RequireLowercase = true;
     opt.Password.RequireUppercase = true;
-    opt.Password.RequiredLength = 10;
+    opt.Password.RequireNonAlphanumeric = false;
+    opt.Password.RequiredLength = 8;
 }).AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddAuthentication(opt => {
@@ -57,12 +58,16 @@ builder.Services.Configure<AzureOptions>(builder.Configuration.GetSection("Azure
 builder.Services.Configure<IISServerOptions>(opts => {
     opts.MaxRequestBodySize = null;
 });
+builder.Services.Configure<IdentityOptions>(opt => {
+    opt.User.RequireUniqueEmail = true;
+});
 
 builder.Services.AddScoped<ISongRepository, SongRepository>();
 builder.Services.AddScoped<IArtistRepository, ArtistRepository>();
 builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IAudioService, AudioService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 var app = builder.Build();
 
