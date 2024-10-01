@@ -20,6 +20,7 @@ function App() {
       <Routes>
         <Route index element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
+        <Route path="*" element={<Login/>}/>
       </Routes>
     </BrowserRouter>
   ) : 

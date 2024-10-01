@@ -3,18 +3,27 @@ const { createContext, useState, useMemo, useContext, useEffect } = require("rea
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-    const [userData, setUserData] = useState(null);
-    const [token, setToken] = useState(null);
-    const [email, setEmail] = useState(null);
-    const [username, setUsername] = useState(null);
+    const [token, setToken] = useState(localStorage.getItem("token"));
+    const [email, setEmail] = useState(localStorage.getItem("email"));
+    const [username, setUsername] = useState(localStorage.getItem("username"));
 
-    useEffect(() => {
-        if (userData) {
-            setToken(userData.token);
-            setEmail(userData.email);
-            setUsername(userData.UserName);
+    const setUserData = (data) => {
+        if (data) {
+            setToken(data.token);
+            setEmail(data.email);
+            setUsername(data.UserName);
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("email", data.email);
+            localStorage.setItem("username", data.userName);
+        } else {
+            setToken(null);
+            setEmail(null);
+            setUsername(null);
+            localStorage.removeItem("token");
+            localStorage.removeItem("email");
+            localStorage.removeItem("username");
         }
-    }, [userData]);
+    }
 
     const contextValue = useMemo(() => ({
         token,
