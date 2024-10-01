@@ -10,11 +10,13 @@ using TheEmptyApp.Mappers;
 using TheEmptyApp.Dtos.Song;
 using TheEmptyApp.Interfaces;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TheEmptyApp.Controllers;
 
 [Route("api/songs")]
 [ApiController]
+[Authorize]
 public class SongsController : ControllerBase {
     readonly ISongRepository _sr;
     public SongsController(ISongRepository sr) => _sr = sr;

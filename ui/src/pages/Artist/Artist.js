@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAuth } from "src/auth/AuthContext";
 import { apiHost, blobUrl } from "src/config/host";
 import "src/styles/Artist.css";
 
 const Artist = () => {
     const { artistId } = useParams();
+
+    const { token } = useAuth();
 
     const [isLoading, setIsLoading] = useState(true);
     const [artist, setArtist] = useState(null);
@@ -18,7 +21,10 @@ const Artist = () => {
             try {
                 const url = apiHost + "/artists/" + artistId;
                 await fetch(url, {
-                    method: "GET"
+                    method: "GET",
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    }
                 })
                 .then((response) => response.json())
                 .then((data) => {
@@ -33,7 +39,7 @@ const Artist = () => {
         if (isLoading) {
             fetchArtist();
         }
-    }, [artistId, isLoading]);
+    }, [artistId, isLoading, token]);
 
     useEffect(() => {
         if (isDeleted) {
@@ -68,7 +74,10 @@ const Artist = () => {
         try {
             const url = apiHost + "/artists/" + artistId;
             await fetch(url, {
-                method: "DELETE"
+                method: "DELETE",
+                headers: {
+                    "Authorization": "Bearer " + token
+                }
             }).then(rsp => {
                 if (rsp.status === 204) setIsDeleted(true);
             });
@@ -81,7 +90,10 @@ const Artist = () => {
         try {
             const url = apiHost + "/albums/" + albumId;
             await fetch(url, {
-                method: "DELETE"
+                method: "DELETE",
+                headers: {
+                    "Authorization": "Bearer " + token
+                }
             }).then(rsp => {
                 if (rsp.status === 204) {
                     artist.albums = artist.albums.filter(album => album.id !== albumId);
@@ -94,7 +106,11 @@ const Artist = () => {
         }
     }
 
-    if (isLoading) return <div className="container" />;
+    if (isLoading) return (
+        <div className="container">
+            <p className="header-text">loading...</p>
+        </div>
+    );
 
     return (
         <div className="artist-container">

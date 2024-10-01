@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import CreateSong from "./components/CreateSong";
+import { useAuth } from "src/auth/AuthContext";
 import { apiHost, blobUrl } from "src/config/host";
 import "src/styles/CreateForm.css";
 
 const CreateAlbum = () => {
     const { artistId } = useParams();
+
+    const { token } = useAuth();
 
     const [title, setTitle] = useState("");
     const [releaseDate, setReleaseDate] = useState("");
@@ -51,6 +54,9 @@ const CreateAlbum = () => {
                 audioData.append("file", songComponent.file);
                 await fetch(audioUrl, {
                     method: "POST",
+                    headers: {
+                        "Authorization": "Bearer " + token,
+                    },
                     body: audioData
                 }).then(rsp => rsp.json())
                 .then(data => {
@@ -66,7 +72,8 @@ const CreateAlbum = () => {
                         method: "POST",
                         headers: {
                             "Accept": "applicatin/json",
-                            "Content-Type": "application/json"
+                            "Content-Type": "application/json",
+                            "Authorization": "Bearer " + token,
                         },
                         body: JSON.stringify(song)
                     }).then(rsp => {
@@ -103,6 +110,9 @@ const CreateAlbum = () => {
         imageData.append("file", coverFile);
         await fetch(imagesUrl, {
             method: "POST",
+            headers: {
+                "Authorization": "Bearer " + token,
+            },
             body: imageData
         }).then(rsp => {
             if (rsp.ok) setHasCoverUploaded(true);
@@ -114,7 +124,8 @@ const CreateAlbum = () => {
                 method: "POST",
                 headers: {
                     "Accept": "application/json",
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token,
                 },
                 body: JSON.stringify({
                     name: title,
@@ -142,22 +153,22 @@ const CreateAlbum = () => {
     return (
         <div className="form-container">
             <div className="input-container">
-                <p className="field-text">Album Title</p>
+                <p className="label-text">Album Title</p>
                 <input value={title} onChange={e => {setTitle(e.target.value)}}></input>
             </div>
             <div className="input-container">
-                <p className="field-text">Release Date</p>
+                <p className="label-text">Release Date</p>
                 <input type="date" value={releaseDate} max={getTodaysDate()} onChange={e => setReleaseDate(e.target.value)}/>
             </div>
             <div className="input-container">
-                <p className="field-text">Album Cover</p>
+                <p className="label-text">Album Cover</p>
                 {hasCoverUploaded ? (
                     <img className="image-thumbnail" src={blobUrl + "/" + coverGuid} alt="Album Cover"/>
                 ) : null}
                 <input type="file" onChange={e => setCoverFile(e.target.files[0])} style={{display: "flex"}}/>
             </div>
             <div className="input-container">
-                <p className="field-text">Songs</p>
+                <p className="label-text">Songs</p>
                 {songComponents.map((song, index) => <CreateSong i={index} songComponents={songComponents} setSongComponents={setSongComponents} />)}
                 <button onClick={addSongToCreate}>Add Song</button>
             </div>

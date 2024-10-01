@@ -1,0 +1,68 @@
+import { useState } from "react";
+import { useAuth } from "src/auth/AuthContext";
+import { apiHost } from "src/config/host";
+import "src/styles/CreateForm.css";
+const Register = () => {
+    const { setUserData } = useAuth();
+
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+
+    const validateForm = () => {
+        const emailRx = new RegExp(/(.+@.+\..+)/);
+        return (emailRx.test(email) && password.length >= 8 && password === confirmPassword);
+    }
+
+    const onClickSubmit = () => {
+        const url = apiHost + "/account/register";
+        const register = {
+            email: email,
+            userName: username,
+            password: password
+        }
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(register)
+        }).then(rsp => rsp.json())
+        .then(data => {
+            if (data.token) {
+                setUserData(data);
+            }
+        }).catch(e => console.error(e));
+    }
+
+    return (
+        <div className="form-container">
+            <div className="input-container">
+                <p className="form-header">Register</p>
+            </div>
+            <div className="input-container">
+                <label className="label-text">Username</label>
+                <input value={username} onChange={(e) => setUsername(e.target.value)}/>
+            </div>
+            <div className="input-container">
+                <label className="label-text">Email</label>
+                <input value={email} onChange={(e) => setEmail(e.target.value)}/>
+            </div>
+            <div className="input-container">
+                <label className="label-text">Password</label>
+                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+            </div>
+            <div className="input-container">
+                <label className="label-text">Confirm Password</label>
+                <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
+            </div>
+            <div className="input-container">
+                <input type="submit" onClick={onClickSubmit} style={{display: !validateForm() ? "none" : "unset"}}/>
+            </div>
+        </div>
+    );
+}
+
+export default Register;

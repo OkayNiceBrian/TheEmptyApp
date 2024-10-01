@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
+using TheEmptyApp.Data;
 using TheEmptyApp.Dtos.Album;
 using TheEmptyApp.Dtos.Artist;
 using TheEmptyApp.Interfaces;

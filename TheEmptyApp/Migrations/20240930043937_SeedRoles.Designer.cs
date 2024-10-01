@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TheEmptyApp.Data;
 
@@ -11,9 +12,11 @@ using TheEmptyApp.Data;
 namespace TheEmptyApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240930043937_SeedRoles")]
+    partial class SeedRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace TheEmptyApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "93c3d833-1b5d-4b40-8e62-542701461960",
+                            Id = "5c298ea6-fa74-4279-bba5-4746c9435ff6",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "211637d9-5cf2-4bfd-b81a-c0cdbaa67318",
+                            Id = "2cbb67fa-34c9-47f0-84d9-b35748d3ecb5",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -206,10 +209,6 @@ namespace TheEmptyApp.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -381,7 +380,7 @@ namespace TheEmptyApp.Migrations
                         .HasForeignKey("AlbumId");
 
                     b.HasOne("TheEmptyApp.Models.Artist", "Artist")
-                        .WithMany()
+                        .WithMany("Songs")
                         .HasForeignKey("ArtistId");
 
                     b.Navigation("Album");
@@ -397,6 +396,8 @@ namespace TheEmptyApp.Migrations
             modelBuilder.Entity("TheEmptyApp.Models.Artist", b =>
                 {
                     b.Navigation("Albums");
+
+                    b.Navigation("Songs");
                 });
 #pragma warning restore 612, 618
         }
