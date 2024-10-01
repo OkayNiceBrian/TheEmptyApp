@@ -24,7 +24,7 @@ public class AccountController : ControllerBase {
         if (!ModelState.IsValid)
             return BadRequest(ModelState);
 
-        var user = await _um.Users.FirstOrDefaultAsync(u => u.UserName == loginDto.UserName.ToLower());
+        var user = await _um.Users.FirstOrDefaultAsync(u => u.Email == loginDto.Email.ToLower());
 
         if (user == null)
             return Unauthorized("Invalid username.");
@@ -32,7 +32,7 @@ public class AccountController : ControllerBase {
         var res = await _sm.CheckPasswordSignInAsync(user, loginDto.Password, false);
 
         if (!res.Succeeded)
-            return Unauthorized("username does not exist or password was incorrect.");
+            return Unauthorized("Account does not exist or password was incorrect.");
 
         return Ok(new NewUserDto {
             Email = user.Email!,

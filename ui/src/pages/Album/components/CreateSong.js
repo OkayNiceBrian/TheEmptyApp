@@ -15,13 +15,13 @@ const CreateSong = ({i, songComponents, setSongComponents}) => {
     }
 
     return (
-        <div className="form-container">
+        <div className="form-container form-container-border">
             <div className="input-container">
-                <p className="field-text">{i + 1}. Song Title</p>
+                <p className="label-text">{i + 1}. Song Title</p>
                 <input value={songComponents[i].name} onChange={e => assignName(e)}/>
             </div>
             <div className="input-container">
-                <p className="field-text">Audio File (.mp3 only)</p>
+                <p className="label-text">Audio File (.mp3 only)</p>
                 <input type="file" onChange={e => assignFile(e)}/>
             </div>
         </div>

@@ -35,3 +35,8 @@
 .label-text {
     font-size: 14pt;
 }
+
+.link-text {
+    text-decoration-color: orange;
+    color: orange;
+}

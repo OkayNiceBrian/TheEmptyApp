@@ -1,6 +1,10 @@
-﻿namespace TheEmptyApp.Dtos.Artist;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace TheEmptyApp.Dtos.Artist;
 
 public class CreateArtistDto {
     public string? Name { get; set; }
-    public required string UserId { get; set; }
+
+    [EmailAddress]
+    public required string Email { get; set; }
 }

@@ -19,6 +19,7 @@ builder.Services.AddCors(options => {
         policy => {
             policy.WithOrigins("http://localhost:3000")
             .AllowAnyMethod()
+            .AllowCredentials()
             .AllowAnyHeader();
         });
 });
@@ -48,7 +49,9 @@ builder.Services.AddAuthentication(opt => {
 }).AddJwtBearer(opt => {
     opt.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters {
         ValidateIssuer = true,
-        ValidIssuer = builder.Configuration["JWT:Audience"],
+        ValidIssuer = builder.Configuration["JWT:Issuer"],
+        ValidateAudience = true,
+        ValidAudience = builder.Configuration["JWT:Audience"],
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"]!))
     };

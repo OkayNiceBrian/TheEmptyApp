@@ -13,10 +13,10 @@ public static class ArtistMappers {
         };
     }
 
-    public static Artist ToArtistFromCreateDto(this CreateArtistDto artistDto) {
+    public static Artist ToArtistFromCreateDto(this CreateArtistDto artistDto, string userId) {
         return new Artist {
             Name = artistDto.Name,
-            UserId = artistDto.UserId
+            UserId = userId,
         };
     }
 
