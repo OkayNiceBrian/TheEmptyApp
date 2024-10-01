@@ -14,14 +14,12 @@ public class ArtistRepository : IArtistRepository {
     public async Task<List<Artist>> GetAllAsync() {
         return await _ctx.Artists
             .Include(a => a.Albums)
-            .Include(a => a.Songs)
             .ToListAsync();
     }
 
     public async Task<Artist?> GetByIdAsync(int id) {
         return await _ctx.Artists
             .Include(a => a.Albums)
-            .Include(a => a.Songs)
             .FirstOrDefaultAsync(a => a.Id == id);
     }
 

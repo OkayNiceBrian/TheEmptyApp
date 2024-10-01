@@ -94,7 +94,11 @@ const Artist = () => {
         }
     }
 
-    if (isLoading) return <div className="container" />;
+    if (isLoading) return (
+        <div className="container">
+            <p className="header-text">loading...</p>
+        </div>
+    );
 
     return (
         <div className="artist-container">

@@ -1,0 +1,37 @@
+.login-container {
+    background-color: #003135;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 50px;
+}
+
+.login-header {
+    flex-direction: row;
+}
+
+.login-header-text {
+    font-size: 36pt;
+}
+
+.login-form-container {
+    background-color: #116466;
+    flex-direction: column;
+    justify-content: center;
+    width: 200px;
+    margin-top: 100px;
+    padding: 30px;
+    padding-top: 18px;
+    border-style: solid;
+    border-width: 2px;
+}
+
+.input-container {
+    flex-direction: column;
+    margin: 10px;
+}
+
+.label-text {
+    font-size: 14pt;
+}

@@ -9,13 +9,14 @@ public static class ArtistMappers {
             Id = artistModel.Id,
             Name = artistModel.Name,
             Albums = artistModel.Albums.Select(a => a.ToAlbumDto()).ToList(),
-            Songs = artistModel.Songs.Select(a =>a.ToSongDto()).ToList(),
+            UserId = artistModel.UserId
         };
     }
 
     public static Artist ToArtistFromCreateDto(this CreateArtistDto artistDto) {
         return new Artist {
-            Name = artistDto.Name
+            Name = artistDto.Name,
+            UserId = artistDto.UserId
         };
     }
 

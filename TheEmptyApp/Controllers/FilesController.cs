@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TheEmptyApp.Dtos.Files;
 using TheEmptyApp.Interfaces;
 using TheEmptyApp.Mappers;
@@ -8,6 +9,7 @@ namespace TheEmptyApp.Controllers;
 
 [Route("api/files")]
 [ApiController]
+[Authorize]
 public class FilesController : ControllerBase {
     readonly IImageService _is;
     readonly IAudioService _as;

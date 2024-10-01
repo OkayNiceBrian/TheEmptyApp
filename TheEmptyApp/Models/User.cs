@@ -2,4 +2,6 @@
 
 namespace TheEmptyApp.Models;
 
-public class User : IdentityUser { }
+public class User : IdentityUser {
+    public List<Artist> Artists = [];
+}

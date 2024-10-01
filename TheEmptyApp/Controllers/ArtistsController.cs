@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -13,6 +14,7 @@ namespace TheEmptyApp.Controllers;
 
 [Route("api/artists")]
 [ApiController]
+[Authorize]
 public class ArtistsController : ControllerBase {
     readonly IArtistRepository _ar;
     public ArtistsController(IArtistRepository ar) => _ar = ar;

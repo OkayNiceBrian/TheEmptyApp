@@ -1,4 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useAuth } from "src/auth/AuthContext";
+import Login from "src/pages/Login";
+import Register from "src/pages/Register";
 import Layout from "src/pages/Layout";
 import Home from "src/pages/Home";
 import Artist from "src/pages/Artist/Artist";
@@ -9,7 +12,18 @@ import CreateArtist from "src/pages/Artist/CreateArtist";
 import CreateAlbum from "src/pages/Album/CreateAlbum";
 
 function App() {
-  return (
+  const { token } = useAuth();
+
+  return (!token) ? 
+  (
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<Login/>}/>
+        <Route path="/register" element={<Register/>}/>
+      </Routes>
+    </BrowserRouter>
+  ) : 
+  (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout/>}>

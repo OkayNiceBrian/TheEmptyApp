@@ -23,7 +23,6 @@ const CreateArtist = () => {
             let artist = {
                 name: name
             };
-            console.log(artist);
             const url = apiHost + "/artists";
             await fetch(url, {
                 method: "POST",
@@ -34,8 +33,11 @@ const CreateArtist = () => {
                 body: JSON.stringify(artist)
             }).then(rsp => rsp.json())
             .then(data => {
-                setId(data.id)
-                setIsCreated(true);
+                if (data.id != null) {
+                    console.log(data)
+                    setId(data.id)
+                    setIsCreated(true);
+                }
             });
         } catch (e) {
             console.error(e);
