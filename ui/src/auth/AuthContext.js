@@ -6,27 +6,29 @@ const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(localStorage.getItem("token"));
     const [email, setEmail] = useState(localStorage.getItem("email"));
     const [username, setUsername] = useState(localStorage.getItem("username"));
-    const [userArtists, setUserArtists] = useState(localStorage.getItem("userArtists"));
+    const [userArtistId, setUserArtistId] = useState(localStorage.getItem("userArtistId"));
 
     const setUserData = (data) => {
         if (data) {
             setToken(data.token);
             setEmail(data.email);
             setUsername(data.userName);
-            setUserArtists(data.artists);
+            if (data.artists.length > 0) {
+                setUserArtistId(data.artists[0].id);
+                localStorage.setItem("userArtistId", data.artists[0].id);
+            }
             localStorage.setItem("token", data.token);
             localStorage.setItem("email", data.email);
             localStorage.setItem("username", data.userName);
-            localStorage.setItem("userArtists", data.userArtists);
         } else {
             setToken(null);
             setEmail(null);
             setUsername(null);
-            setUserArtists(null);
+            setUserArtistId(null);
             localStorage.removeItem("token");
             localStorage.removeItem("email");
             localStorage.removeItem("username");
-            localStorage.removeItem("userArtists");
+            localStorage.removeItem("userArtist");
         }
     }
 
@@ -34,21 +36,21 @@ const AuthProvider = ({ children }) => {
         setToken(null);
         setEmail(null);
         setUsername(null);
-        setUserArtists(null);
+        setUserArtistId(null);
         localStorage.removeItem("token");
         localStorage.removeItem("email");
         localStorage.removeItem("username");
-        localStorage.removeItem("userArtists");
+        localStorage.removeItem("userArtistId");
     }
 
     const contextValue = useMemo(() => ({
         token,
         email,
         username,
-        userArtists,
+        userArtistId,
         setUserData,
         logout
-    }), [token, email, username, userArtists]);
+    }), [token, email, username, userArtistId]);
 
     return (
         <AuthContext.Provider value={contextValue}>

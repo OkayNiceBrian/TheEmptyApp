@@ -4,8 +4,7 @@ import logo from "src/assets/logo.png"
 import 'src/styles/Layout.css';
 
 const Layout = () => {
-    const { logout, userArtists } = useAuth();
-    console.log(userArtists[0]);
+    const { logout, userArtistId } = useAuth();
     return(
         <>
             <nav className="top-container">
@@ -14,8 +13,8 @@ const Layout = () => {
                     <li className="nav-item">
                         <Link className="link" to="/"><p className="nav-text">Home</p></Link>
                     </li>
-                    <li className="nav-item" style={{display: !userArtists[0] ? "none" : "unset"}}>
-                        <Link className="link" to={`/artist/${userArtists[0]?.id}`}><p className="nav-text">My Music</p></Link>
+                    <li className="nav-item" style={{display: !userArtistId ? "none" : "unset"}}>
+                        <Link className="link" to={`/artist/${userArtistId}`}><p className="nav-text">My Music</p></Link>
                     </li>
                     <li className="nav-item">
                         <Link className="link" to="/create/artist"><p className="nav-text">Create Artist</p></Link>

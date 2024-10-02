@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "src/auth/AuthContext";
 import { apiHost } from "src/config/host";
-import "src/styles/CreateForm.css";
+import "src/styles/Login.css";
 const Register = () => {
     const { setUserData } = useAuth();
 
@@ -38,28 +38,30 @@ const Register = () => {
     }
 
     return (
-        <div className="form-container">
-            <div className="input-container">
-                <p className="form-header">Register</p>
+        <div className="login-container">
+            <div className="login-header">
+                <p className="login-header-text">Register</p>
             </div>
-            <div className="input-container">
-                <label className="label-text">Username</label>
-                <input value={username} onChange={(e) => setUsername(e.target.value)}/>
-            </div>
-            <div className="input-container">
-                <label className="label-text">Email</label>
-                <input value={email} onChange={(e) => setEmail(e.target.value)}/>
-            </div>
-            <div className="input-container">
-                <label className="label-text">Password</label>
-                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
-            </div>
-            <div className="input-container">
-                <label className="label-text">Confirm Password</label>
-                <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
-            </div>
-            <div className="input-container">
-                <input type="submit" onClick={onClickSubmit} style={{display: !validateForm() ? "none" : "unset"}}/>
+                <div className="login-form-container">
+                <div className="input-container">
+                    <label className="label-text">Username</label>
+                    <input value={username} onChange={(e) => setUsername(e.target.value)}/>
+                </div>
+                <div className="input-container">
+                    <label className="label-text">Email</label>
+                    <input value={email} onChange={(e) => setEmail(e.target.value)}/>
+                </div>
+                <div className="input-container">
+                    <label className="label-text">Password</label>
+                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+                </div>
+                <div className="input-container">
+                    <label className="label-text">Confirm Password</label>
+                    <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
+                </div>
+                <div className="input-container">
+                    <input type="submit" onClick={onClickSubmit} style={{marginTop: "20px", display: !validateForm() ? "none" : "unset"}}/>
+                </div>
             </div>
         </div>
     );

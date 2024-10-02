@@ -2,6 +2,7 @@ html {
   padding: 0;
   margin: 0;
   background-color: #003135;
+  overflow-x: hidden;
 }
 
 p {
@@ -21,4 +22,8 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.clickable-icon {
+  cursor: pointer;
 }

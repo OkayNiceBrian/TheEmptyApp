@@ -152,6 +152,7 @@ const CreateAlbum = () => {
 
     return (
         <div className="form-container">
+            <p className="form-header">Create Album</p>
             <div className="input-container">
                 <p className="label-text">Album Title</p>
                 <input value={title} onChange={e => {setTitle(e.target.value)}}></input>

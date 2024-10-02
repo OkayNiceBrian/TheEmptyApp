@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { Delete04Icon, Edit02Icon, AddCircleIcon, PlayCircle02Icon } from "hugeicons-react";
 import { useAuth } from "src/auth/AuthContext";
 import { apiHost, blobUrl } from "src/config/host";
 import "src/styles/Artist.css";
@@ -49,8 +50,14 @@ const Artist = () => {
             <div key={album.id} className="album-container">
                 <div className="album-header-container">
                     <img className="album-cover" src={blobUrl + "/" + album.coverImageGuid} alt={album.name}/>
-                    <p className="album-header-text">{album.name}<button onClick={() => onClickDeleteAlbum(album.id)}>E</button><button onClick={() => onClickDeleteAlbum(album.id)}>D</button></p>
-                </div>
+                    {//<p className="album-header-text">{album.name}</p>
+                    }
+                    <PlayCircle02Icon class={"clickable-icon"} color={"cornflowerblue"} size={"100px"}/>
+                    <div className="album-header-items-container">
+                        <Edit02Icon className="clickable-icon" color={"green"} onClick={() => onClickDeleteAlbum(album.id)}/>
+                        <Delete04Icon className="clickable-icon" color={"red"} onClick={() => onClickDeleteAlbum(album.id)}/>
+                    </div>
+                </div> 
                 <ul className="songs-container">
                     {renderSongs(album)}
                 </ul>
@@ -62,6 +69,7 @@ const Artist = () => {
         return album.songs.map((song) => 
             <li key={song.id} className="song-container-grid">
                 <p className="song-text">{song.trackNum}</p>
+                <PlayCircle02Icon class={"clickable-icon"} color={"cornflowerblue"}/>
                 <p className="song-title-text">{song.name}</p>
                 <p className="song-text">{album.name}</p>
                 <p className="song-text">{artist.name}</p>
@@ -116,10 +124,10 @@ const Artist = () => {
         <div className="artist-container">
             <div className="artist-header-container">
                 <p className="artist-header-text">{artist.name}</p>
-                <button onClick={() => navigate(`/artist/${artistId}/create/album`)}>CREATE NEW Album</button>
-                <button onClick={onClickDelete}>DELETE Artist</button>
+                <Delete04Icon className="clickable-icon" color={"red"} onClick={onClickDelete}/>
             </div>
             {renderAlbums()}
+            <AddCircleIcon className="clickable-icon" color={"green"} size={"40px"} onClick={() => navigate(`/artist/${artistId}/create/album`)}/>
         </div>
     );
 };
