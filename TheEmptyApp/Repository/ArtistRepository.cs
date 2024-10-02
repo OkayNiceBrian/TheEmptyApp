@@ -4,6 +4,7 @@ using TheEmptyApp.Interfaces;
 using TheEmptyApp.Models;
 using TheEmptyApp.Mappers;
 using TheEmptyApp.Data;
+using TheEmptyApp.Controllers;
 
 namespace TheEmptyApp.Repository;
 
@@ -20,7 +21,14 @@ public class ArtistRepository : IArtistRepository {
     public async Task<Artist?> GetByIdAsync(int id) {
         return await _ctx.Artists
             .Include(a => a.Albums)
+            .ThenInclude(a => a.Songs)
             .FirstOrDefaultAsync(a => a.Id == id);
+    }
+
+    public async Task<List<Artist>> GetByUserIdAsync(string uid) {
+        return await _ctx.Artists
+            .Where(a => a.UserId == uid)
+            .ToListAsync();
     }
 
     public async Task<Artist> CreateAsync(Artist artistModel) {

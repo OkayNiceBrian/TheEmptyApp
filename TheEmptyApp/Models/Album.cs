@@ -10,6 +10,6 @@ public class Album {
     public Artist? Artist { get; set; }
 
     public DateOnly? ReleaseDate { get; set; }
-    public ICollection<Song> Songs { get; set; } = new List<Song>();
+    public ICollection<Song> Songs { get; set; } = [];
     public string CoverImageGuid { get; set; } = string.Empty;
 }

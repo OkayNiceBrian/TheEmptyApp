@@ -20,11 +20,11 @@ public class AlbumRepository : IAlbumRepository {
     } 
 
     public async Task<List<Album>> GetAllAsync() {
-        return await _ctx.Albums.Include(s => s.Songs).ToListAsync();
+        return await _ctx.Albums.Include(a => a.Songs).ToListAsync();
     }
 
     public async Task<Album?> GetByIdAsync(int id) {
-        return await _ctx.Albums.Include(s => s.Songs).FirstOrDefaultAsync(a => a.Id == id);
+        return await _ctx.Albums.Include(a => a.Songs).FirstOrDefaultAsync(a => a.Id == id);
     }
 
     public async Task<Album> CreateAsync(Album albumModel) {

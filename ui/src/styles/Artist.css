@@ -1,36 +1,89 @@
 .artist-container {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     background-color: #003135;
 }
 
-.header-container {
+.artist-header-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
     margin: 20px;
 }
 
-.header-text {
-    font-size: 36pt;
+.artist-header-text {
+    font-size: 40pt;
+    font-weight: bold;
 }
 
 .album-container {
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    padding-bottom: 50px;
+    justify-content: flex-start;
+    background-color: #101010;
+    border-style: solid;
+    border-color: black;
+    border-width: 3px;
+    width: 100%;
+    margin-bottom: 50px;
 }
 
 .album-header-container {
-    margin-right: 50px;
 }
 
 .album-header-text {
-    font-size: 20pt;
+    font-size: 28pt;
 }
 
 .album-cover {
     height: 300px;
+    width: 300px;
 }
 
 .songs-container {
-    margin-top: 10px;
+    padding: 0px;
+    margin: 0px;
+    list-style: none;
+    width: 100%;
+}
+
+.song-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    border-color: gray;
+    border-style: solid;
+    border-width: 0;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    width: 100%;
+    height: 50px;
+    padding-left: 20px;
+}
+
+.song-container-grid {
+    display: grid;
+    grid-template-columns: 3vw 18vw 12vw 10vw 6vw;
+    align-items: center;
+    border-color: gray;
+    border-style: solid;
+    border-width: 0;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    width: 100%;
+    height: 50px;
+    padding-left: 20px;
+}
+
+.song-title-text {
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+.song-text {
+    font-size: 12pt;
+    font-weight: lighter;
 }

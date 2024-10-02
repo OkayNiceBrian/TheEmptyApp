@@ -17,23 +17,20 @@ const Artist = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchArtist = async () => {
-            try {
-                const url = apiHost + "/artists/" + artistId;
-                await fetch(url, {
-                    method: "GET",
-                    headers: {
-                        "Authorization": "Bearer " + token
-                    }
-                })
-                .then((response) => response.json())
-                .then((data) => {
-                    setArtist(data)
-                    setIsLoading(false);
-                });
-            } catch (e) {
-                console.error(e);
-            }
+        const fetchArtist = () => {
+            const url = apiHost + "/artists/" + artistId;
+            fetch(url, {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + token
+                }
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                setArtist(data);
+                setIsLoading(false);
+            }).catch(e => console.error(e));
         }
 
         if (isLoading) {
@@ -49,24 +46,27 @@ const Artist = () => {
 
     const renderAlbums = () => {
         return artist.albums.map(album => 
-            <div className="album-container">
+            <div key={album.id} className="album-container">
                 <div className="album-header-container">
-                    <p className="album-header-text">{album.name}</p>
                     <img className="album-cover" src={blobUrl + "/" + album.coverImageGuid} alt={album.name}/>
-                    <button onClick={() => onClickDeleteAlbum(album.id)}>DELETE Album</button>
+                    <p className="album-header-text">{album.name}<button onClick={() => onClickDeleteAlbum(album.id)}>E</button><button onClick={() => onClickDeleteAlbum(album.id)}>D</button></p>
                 </div>
-                <div className="songs-container">
+                <ul className="songs-container">
                     {renderSongs(album)}
-                </div>
+                </ul>
             </div>
         );
     }
 
     const renderSongs = (album) => {
-        return album.songs.map(song => 
-            <div className="song-container">
-                <p className="song-text">{song.name}</p>
-            </div>
+        return album.songs.map((song) => 
+            <li key={song.id} className="song-container-grid">
+                <p className="song-text">{song.trackNum}</p>
+                <p className="song-title-text">{song.name}</p>
+                <p className="song-text">{album.name}</p>
+                <p className="song-text">{artist.name}</p>
+                <p className="song-text">3:23</p>
+            </li>
         );
     }
 
@@ -114,8 +114,8 @@ const Artist = () => {
 
     return (
         <div className="artist-container">
-            <div className="header-container">
-                <p className="header-text">{artist.name}</p>
+            <div className="artist-header-container">
+                <p className="artist-header-text">{artist.name}</p>
                 <button onClick={() => navigate(`/artist/${artistId}/create/album`)}>CREATE NEW Album</button>
                 <button onClick={onClickDelete}>DELETE Artist</button>
             </div>

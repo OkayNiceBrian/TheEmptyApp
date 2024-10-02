@@ -13,10 +13,12 @@ public class AccountController : ControllerBase {
     readonly UserManager<User> _um;
     readonly SignInManager<User> _sm;
     readonly ITokenService _ts;
-    public AccountController(UserManager<User> um, SignInManager<User> sm, ITokenService ts) {
+    readonly IArtistRepository _ar;
+    public AccountController(UserManager<User> um, SignInManager<User> sm, ITokenService ts, IArtistRepository ar) {
         _um = um;
         _sm = sm;
         _ts = ts;
+        _ar = ar;
     }
 
     [HttpPost("login")]
@@ -27,17 +29,20 @@ public class AccountController : ControllerBase {
         var user = await _um.Users.FirstOrDefaultAsync(u => u.Email == loginDto.Email.ToLower());
 
         if (user == null)
-            return Unauthorized("Invalid username.");
+            return Unauthorized("Account does not exist or password was incorrect.");
+
+        user.Artists = await _ar.GetByUserIdAsync(user.Id);
 
         var res = await _sm.CheckPasswordSignInAsync(user, loginDto.Password, false);
 
         if (!res.Succeeded)
             return Unauthorized("Account does not exist or password was incorrect.");
 
-        return Ok(new NewUserDto {
+        return Ok(new UserDto {
             Email = user.Email!,
             UserName = user.UserName!,
-            Token = _ts.CreateToken(user)
+            Token = _ts.CreateToken(user),
+            Artists = user.Artists
         });
     }
 
