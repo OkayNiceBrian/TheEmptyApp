@@ -29,4 +29,10 @@ public class FilesController : ControllerBase {
         var guid = await _as.UploadAudioToStorage(audioDto.File);
         return Ok(FileMappers.ToFileGuidDto(guid));
     }
+
+    [HttpPost("audio/stream")]
+    public async Task<IActionResult> StreamAudio([FromBody] FileGuidDto guidDto) {
+        var sr = await _as.StreamAudioFromStorage(guidDto.Guid!);
+        return Ok(sr);
+    }
 }

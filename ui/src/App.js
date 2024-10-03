@@ -23,8 +23,7 @@ function App() {
         <Route path="*" element={<Login/>}/>
       </Routes>
     </BrowserRouter>
-  ) : 
-  (
+  ) : (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout/>}>

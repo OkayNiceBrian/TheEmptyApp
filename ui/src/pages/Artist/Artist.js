@@ -66,16 +66,36 @@ const Artist = () => {
     }
 
     const renderSongs = (album) => {
-        return album.songs.map((song) => 
-            <li key={song.id} className="song-container-grid">
+        return album.songs.map((song, index) => 
+            <li key={song.id} className="song-container-grid" style={{borderTopWidth: index === 0 ? "1px" : 0}}>
                 <p className="song-text">{song.trackNum}</p>
-                <PlayCircle02Icon class={"clickable-icon"} color={"cornflowerblue"}/>
+                <PlayCircle02Icon class={"clickable-icon"} color={"cornflowerblue"} onClick={() => onClickPlaySong(song.audioFileGuid)}/>
                 <p className="song-title-text">{song.name}</p>
                 <p className="song-text">{album.name}</p>
                 <p className="song-text">{artist.name}</p>
                 <p className="song-text">3:23</p>
             </li>
         );
+    }
+
+    const onClickPlaySong = async (guid) => {
+        // Move to AudioPlayerContext
+        const url = apiHost + "/files/audio/stream";
+        const guidDto = {
+            guid: guid
+        };
+        const rsp = await fetch(url, {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token
+            },
+            body: JSON.stringify(guidDto)
+        });
+        const reader = rsp.body.getReader();
+        const {value} = await reader.read();
+        console.log(value);
     }
 
     const onClickDelete = async () => {

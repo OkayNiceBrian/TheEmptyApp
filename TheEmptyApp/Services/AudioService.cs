@@ -11,6 +11,13 @@ namespace TheEmptyApp.Services;
 public class AudioService : IAudioService {
     readonly AzureOptions _ao;
     public AudioService(IOptions<AzureOptions> ao) => _ao = ao.Value;
+
+    public async Task<Stream> StreamAudioFromStorage(string guid) {
+        BlobContainerClient bcc = new(_ao.ConnectionString, _ao.Container);
+        BlobClient bc = bcc.GetBlobClient(guid);
+        return await bc.OpenReadAsync();
+    }
+
     public async Task<string> UploadAudioToStorage(IFormFile file) {
         var ext = Path.GetExtension(file.FileName);
 

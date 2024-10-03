@@ -30,7 +30,7 @@
     background-color: #101010;
     border-style: solid;
     border-color: black;
-    border-width: 3px;
+    border-width: 2px;
     width: 100%;
     margin-bottom: 50px;
 }
@@ -81,7 +81,6 @@
 
 .song-container-grid:hover {
     background-color: gray;
-    color:
 }
 
 .song-title-text {
