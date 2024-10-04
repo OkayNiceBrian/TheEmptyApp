@@ -4,11 +4,14 @@
     align-items: center;
     justify-content: space-between;
     background-color: #116466;
+    /* background-color: #1e1e1e; */
+    border: 1px solid gray;
+    height: 70px;
 }
 
 .logo {
     margin: 30px;
-    height: 80px;
+    height: 60px;
 }
 
 .nav-list {

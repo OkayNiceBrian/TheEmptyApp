@@ -1,5 +1,6 @@
-import { createContext, useContext, useState, useMemo } from "react";
+import { createContext, useContext, useState, useMemo, useEffect } from "react";
 import { useAuth } from "src/auth/AuthContext";
+import AudioPlayer from "src/components/AudioPlayer";
 import { apiHost } from "src/config/host";
 
 
@@ -7,7 +8,17 @@ const AudioPlayerContext = createContext();
 
 const AudioProvider = ({ children }) => {
     const { token } = useAuth();
+
     const [audioContext, setAudioContext] = useState(null);
+    const [trackQueue, setTrackQueue] = useState([]);
+
+    const [isVisible, setIsVisible] = useState(true);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [isPlayerLoading, setIsPlayerLoading] = useState(false);
+
+    useEffect(() => {
+
+    }, []);
     
     const setupAudioStream = () => {
         const _ctx = new AudioContext();
@@ -34,13 +45,19 @@ const AudioProvider = ({ children }) => {
         console.log(value);
     }
 
-    const contextValue = useMemo(() => ({
-        streamAudio
-    }), []);
+    const contextValue = useMemo(() => {
+        const queueSong = (guid) => {
+            trackQueue.push(guid);
+        };
+        return (
+            queueSong
+        );
+    }, [trackQueue]);
 
     return (
         <AudioPlayerContext.Provider value={contextValue}>
             {children}
+            <AudioPlayer isVisible={isVisible} isPlaying={isPlaying} isPlayerLoading={isPlayerLoading}/>
         </AudioPlayerContext.Provider>
     );
 }

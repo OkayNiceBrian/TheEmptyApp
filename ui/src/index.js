@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import AuthProvider from './auth/AuthContext';
+import AudioProvider from './contexts/AudioPlayerContext';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
@@ -9,7 +10,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <AuthProvider>
-      <App />
+      <AudioProvider>
+        <App />
+      </AudioProvider>
     </AuthProvider>
   </React.StrictMode>
 );

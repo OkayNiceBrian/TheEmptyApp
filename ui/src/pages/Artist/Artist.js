@@ -52,7 +52,7 @@ const Artist = () => {
                     <img className="album-cover" src={blobUrl + "/" + album.coverImageGuid} alt={album.name}/>
                     {//<p className="album-header-text">{album.name}</p>
                     }
-                    <PlayCircle02Icon class={"clickable-icon"} color={"cornflowerblue"} size={"100px"}/>
+                    <PlayCircle02Icon className={"clickable-icon"} color={"cornflowerblue"} size={"100px"}/>
                     <div className="album-header-items-container">
                         <Edit02Icon className="clickable-icon" color={"green"} onClick={() => onClickDeleteAlbum(album.id)}/>
                         <Delete04Icon className="clickable-icon" color={"red"} onClick={() => onClickDeleteAlbum(album.id)}/>
@@ -69,7 +69,7 @@ const Artist = () => {
         return album.songs.map((song, index) => 
             <li key={song.id} className="song-container-grid" style={{borderTopWidth: index === 0 ? "1px" : 0}}>
                 <p className="song-text">{song.trackNum}</p>
-                <PlayCircle02Icon class={"clickable-icon"} color={"cornflowerblue"} onClick={() => onClickPlaySong(song.audioFileGuid)}/>
+                <PlayCircle02Icon className={"clickable-icon"} color={"cornflowerblue"} onClick={() => onClickPlaySong(song.audioFileGuid)}/>
                 <p className="song-title-text">{song.name}</p>
                 <p className="song-text">{album.name}</p>
                 <p className="song-text">{artist.name}</p>

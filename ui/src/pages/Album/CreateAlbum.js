@@ -92,7 +92,7 @@ const CreateAlbum = () => {
                 console.error(e);
             }
         }
-    }, [areSongsUploading, songComponents, albumId, artistId, setIsAlbumCreated])
+    }, [areSongsUploading, songComponents, albumId, artistId, token, setIsAlbumCreated])
 
     const getTodaysDate = () => {
         const currentDate = new Date();
