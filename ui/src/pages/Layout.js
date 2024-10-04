@@ -6,7 +6,7 @@ import 'src/styles/Layout.css';
 const Layout = () => {
     const { logout, userArtistId } = useAuth();
     return(
-        <>
+        <div className="layout-container">
             <nav className="top-container">
                 <img className="logo" src={logo} alt="Empty Music"/>
                 <ul className="nav-list">
@@ -29,7 +29,7 @@ const Layout = () => {
             </nav>
 
             <Outlet />
-        </>
+        </div>
     );
 }
 

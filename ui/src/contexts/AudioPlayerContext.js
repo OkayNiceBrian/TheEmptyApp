@@ -9,53 +9,74 @@ const AudioPlayerContext = createContext();
 const AudioProvider = ({ children }) => {
     const { token } = useAuth();
 
-    const [audioContext, setAudioContext] = useState(null);
+    const [audioContext, setAudioContext] = useState(new AudioContext());
     const [trackQueue, setTrackQueue] = useState([]);
+    const [audioStream, setAudioStream] = useState(null);
+    const [audioSource, setAudioSource] = useState(null);
 
     const [isVisible, setIsVisible] = useState(true);
     const [isPlaying, setIsPlaying] = useState(false);
     const [isPlayerLoading, setIsPlayerLoading] = useState(false);
 
     useEffect(() => {
+        const streamAudio = async (guid) => {
+            try {
+                const url = apiHost + "/files/audio/stream";
+                const guidDto = {
+                    guid: guid
+                };
+                const rsp = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Accept": "application/json",
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer " + token
+                    },
+                    body: JSON.stringify(guidDto)
+                });
+                const stream = rsp.body;
+                setAudioStream(stream);
+            } catch (e) {
+                console.error(e);
+            } 
+        }
 
-    }, []);
-    
-    const setupAudioStream = () => {
-        const _ctx = new AudioContext();
-        const source = _ctx.createMediaStreamSource();
-        setAudioContext(_ctx);
-    }
-    
-    const streamAudio = async (guid) => {
-        const url = apiHost + "/files/audio/stream";
-        const guidDto = {
-            guid: guid
-        };
-        const rsp = await fetch(url, {
-            method: "POST",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + token
-            },
-            body: JSON.stringify(guidDto)
-        });
-        const reader = rsp.body.getReader();
-        const {value} = await reader.read();
-        console.log(value);
-    }
+        if (trackQueue.length > 0) {
+            streamAudio(trackQueue.pop());
+        }
+    }, [trackQueue, token]);
 
-    const contextValue = useMemo(() => {
-        const queueSong = (guid) => {
-            trackQueue.push(guid);
-        };
-        return (
-            queueSong
-        );
-    }, [trackQueue]);
+    useEffect(() => {
+        const readAudio = async () => {
+            const arrayBuffer = await new Response(audioStream).arrayBuffer();
+            const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+            const source = await audioContext.createBufferSource();
+            source.buffer = audioBuffer;
+            setAudioSource(source);
+        }
+        if (audioStream) {
+            setIsVisible(true);
+            setIsPlaying(true);
+            readAudio();
+        } else {
+            setIsVisible(false);
+            setIsPlaying(false);
+        }
+    }, [audioStream, audioContext]);
+
+    useEffect(() => {
+        if (audioSource) {
+            audioSource.connect(audioContext.destination);
+            audioSource.start(0);
+        }
+    }, [audioSource, audioContext]);
+    
+    const queueSong = (guid) => {
+        setTrackQueue([...trackQueue, guid])
+    };
 
     return (
-        <AudioPlayerContext.Provider value={contextValue}>
+        <AudioPlayerContext.Provider value={queueSong}>
             {children}
             <AudioPlayer isVisible={isVisible} isPlaying={isPlaying} isPlayerLoading={isPlayerLoading}/>
         </AudioPlayerContext.Provider>
