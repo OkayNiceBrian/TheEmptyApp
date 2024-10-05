@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Delete04Icon, Edit02Icon, AddCircleIcon, PlayCircle02Icon } from "hugeicons-react";
+import { Delete04Icon, Edit02Icon, AddCircleIcon, PlayCircle02Icon, Queue02Icon } from "hugeicons-react";
 import { useAuth } from "auth/AuthContext";
 import { useAudio } from "contexts/AudioPlayerContext";
 import { apiHost, blobUrl } from "config/host";
@@ -10,7 +10,7 @@ const Artist = () => {
     const { artistId } = useParams();
 
     const { token } = useAuth();
-    const queueSong = useAudio();
+    const { queueSong, playSong } = useAudio();
 
     const [isLoading, setIsLoading] = useState(true);
     const [artist, setArtist] = useState(null);
@@ -71,11 +71,12 @@ const Artist = () => {
         return album.songs.map((song, index) => 
             <li key={song.id} className="song-container-grid" style={{borderTopWidth: index === 0 ? "1px" : 0}}>
                 <p className="song-text">{song.trackNum}</p>
-                <PlayCircle02Icon className={"clickable-icon"} color={"cornflowerblue"} onClick={() => queueSong(song.audioFileGuid)}/>
+                <PlayCircle02Icon className={"clickable-icon"} color={"cornflowerblue"} onClick={() => playSong({artistName: artist.name, albumName: album.name, songName: song.name, guid: song.audioFileGuid, coverImageGuid: album.coverImageGuid})}/>
                 <p className="song-title-text">{song.name}</p>
                 <p className="song-text">{album.name}</p>
                 <p className="song-text">{artist.name}</p>
                 <p className="song-text">3:23</p>
+                <Queue02Icon className={"clickable-icon"} color={"green"} size={"20px"} onClick={() => queueSong({artistName: artist.name, albumName: album.name, songName: song.name, guid: song.audioFileGuid, coverImageGuid: album.coverImageGuid})}/>
             </li>
         );
     }

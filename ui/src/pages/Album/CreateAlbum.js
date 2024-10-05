@@ -163,14 +163,11 @@ const CreateAlbum = () => {
             </div>
             <div className="input-container">
                 <p className="label-text">Album Cover</p>
-                {hasCoverUploaded ? (
-                    <img className="image-thumbnail" src={blobUrl + "/" + coverGuid} alt="Album Cover"/>
-                ) : null}
                 <input type="file" onChange={e => setCoverFile(e.target.files[0])} style={{display: "flex"}}/>
             </div>
             <div className="input-container">
                 <p className="label-text">Songs</p>
-                {songComponents.map((song, index) => <CreateSong i={index} songComponents={songComponents} setSongComponents={setSongComponents} />)}
+                {songComponents.map((song, index) => <CreateSong key={index} i={index} songComponents={songComponents} setSongComponents={setSongComponents} />)}
                 <button onClick={addSongToCreate}>Add Song</button>
             </div>
             { areFieldsFilled ? (

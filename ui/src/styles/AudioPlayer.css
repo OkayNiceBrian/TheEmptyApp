@@ -1,5 +1,5 @@
 .audioPlayer-container {
-    position: absolute;
+    position: sticky;
     bottom: 0px;
     left: 0px;
     display: flex;
@@ -32,15 +32,16 @@
 .audioPlayer-info-text-container {
     display: flex;
     flex-direction: column;
-    
 }
 
 .audioPlayer-info-text-song {
     font-weight: bold;
+    white-space: nowrap;
 }
 
 .audioPlayer-info-text-artist {
     font-weight: lighter;
+    white-space: nowrap;
 }   
 
 .audioPlayer-volume-container {

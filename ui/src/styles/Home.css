@@ -1,7 +1,7 @@
 .home-container {
     display: flex;
     background-color: #003135;
-    overflow-y: hidden;
+    overflow: hidden;
 }
 
 .home-image {

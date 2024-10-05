@@ -2,22 +2,22 @@ import { PauseIcon, PlayCircle02Icon, PreviousIcon, VolumeHighIcon } from "hugei
 import { blobUrl } from "config/host";
 import "styles/AudioPlayer.css";
 
-const AudioPlayer = ({ isVisible, isPaused, isPlayerLoading }) => {
+const AudioPlayer = ({ trackInfo, isVisible, isPaused, setIsPaused, isPlayerLoading }) => {
     
     return (
         <div style={{display: isVisible ? "flex" : "none"}} className="audioPlayer-container">
             <div className="audioPlayer-info-container">
-                <img className={"audioPlayer-cover-image"} src={blobUrl + "/images/b2ed5e12-2e44-4490-87bf-d3ff69859a4a.png"} alt={"cover"}/>
+                <img className={"audioPlayer-cover-image"} src={blobUrl + "/" + trackInfo.coverImageGuid} alt={"cover"}/>
                 <div className={"audioPlayer-info-text-container"}>
-                    <p className="audioPlayer-info-text-song">What?</p>
-                    <p className="audioPlayer-info-text-artist">Yabby</p>
+                    <p className="audioPlayer-info-text-song">{trackInfo.songName}</p>
+                    <p className="audioPlayer-info-text-artist">{trackInfo.artistName}</p>
                 </div>
             </div>
             <div className="audioPlayer-controls-container">
                 <PreviousIcon className={"audioPlayer-icon"} size={"30px"}/>
                 { !isPaused ? 
-                    <PauseIcon className={"audioPlayer-icon"} size={"40px"}/> : 
-                    <PlayCircle02Icon className={"audioPlayer-icon"} size={"40px"}/>
+                    <PauseIcon onClick={() => setIsPaused(!isPaused)} className={"audioPlayer-icon"} size={"40px"}/> : 
+                    <PlayCircle02Icon onClick={() => setIsPaused(!isPaused)} className={"audioPlayer-icon"} size={"40px"}/>
                 }
                 <PreviousIcon className={"audioPlayer-icon"} style={{rotate: "180deg"}} size={"30px"} />
             </div>

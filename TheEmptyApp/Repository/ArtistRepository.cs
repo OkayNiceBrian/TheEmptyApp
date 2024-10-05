@@ -21,7 +21,7 @@ public class ArtistRepository : IArtistRepository {
     public async Task<Artist?> GetByIdAsync(int id) {
         return await _ctx.Artists
             .Include(a => a.Albums)
-            .ThenInclude(a => a.Songs)
+                .ThenInclude(a => a.Songs)
             .FirstOrDefaultAsync(a => a.Id == id);
     }
 

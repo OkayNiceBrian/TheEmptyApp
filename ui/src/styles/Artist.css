@@ -67,7 +67,7 @@
 
 .song-container-grid {
     display: grid;
-    grid-template-columns: 3vw 3vw 18vw 12vw 10vw 6vw;
+    grid-template-columns: 3vw 3vw 18vw 12vw 10vw 6vw 3vw;
     align-items: center;
     border-color: gray;
     border-style: solid;
