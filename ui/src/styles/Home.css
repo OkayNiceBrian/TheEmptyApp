@@ -1,4 +1,31 @@
-.container {
+.home-container {
     display: flex;
     background-color: #003135;
+    overflow-y: hidden;
+}
+
+.home-image {
+    position: fixed;
+    width: 100%;
+    z-index: -1;
+}
+
+.home-header {
+    font-size: 60pt;
+    font-weight: lighter;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+}
+
+.home-body {
+    font-size: 30pt;
+    font-weight: lighter;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
 }

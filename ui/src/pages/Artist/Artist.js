@@ -80,26 +80,6 @@ const Artist = () => {
         );
     }
 
-    const onClickPlaySong = async (guid) => {
-        // Move to AudioPlayerContext
-        const url = apiHost + "/files/audio/stream";
-        const guidDto = {
-            guid: guid
-        };
-        const rsp = await fetch(url, {
-            method: "POST",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + token
-            },
-            body: JSON.stringify(guidDto)
-        });
-        const reader = rsp.body.getReader();
-        const {value} = await reader.read();
-        console.log(value);
-    }
-
     const onClickDelete = async () => {
         try {
             const url = apiHost + "/artists/" + artistId;
@@ -149,7 +129,7 @@ const Artist = () => {
                 <Delete04Icon className="clickable-icon" color={"red"} onClick={onClickDelete}/>
             </div>
             {renderAlbums()}
-            <AddCircleIcon className="clickable-icon" color={"green"} size={"40px"} onClick={() => navigate(`/artist/${artistId}/create/album`)}/>
+            <AddCircleIcon className="clickable-icon" color={"green"} size={"40px"} onClick={() => navigate(`/artist/${artistId}/create/album`)} style={{marginBottom: "100px"}}/>
         </div>
     );
 };

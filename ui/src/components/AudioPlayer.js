@@ -2,7 +2,7 @@ import { PauseIcon, PlayCircle02Icon, PreviousIcon, VolumeHighIcon } from "hugei
 import { blobUrl } from "config/host";
 import "styles/AudioPlayer.css";
 
-const AudioPlayer = ({ isVisible, isPlaying, isPlayerLoading }) => {
+const AudioPlayer = ({ isVisible, isPaused, isPlayerLoading }) => {
     
     return (
         <div style={{display: isVisible ? "flex" : "none"}} className="audioPlayer-container">
@@ -15,7 +15,7 @@ const AudioPlayer = ({ isVisible, isPlaying, isPlayerLoading }) => {
             </div>
             <div className="audioPlayer-controls-container">
                 <PreviousIcon className={"audioPlayer-icon"} size={"30px"}/>
-                { isPlaying ? 
+                { !isPaused ? 
                     <PauseIcon className={"audioPlayer-icon"} size={"40px"}/> : 
                     <PlayCircle02Icon className={"audioPlayer-icon"} size={"40px"}/>
                 }

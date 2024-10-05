@@ -13,9 +13,10 @@ const AudioProvider = ({ children }) => {
     const [trackQueue, setTrackQueue] = useState([]);
     const [audioStream, setAudioStream] = useState(null);
     const [audioSource, setAudioSource] = useState(null);
+    const [playNextTrack, setPlayNextTrack] = useState(true);
 
     const [isVisible, setIsVisible] = useState(true);
-    const [isPlaying, setIsPlaying] = useState(false);
+    const [isPaused, setIsPaused] = useState(true);
     const [isPlayerLoading, setIsPlayerLoading] = useState(false);
 
     useEffect(() => {
@@ -41,32 +42,33 @@ const AudioProvider = ({ children }) => {
             } 
         }
 
-        if (trackQueue.length > 0) {
+        if (trackQueue.length > 0 && playNextTrack) {
+            setPlayNextTrack(false);
             streamAudio(trackQueue.pop());
         }
-    }, [trackQueue, token]);
+    }, [trackQueue, token, playNextTrack]);
 
     useEffect(() => {
         const readAudio = async () => {
             const arrayBuffer = await new Response(audioStream).arrayBuffer();
             const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
             const source = await audioContext.createBufferSource();
+            source.connect(audioContext.destination);
             source.buffer = audioBuffer;
             setAudioSource(source);
         }
         if (audioStream) {
             setIsVisible(true);
-            setIsPlaying(true);
+            setIsPaused(false);
             readAudio();
         } else {
             setIsVisible(false);
-            setIsPlaying(false);
+            setIsPaused(true);
         }
     }, [audioStream, audioContext]);
 
     useEffect(() => {
         if (audioSource) { 
-            audioSource.connect(audioContext.destination);
             audioSource.start(0);
         }
     }, [audioSource, audioContext]);
@@ -75,10 +77,19 @@ const AudioProvider = ({ children }) => {
         setTrackQueue([...trackQueue, guid])
     };
 
+    useEffect(() => {
+        if (audioSource) {
+            audioSource.onended = (e) => {
+                setPlayNextTrack(true);
+            };
+        }
+    })
+    
+
     return (
         <AudioPlayerContext.Provider value={queueSong}>
             {children}
-            <AudioPlayer isVisible={isVisible} isPlaying={isPlaying} isPlayerLoading={isPlayerLoading}/>
+            <AudioPlayer isVisible={isVisible} isPlaying={isPaused} isPlayerLoading={isPlayerLoading}/>
         </AudioPlayerContext.Provider>
     );
 }

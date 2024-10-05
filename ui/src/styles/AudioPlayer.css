@@ -1,5 +1,5 @@
 .audioPlayer-container {
-    position: sticky;
+    position: absolute;
     bottom: 0px;
     left: 0px;
     display: flex;

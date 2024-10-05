@@ -32,7 +32,7 @@ public class FilesController : ControllerBase {
 
     [HttpPost("audio/stream")]
     public async Task<IActionResult> StreamAudio([FromBody] FileGuidDto guidDto) {
-        var sr = await _as.StreamAudioFromStorage(guidDto.Guid!);
-        return Ok(sr);
+        var s = await _as.StreamAudioFromStorage(guidDto.Guid!);
+        return Ok(s);
     }
 }

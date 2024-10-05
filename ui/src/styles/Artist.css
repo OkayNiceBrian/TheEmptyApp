@@ -4,23 +4,22 @@
     justify-content: center;
     align-items: center;
     background-color: #003135;
-    padding-bottom: 50px;
 }
 
 .artist-header-container {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: flex-end;
     width: 100%;
     margin: 20px;
-    gap: 40px;
+    gap: 10px;
     padding-left: 100px;
 }
 
 .artist-header-text {
     font-size: 40pt;
-    font-weight: bold;
+    font-weight: lighter;
 }
 
 .album-container {
