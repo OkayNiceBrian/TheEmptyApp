@@ -1,7 +1,7 @@
-import { createContext, useContext, useState, useMemo, useEffect } from "react";
-import { useAuth } from "src/auth/AuthContext";
-import AudioPlayer from "src/components/AudioPlayer";
-import { apiHost } from "src/config/host";
+import { createContext, useContext, useState, useEffect } from "react";
+import { useAuth } from "auth/AuthContext";
+import AudioPlayer from "components/AudioPlayer";
+import { apiHost } from "config/host";
 
 
 const AudioPlayerContext = createContext();
@@ -65,7 +65,7 @@ const AudioProvider = ({ children }) => {
     }, [audioStream, audioContext]);
 
     useEffect(() => {
-        if (audioSource) {
+        if (audioSource) { 
             audioSource.connect(audioContext.destination);
             audioSource.start(0);
         }

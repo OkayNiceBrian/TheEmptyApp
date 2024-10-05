@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "src/auth/AuthContext";
-import { apiHost } from "src/config/host";
-import "src/styles/Login.css";
+import { useAuth } from "auth/AuthContext";
+import { apiHost } from "config/host";
+import "styles/Login.css";
 
 const Login = () => {
     const { setUserData } = useAuth();

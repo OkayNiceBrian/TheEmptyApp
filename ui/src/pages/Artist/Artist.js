@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Delete04Icon, Edit02Icon, AddCircleIcon, PlayCircle02Icon } from "hugeicons-react";
-import { useAuth } from "src/auth/AuthContext";
-import { useAudio } from "src/contexts/AudioPlayerContext";
-import { apiHost, blobUrl } from "src/config/host";
-import "src/styles/Artist.css";
+import { useAuth } from "auth/AuthContext";
+import { useAudio } from "contexts/AudioPlayerContext";
+import { apiHost, blobUrl } from "config/host";
+import "styles/Artist.css";
 
 const Artist = () => {
     const { artistId } = useParams();

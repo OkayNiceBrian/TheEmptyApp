@@ -1,6 +1,6 @@
 import { PauseIcon, PlayCircle02Icon, PreviousIcon, VolumeHighIcon } from "hugeicons-react";
-import { blobUrl } from "src/config/host";
-import "src/styles/AudioPlayer.css";
+import { blobUrl } from "config/host";
+import "styles/AudioPlayer.css";
 
 const AudioPlayer = ({ isVisible, isPlaying, isPlayerLoading }) => {
     

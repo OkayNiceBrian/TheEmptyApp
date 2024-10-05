@@ -21,14 +21,7 @@ const AuthProvider = ({ children }) => {
             localStorage.setItem("email", data.email);
             localStorage.setItem("username", data.userName);
         } else {
-            setToken(null);
-            setEmail(null);
-            setUsername(null);
-            setUserArtistId(null);
-            localStorage.removeItem("token");
-            localStorage.removeItem("email");
-            localStorage.removeItem("username");
-            localStorage.removeItem("userArtist");
+            logout();
         }
     }
 
@@ -50,7 +43,7 @@ const AuthProvider = ({ children }) => {
         userArtistId,
         setUserData,
         logout
-    }), [token, email, username, userArtistId]);
+    }), [token, email, username, userArtistId]); 
 
     return (
         <AuthContext.Provider value={contextValue}>

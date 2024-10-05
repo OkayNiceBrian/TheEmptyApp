@@ -1,7 +1,7 @@
 import { Outlet, Link } from "react-router-dom";
-import { useAuth } from "src/auth/AuthContext";
-import logo from "src/assets/logo.png"
-import 'src/styles/Layout.css';
+import { useAuth } from "auth/AuthContext";
+import logo from "assets/logo.png"
+import 'styles/Layout.css';
 
 const Layout = () => {
     const { logout, userArtistId } = useAuth();

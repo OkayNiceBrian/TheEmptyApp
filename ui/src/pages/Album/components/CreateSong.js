@@ -1,4 +1,4 @@
-import "src/styles/CreateForm.css";
+import "styles/CreateForm.css";
 
 const CreateSong = ({i, songComponents, setSongComponents}) => {
     

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import CreateSong from "./components/CreateSong";
-import { useAuth } from "src/auth/AuthContext";
-import { apiHost, blobUrl } from "src/config/host";
-import "src/styles/CreateForm.css";
+import { useAuth } from "auth/AuthContext";
+import { apiHost, blobUrl } from "config/host";
+import "styles/CreateForm.css";
 
 const CreateAlbum = () => {
     const { artistId } = useParams();

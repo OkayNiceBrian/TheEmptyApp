@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useAuth } from "src/auth/AuthContext";
-import { apiHost } from "src/config/host";
-import "src/styles/Login.css";
+import { useAuth } from "auth/AuthContext";
+import { apiHost } from "config/host";
+import "styles/Login.css";
 const Register = () => {
     const { setUserData } = useAuth();
 

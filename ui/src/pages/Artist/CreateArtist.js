@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "src/auth/AuthContext";
-import { apiHost } from "src/config/host";
-import "src/styles/CreateForm.css";
+import { useAuth } from "auth/AuthContext";
+import { apiHost } from "config/host";
+import "styles/CreateForm.css";
 
 const CreateArtist = () => {
     const { token, email } = useAuth();
