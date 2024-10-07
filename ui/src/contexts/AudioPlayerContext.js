@@ -14,26 +14,52 @@ const AudioProvider = ({ children }) => {
     const [trackQueue, setTrackQueue] = useState([]);
     const [audioStream, setAudioStream] = useState(null);
     const [audioSource, setAudioSource] = useState(null);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [toPlay, setToPlay] = useState(false);
     const [playNextTrack, setPlayNextTrack] = useState(true);
     const [lastPlayedTrack, setLastPlayedTrack] = useState(null);
 
     // AudioPlayer Component State
     const [isVisible, setIsVisible] = useState(true);
-    const [isPaused, setIsPaused] = useState(true);
+    const [isPaused, setIsPaused] = useState(false);
     const [isPlayerLoading, setIsPlayerLoading] = useState(false);
     const [trackInfo, setTrackInfo] = useState({});
 
     const playSong = (track) => {
         setTrackQueue([track, ...trackQueue]);
-        setPlayNextTrack(true);
-        if (audioSource) {
-            audioSource.stop();
-        }
+        setToPlay(true);
     };
 
     const queueSong = (track) => {
         setTrackQueue([...trackQueue, track])
     };
+
+    useEffect(function checkTracksQueued() {
+        if (toPlay) {
+            if (audioSource) {
+                audioSource.stop();
+            } else {
+                setPlayNextTrack(true);
+            }
+            setToPlay(false);
+        }
+    }, [toPlay, audioSource])
+
+    useEffect(function onAudioEnd() {
+        if (audioSource) {
+            audioSource.onended = (e) => {
+                console.log("onended");
+                if (trackQueue.length > 0) {
+                    setIsPaused(false);
+                    setPlayNextTrack(true);
+                } else {
+                    setIsPaused(true);
+                    setIsPlaying(false);
+                    setPlayNextTrack(true);
+                }
+            };
+        }
+    }, [audioSource, trackQueue]);
 
     useEffect(function handleStreaming() {
         const streamAudio = async (guid) => {
@@ -60,10 +86,12 @@ const AudioProvider = ({ children }) => {
 
         if (trackQueue.length > 0 && playNextTrack) {
             setPlayNextTrack(false);
-            const trackInfo = trackQueue.pop();
+            const trackInfo = trackQueue.shift();
+            setLastPlayedTrack(trackInfo);
             setTrackInfo(trackInfo)
             setLastPlayedTrack(trackInfo);
             streamAudio(trackInfo.guid);
+            setIsPlaying(true);
             setIsPaused(false);
         }
     }, [trackQueue, token, playNextTrack, audioSource]);
@@ -86,20 +114,6 @@ const AudioProvider = ({ children }) => {
         }
     }, [audioStream, audioContext]);
 
-    useEffect(function onAudioEnd() {
-        if (audioSource) {
-            audioSource.onended = (e) => {
-                if (trackQueue.length === 0) {
-                    setPlayNextTrack(false);
-                    setIsPaused(true);
-                } else {
-                    setPlayNextTrack(true);
-                    setIsPaused(false);
-                }
-            };
-        }
-    }, [audioSource, trackQueue]);
-
     useEffect(function handlePause() {
         if (audioSource) {
             if (isPaused) {
@@ -114,7 +128,7 @@ const AudioProvider = ({ children }) => {
     return (
         <AudioPlayerContext.Provider value={{queueSong, playSong}}>
             {children}
-            <AudioPlayer trackInfo={trackInfo} isVisible={isVisible} isPaused={isPaused} setIsPaused={setIsPaused} isPlayerLoading={isPlayerLoading}/>
+            <AudioPlayer trackInfo={trackInfo} isVisible={isVisible} isPaused={isPaused} setIsPaused={setIsPaused} isPlayerLoading={isPlayerLoading} lastPlayedTrack={lastPlayedTrack} isPlaying={isPlaying} playSong={playSong}/>
         </AudioPlayerContext.Provider>
     );
 }
