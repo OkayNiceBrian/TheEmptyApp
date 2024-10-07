@@ -1,0 +1,24 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnection": ""
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "JWT": {
+    "SigningKey": "",
+    "Issuer": "localhost:44313",
+    "Audience": "https://localhost:44313/api"
+  },
+  "Azure": {
+    "BlobUrl": "",
+    "ResourceGroup": "",
+    "Account": "",
+    "Container": "",
+    "ConnectionString": ""
+  }
+}
