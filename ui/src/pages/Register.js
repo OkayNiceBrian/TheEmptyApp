@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuth } from "auth/AuthContext";
+import { useAuth } from "contexts/AuthContext";
 import { apiHost } from "config/host";
 import "styles/Login.css";
 const Register = () => {

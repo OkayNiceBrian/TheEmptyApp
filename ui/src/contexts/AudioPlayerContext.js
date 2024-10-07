@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { useAuth } from "auth/AuthContext";
+import { useAuth } from "contexts/AuthContext";
 import AudioPlayer from "components/AudioPlayer";
 import { apiHost } from "config/host";
 
@@ -10,7 +10,7 @@ const AudioProvider = ({ children }) => {
     const { token } = useAuth();
 
     // Audio State
-    const [audioContext, setAudioContext] = useState(new AudioContext());
+    const [audioContext] = useState(new AudioContext());
     const [trackQueue, setTrackQueue] = useState([]);
     const [audioStream, setAudioStream] = useState(null);
     const [audioSource, setAudioSource] = useState(null);
@@ -22,7 +22,6 @@ const AudioProvider = ({ children }) => {
     // AudioPlayer Component State
     const [isVisible, setIsVisible] = useState(true);
     const [isPaused, setIsPaused] = useState(false);
-    const [isPlayerLoading, setIsPlayerLoading] = useState(false);
     const [trackInfo, setTrackInfo] = useState({});
 
     const playSong = (track) => {
@@ -128,7 +127,7 @@ const AudioProvider = ({ children }) => {
     return (
         <AudioPlayerContext.Provider value={{queueSong, playSong}}>
             {children}
-            <AudioPlayer trackInfo={trackInfo} isVisible={isVisible} isPaused={isPaused} setIsPaused={setIsPaused} isPlayerLoading={isPlayerLoading} lastPlayedTrack={lastPlayedTrack} isPlaying={isPlaying} playSong={playSong}/>
+            <AudioPlayer trackInfo={trackInfo} isVisible={isVisible} isPaused={isPaused} setIsPaused={setIsPaused} lastPlayedTrack={lastPlayedTrack} isPlaying={isPlaying} playSong={playSong}/>
         </AudioPlayerContext.Provider>
     );
 }

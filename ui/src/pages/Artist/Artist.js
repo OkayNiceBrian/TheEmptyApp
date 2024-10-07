@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Delete04Icon, Edit02Icon, AddCircleIcon, PlayCircle02Icon, Queue02Icon } from "hugeicons-react";
-import { useAuth } from "auth/AuthContext";
+import { useAuth } from "contexts/AuthContext";
 import { useAudio } from "contexts/AudioPlayerContext";
 import { apiHost, blobUrl } from "config/host";
 import "styles/Artist.css";

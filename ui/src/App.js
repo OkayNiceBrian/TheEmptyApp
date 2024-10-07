@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useAuth } from "auth/AuthContext";
+import { useAuth } from "contexts/AuthContext";
 import Login from "pages/Login";
 import Register from "pages/Register";
 import Layout from "pages/Layout";
