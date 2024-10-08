@@ -29,10 +29,10 @@ function App() {
         <Route path="/" element={<Layout/>}>
           <Route index element={<Home/>}/>
           <Route path="/artist/:artistId" element={<Artist/>}/>
-          <Route path="/album/:albumId" element={<Album/>}/>
-          <Route path="/artist/:artistId/create/album" element={<CreateAlbum/>}/>
+          <Route path="/artist/:artistId/album/:albumId" element={<Album/>}/>
+          <Route path="/artist/:artistId/album/create" element={<CreateAlbum/>}/>
           <Route path="/contact" element={<Contact/>}/>
-          <Route path="/create/artist" element={<CreateArtist/>}/>
+          <Route path="/artist/create" element={<CreateArtist/>}/>
           <Route path="*" element={<NoPage/>}/>
         </Route>
       </Routes>
