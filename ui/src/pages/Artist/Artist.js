@@ -47,6 +47,11 @@ const Artist = () => {
         }
     }, [isDeleted, navigate])
 
+    const onClickAlbum = (id) => {
+        console.log("asdf");
+        navigate(`/artist/${artistId}/album/${id}`);
+    }
+
     const renderAlbums = () => {
         return artist.albums.map(album => 
             <div key={album.id} className="album-container">
@@ -54,7 +59,7 @@ const Artist = () => {
                     <img className="album-cover" src={blobUrl + "/" + album.coverImageGuid} alt={album.name}/>
                     {//<p className="album-header-text">{album.name}</p>
                     }
-                    <PlayCircle02Icon className={"clickable-icon"} color={"cornflowerblue"} size={"100px"}/>
+                    <PlayCircle02Icon onClick={() => onClickAlbum(album.id)} className={"clickable-icon"} color={"cornflowerblue"} size={"100px"}/>
                     <div className="album-header-items-container">
                         <Edit02Icon className="clickable-icon" color={"green"} onClick={() => onClickDeleteAlbum(album.id)}/>
                         <Delete04Icon className="clickable-icon" color={"red"} onClick={() => onClickDeleteAlbum(album.id)}/>
