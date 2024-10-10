@@ -1,3 +1,91 @@
 .album-body {
+    display: flex;
+    flex-direction: column;
     width: 100%;
+    align-items: center;
+}
+
+.album-header-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    justify-content: space-between;
+    border-color: gray;
+    border-style: solid;
+    border-width: 1px;
+    width: 100%;
+}
+
+.album-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    background-color: #101010;
+    width: 90%;
+    margin-bottom: 50px;
+}
+
+.album-cover-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    justify-content: space-between;
+    border-color: gray;
+    border-style: solid;
+    border-width: 1px;
+    gap: 10px;
+}
+
+.album-header-items-container {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    gap: 20px;
+}
+
+.album-header-text {
+    font-size: 28pt;
+}
+
+.album-cover {
+    height: 300px;
+    width: 300px;
+}
+
+.album-songs-container {
+    padding: 0px;
+    margin: 0px;
+    list-style: none;
+    width: 100%;
+}
+
+.album-song-container-grid {
+    background-color: #101010;
+    display: grid;
+    grid-template-columns: 3vw 3vw 18vw 12vw 10vw 6vw 3vw;
+    align-items: center;
+    border-color: gray;
+    border-style: solid;
+    border-width: 0;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    height: 50px;
+    padding-left: 20px;
+}
+
+.album-song-container-grid:hover {
+    background-color: gray;
+}
+
+.album-song-title-text {
+    font-size: 12pt;
+    font-weight: bold;
+}
+
+.album-song-text {
+    font-size: 12pt;
+    font-weight: lighter;
 }
