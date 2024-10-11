@@ -55,8 +55,8 @@ const Album = () => {
                     <img className="album-cover" src={blobUrl + "/" + album.coverImageGuid} alt={album.name}/>
                     <PlayCircle02Icon className={"clickable-icon"} color={"cornflowerblue"} size={"100px"}/>
                     <div className="album-header-items-container">
-                        {userArtistId === artistId && <Edit02Icon className="clickable-icon" color={"green"} onClick={() => onClickDeleteAlbum()}/>}
-                        {userArtistId === artistId && <Delete04Icon className="clickable-icon" color={"red"} onClick={() => onClickDeleteAlbum()}/>}
+                        {userArtistId === artistId && <Edit02Icon className="clickable-icon" color={"green"} onClick={onClickDeleteAlbum}/>}
+                        {userArtistId === artistId && <Delete04Icon className="clickable-icon" color={"red"} onClick={onClickDeleteAlbum}/>}
                     </div>
                 </div> 
                 <ul className="album-songs-container">

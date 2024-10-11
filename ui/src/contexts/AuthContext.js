@@ -36,12 +36,21 @@ const AuthProvider = ({ children }) => {
         localStorage.removeItem("userArtistId");
     }
 
+    const setCurrentArtist = (artistId) => {
+        console.log(artistId)
+        if (artistId) {
+            setUserArtistId(artistId);
+            localStorage.setItem("userArtistId", artistId);
+        }
+    }
+
     const contextValue = useMemo(() => ({
         token,
         email,
         username,
         userArtistId,
         setUserData,
+        setCurrentArtist,
         logout
     }), [token, email, username, userArtistId]); 
 

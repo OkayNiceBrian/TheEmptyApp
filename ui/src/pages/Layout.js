@@ -17,7 +17,7 @@ const Layout = () => {
                         <Link className="link" to={`/artist/${userArtistId}`}><p className="nav-text">My Music</p></Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="link" to="/artist/create"><p className="nav-text">Create Artist</p></Link>
+                        <Link className="link" to="/options"><p className="nav-text">Options</p></Link>
                     </li>
                     <li className="nav-item">
                         <Link className="link" to="/contact"><p className="nav-text">Contact</p></Link>
