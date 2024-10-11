@@ -9,6 +9,7 @@ public static class AlbumMappers {
             Id = albumModel.Id,
             Name = albumModel.Name,
             ArtistId = albumModel.ArtistId,
+            ArtistName = albumModel.Artist?.Name!,
             Songs = albumModel.Songs.Select(s => s.ToSongDto()).ToList(),
             ReleaseDate = albumModel.ReleaseDate,
             CoverImageGuid = albumModel.CoverImageGuid,
