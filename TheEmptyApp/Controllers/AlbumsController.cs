@@ -1,15 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TheEmptyApp.Dtos.Album;
 using TheEmptyApp.Interfaces;
 using TheEmptyApp.Mappers;
-using TheEmptyApp.Models;
+using TheEmptyApp.Data.Static;
 
 namespace TheEmptyApp.Controllers;
 
@@ -30,6 +24,11 @@ public class AlbumsController : ControllerBase {
     public async Task<IActionResult> GetAlbum([FromRoute] int id) {
         var a = await _ar.GetByIdAsync(id);
         return a == null ? NotFound() : Ok(a.ToAlbumDto());
+    }
+
+    [HttpGet("genres")]
+    public IActionResult GetGenres() {
+        return Ok(Genres.GenreList);
     }
 
     [HttpPost]

@@ -10,5 +10,7 @@ public class AlbumDto {
     public List<SongDto> Songs { get; set; } = [];
     public string ArtistName { get; set; } = string.Empty;
     public DateOnly? ReleaseDate { get; set; }
+    public string PrimaryGenre { get; set; } = string.Empty;
+    public string SecondaryGenre { get; set; } = string.Empty;
     public string CoverImageGuid { get; set; } = string.Empty;
 }

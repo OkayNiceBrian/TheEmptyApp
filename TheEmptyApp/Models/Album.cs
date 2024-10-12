@@ -11,5 +11,9 @@ public class Album {
 
     public DateOnly? ReleaseDate { get; set; }
     public ICollection<Song> Songs { get; set; } = [];
+
+    public string PrimaryGenre { get; set; } = string.Empty;
+    public string SecondaryGenre { get; set; } = string.Empty;
+
     public string CoverImageGuid { get; set; } = string.Empty;
 }
