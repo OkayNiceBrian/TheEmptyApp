@@ -10,10 +10,14 @@ const CreateAlbum = () => {
 
     const { token, logout } = useAuth();
 
+    const [loading, setLoading] = useState(true);
+    const [genres, setGenres] = useState([]);
     const [title, setTitle] = useState("");
     const [releaseDate, setReleaseDate] = useState("");
     const [coverFile, setCoverFile] = useState("");
     const [coverGuid, setCoverGuid] = useState("");
+    const [primaryGenre, setPrimaryGenre] = useState("");
+    const [secondaryGenre, setSecondaryGenre] = useState("");
     const [areFieldsFilled, setAreFieldsFilled] = useState(false);
     const [albumId, setAlbumId] = useState(0);
 
@@ -26,7 +30,24 @@ const CreateAlbum = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (title !== "" && releaseDate !== "" && coverFile !== "") {
+        if (loading) {
+            const url = apiHost + "/albums/genres";
+            fetch(url, {
+                method: "GET",
+                headers: { "Authorization": `Bearer ${token}` }
+            }).then(rsp => {
+                if (rsp.status === 401) logout();
+                return rsp.json();
+            }).then(data => {
+                setGenres(data);
+                setLoading(false);
+            }).catch(e => console.error(e));
+        }
+    })
+
+    useEffect(() => {
+        console.log(title + releaseDate + coverFile + primaryGenre);
+        if (title !== "" && releaseDate !== "" && coverFile !== "" && primaryGenre !== "" && songComponents.length > 0) {
             setAreFieldsFilled(true);
             for (let i = 0; i < songComponents.length; i++) {
                 const s = songComponents[i];
@@ -36,7 +57,7 @@ const CreateAlbum = () => {
                 }
             }
         }
-    }, [title, releaseDate, coverFile, songComponents]);
+    }, [title, releaseDate, coverFile, songComponents, primaryGenre]);
 
     useEffect(() => {
         if (isAlbumCreated) {
@@ -95,7 +116,7 @@ const CreateAlbum = () => {
                 console.error(e);
             }
         }
-    }, [areSongsUploading, songComponents, albumId, artistId, token, setIsAlbumCreated])
+    }, [areSongsUploading, songComponents, albumId, artistId, token, setIsAlbumCreated, logout])
 
     const getTodaysDate = () => {
         const currentDate = new Date();
@@ -135,6 +156,8 @@ const CreateAlbum = () => {
                     name: title,
                     artistId: parseInt(artistId),
                     releaseDate: releaseDate,
+                    primaryGenre: primaryGenre,
+                    secondaryGenre: secondaryGenre,
                     coverImageGuid: data.guid
                 })
             }).then(rsp => {
@@ -158,19 +181,33 @@ const CreateAlbum = () => {
         <div className="form-container">
             <p className="form-header">Create Album</p>
             <div className="input-container">
-                <p className="label-text">Album Title</p>
-                <input value={title} onChange={e => {setTitle(e.target.value)}}></input>
+                <label className="label-text">Album Title</label>
+                <input value={title} onChange={e => setTitle(e.target.value)}></input>
             </div>
             <div className="input-container">
-                <p className="label-text">Release Date</p>
+                <label className="label-text">Release Date</label>
                 <input type="date" value={releaseDate} max={getTodaysDate()} onChange={e => setReleaseDate(e.target.value)}/>
             </div>
             <div className="input-container">
-                <p className="label-text">Album Cover</p>
+                <label className="label-text">Album Cover</label>
                 <input type="file" onChange={e => setCoverFile(e.target.files[0])} style={{display: "flex"}}/>
             </div>
             <div className="input-container">
-                <p className="label-text">Songs</p>
+                <label className="label-text">Primary Genre</label>
+                <select onChange={e => setPrimaryGenre(e.target.value)}>
+                    {genres.map((genre, index) => <option key={index} value={genre}>{genre}</option>)}
+                    <option value=""></option>
+                </select>
+            </div>
+            <div className="input-container">
+                <label className="label-text">Secondary Genre</label>
+                <select onChange={e => setSecondaryGenre(e.target.value)}>
+                    {genres.map((genre, index) => <option key={index} value={genre}>{genre}</option>)}
+                    <option value="">None</option>
+                </select>
+            </div>
+            <div className="input-container">
+                <label className="label-text">Songs</label>
                 {songComponents.map((song, index) => <CreateSong key={index} i={index} songComponents={songComponents} setSongComponents={setSongComponents} />)}
                 <button onClick={addSongToCreate}>Add Song</button>
             </div>
