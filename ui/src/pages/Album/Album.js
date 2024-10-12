@@ -8,7 +8,7 @@ import "styles/Album.css";
 
 const Album = () => {
     const { artistId, albumId } = useParams();
-    const { token, userArtistId } = useAuth();
+    const { token, userArtistId, logout } = useAuth();
     const { playSong, queueSong } = useAudio();
 
     const [album, setAlbum] = useState();
@@ -26,7 +26,10 @@ const Album = () => {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
                 }
-            }).then(rsp => rsp.json())
+            }).then(rsp => {
+                if (rsp.status === 401) logout();
+                return rsp.json();
+            })
             .then(data => {
                 setAlbum(data);
                 setLoading(false);
@@ -42,9 +45,8 @@ const Album = () => {
                 "Authorization": `Bearer ${token}`
             }
         }).then(rsp => {
-            if (rsp.status === 204) {
-                navigate(`/artist/${artistId}`)
-            };
+            if (rsp.status === 401) logout();
+            if (rsp.status === 204) navigate(`/artist/${artistId}`);
         }).catch(e => console.error(e));
     }
 
@@ -89,7 +91,7 @@ const Album = () => {
     return (
         <div className="album-body">
             <div className="album-header-container">
-                <p className="album-header-text">{album.name}</p>
+                <p className="album-header-text">{album.name} - {album.artistName}</p>
             </div>
             {renderAlbum()}
         </div>

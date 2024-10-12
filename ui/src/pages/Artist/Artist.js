@@ -8,7 +8,7 @@ import "styles/Artist.css";
 const Artist = () => {
     const { artistId } = useParams();
 
-    const { token, userArtistId } = useAuth();
+    const { token, userArtistId, logout } = useAuth();
 
     const [isLoading, setIsLoading] = useState(true);
     const [artist, setArtist] = useState(null);
@@ -26,7 +26,10 @@ const Artist = () => {
                     "Authorization": "Bearer " + token
                 }
             })
-            .then((response) => response.json())
+            .then((rsp) => {
+                if (rsp.status === 401) logout();
+                return rsp.json();
+            })
             .then((data) => {
                 console.log(data);
                 setArtist(data);
@@ -37,7 +40,7 @@ const Artist = () => {
         if (isLoading) {
             fetchArtist();
         }
-    }, [artistId, isLoading, token]);
+    }, [artistId, isLoading, token, logout]);
 
     useEffect(() => {
         if (isDeleted) {
@@ -68,6 +71,7 @@ const Artist = () => {
                     "Authorization": "Bearer " + token
                 }
             }).then(rsp => {
+                if (rsp.status === 401) logout();
                 if (rsp.status === 204) setIsDeleted(true);
             });
         } catch (e) {

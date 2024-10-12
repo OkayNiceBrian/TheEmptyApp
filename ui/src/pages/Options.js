@@ -5,7 +5,7 @@ import { apiHost } from "config/host";
 import "styles/Options.css";
 
 const Options = () => {
-    const { token, email, setCurrentArtist, userArtistId } = useAuth();
+    const { token, email, setCurrentArtist, userArtistId, logout } = useAuth();
 
     const [artists, setArtists] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -21,7 +21,10 @@ const Options = () => {
                     "Authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify(email)
-            }).then(rsp => rsp.json())
+            }).then(rsp => {
+                if (rsp.status === 401) logout();
+                return rsp.json();
+            })
             .then(data => {
                 setArtists(data.artists);
                 setLoading(false);
@@ -30,7 +33,7 @@ const Options = () => {
     })
 
     if (loading) {
-        return (
+        return ( 
             <div className="options-container">
                 loading...
             </div>
@@ -39,6 +42,9 @@ const Options = () => {
 
     return (
         <div className="options-container">
+            <div className="options-header-container">
+                <h1>Options</h1>
+            </div>
             <Link className="link" to="/artist/create"><div className="options-field-container">
                 <label>Create New Artist</label>
             </div></Link>

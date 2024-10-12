@@ -8,7 +8,7 @@ import "styles/CreateForm.css";
 const CreateAlbum = () => {
     const { artistId } = useParams();
 
-    const { token } = useAuth();
+    const { token, logout } = useAuth();
 
     const [title, setTitle] = useState("");
     const [releaseDate, setReleaseDate] = useState("");
@@ -58,7 +58,10 @@ const CreateAlbum = () => {
                         "Authorization": "Bearer " + token,
                     },
                     body: audioData
-                }).then(rsp => rsp.json())
+                }).then(rsp => {
+                    if (rsp.status === 401) logout();
+                    return rsp.json();
+                })
                 .then(data => {
                     const song = {
                         name: songComponent.name,
@@ -115,6 +118,7 @@ const CreateAlbum = () => {
             },
             body: imageData
         }).then(rsp => {
+            if (rsp.status === 401) logout();
             if (rsp.ok) setHasCoverUploaded(true);
             return rsp.json();
         }).then(data => {

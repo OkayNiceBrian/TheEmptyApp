@@ -7,7 +7,7 @@ import { apiHost } from "config/host";
 const AudioPlayerContext = createContext();
 
 const AudioProvider = ({ children }) => {
-    const { token } = useAuth();
+    const { token, logout } = useAuth();
 
     // Audio State
     const [audioContext] = useState(new AudioContext());
@@ -76,6 +76,7 @@ const AudioProvider = ({ children }) => {
                     },
                     body: JSON.stringify(guidDto)
                 });
+                if (rsp.status === 401) logout();
                 const stream = rsp.body;
                 setAudioStream(stream);
             } catch (e) {

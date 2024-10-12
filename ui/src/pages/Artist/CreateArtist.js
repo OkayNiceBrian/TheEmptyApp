@@ -5,7 +5,7 @@ import { apiHost } from "config/host";
 import "styles/CreateForm.css";
 
 const CreateArtist = () => {
-    const { token, email } = useAuth();
+    const { token, email, logout } = useAuth();
 
     const [name, setName] = useState("");
     const [id, setId] = useState(null);
@@ -35,7 +35,10 @@ const CreateArtist = () => {
                 "Authorization": "Bearer " + token,
             },
             body: JSON.stringify(artist)
-        }).then(rsp => rsp.json())
+        }).then(rsp => {
+            if (rsp.status === 401) logout();
+            return rsp.json();
+        })
         .then(data => {
             if (data.id != null) {
                 console.log(data)
