@@ -38,6 +38,12 @@ const AudioProvider = ({ children }) => {
         setToPlay(true);
     }
 
+    const skipSong = () => {
+        if (trackQueue.length > 0) {
+            setToPlay(true);
+        }
+    }
+
     useEffect(function checkTracksQueued() {
         if (toPlay) {
             if (audioSource) {
@@ -131,9 +137,9 @@ const AudioProvider = ({ children }) => {
     
 
     return (
-        <AudioPlayerContext.Provider value={{queueSong, playSong, playAlbum}}>
+        <AudioPlayerContext.Provider value={{queueSong, playSong, playAlbum, skipSong}}>
             {children}
-            <AudioPlayer trackInfo={trackInfo} isVisible={isVisible} isPaused={isPaused} setIsPaused={setIsPaused} lastPlayedTrack={lastPlayedTrack} isPlaying={isPlaying} playSong={playSong}/>
+            <AudioPlayer trackInfo={trackInfo} isVisible={isVisible} isPaused={isPaused} setIsPaused={setIsPaused} lastPlayedTrack={lastPlayedTrack} isPlaying={isPlaying} playSong={playSong} skipSong={skipSong} queueLength={trackQueue.length}/>
         </AudioPlayerContext.Provider>
     );
 }

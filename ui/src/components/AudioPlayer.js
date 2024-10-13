@@ -2,7 +2,7 @@ import { PauseIcon, PlayCircle02Icon, PreviousIcon, VolumeHighIcon } from "hugei
 import { blobUrl } from "config/host";
 import "styles/AudioPlayer.css";
 
-const AudioPlayer = ({ trackInfo, isVisible, isPaused, setIsPaused, isPlayerLoading, lastPlayedTrack, isPlaying, playSong }) => {
+const AudioPlayer = ({ trackInfo, isVisible, isPaused, setIsPaused, isPlayerLoading, lastPlayedTrack, isPlaying, playSong, skipSong, queueLength }) => {
 
     const onClickPlay = () => {
         if (lastPlayedTrack && !isPlaying) {
@@ -21,12 +21,12 @@ const AudioPlayer = ({ trackInfo, isVisible, isPaused, setIsPaused, isPlayerLoad
                 </div>
             </div>
             <div className="audioPlayer-controls-container">
-                <PreviousIcon className={"audioPlayer-icon"} size={"30px"}/>
+                <PreviousIcon className={"audioPlayer-icon-inactive"} size={"30px"}/>
                 { !isPaused ? 
                     <PauseIcon onClick={() => setIsPaused(!isPaused)} className={"audioPlayer-icon"} size={"40px"}/> : 
                     <PlayCircle02Icon onClick={() => onClickPlay()} className={"audioPlayer-icon"} size={"40px"}/>
                 }
-                <PreviousIcon className={"audioPlayer-icon"} style={{rotate: "180deg"}} size={"30px"} />
+                <PreviousIcon className={queueLength > 0 ? "audioPlayer-icon" : "audioPlayer-icon-inactive"} style={{rotate: "180deg"}} size={"30px"} onClick={skipSong}/>
             </div>
             <div className="audioPlayer-volume-container">
                 <VolumeHighIcon />

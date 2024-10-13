@@ -16,6 +16,10 @@
     color:blue;
 }
 
+.audioPlayer-icon-inactive {
+    color: gray;
+}
+
 .audioPlayer-info-container {
     display: flex;
     flex-direction: row;
