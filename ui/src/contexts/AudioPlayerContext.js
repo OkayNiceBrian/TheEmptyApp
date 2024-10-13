@@ -33,6 +33,11 @@ const AudioProvider = ({ children }) => {
         setTrackQueue([...trackQueue, track])
     };
 
+    const playAlbum = (songList) => {
+        setTrackQueue([...songList]);
+        setToPlay(true);
+    }
+
     useEffect(function checkTracksQueued() {
         if (toPlay) {
             if (audioSource) {
@@ -126,7 +131,7 @@ const AudioProvider = ({ children }) => {
     
 
     return (
-        <AudioPlayerContext.Provider value={{queueSong, playSong}}>
+        <AudioPlayerContext.Provider value={{queueSong, playSong, playAlbum}}>
             {children}
             <AudioPlayer trackInfo={trackInfo} isVisible={isVisible} isPaused={isPaused} setIsPaused={setIsPaused} lastPlayedTrack={lastPlayedTrack} isPlaying={isPlaying} playSong={playSong}/>
         </AudioPlayerContext.Provider>

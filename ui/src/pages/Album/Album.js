@@ -9,7 +9,7 @@ import "styles/Album.css";
 const Album = () => {
     const { artistId, albumId } = useParams();
     const { token, userArtistId, logout } = useAuth();
-    const { playSong, queueSong } = useAudio();
+    const { playSong, queueSong, playAlbum } = useAudio();
 
     const [album, setAlbum] = useState();
     const [loading, setLoading] = useState(true);
@@ -50,12 +50,25 @@ const Album = () => {
         }).catch(e => console.error(e));
     }
 
+    const onClickPlayAlbum = (album) => {
+        const songList = album.songs.map(song => {
+            return {
+                artistName: album.artistName, 
+                albumName: album.name, 
+                songName: song.name, 
+                guid: song.audioFileGuid, 
+                coverImageGuid: album.coverImageGuid
+            }
+        });
+        playAlbum(songList);
+    }
+
     const renderAlbum = () => {
         return (
             <div className="album-container">
                 <div className="album-cover-container">
                     <img className="album-cover" src={blobUrl + "/" + album.coverImageGuid} alt={album.name}/>
-                    <PlayCircle02Icon className={"clickable-icon"} color={"cornflowerblue"} size={"100px"}/>
+                    <PlayCircle02Icon className={"clickable-icon"} color={"cornflowerblue"} size={"100px"} onClick={() => onClickPlayAlbum(album)}/>
                     <div className="album-header-items-container">
                         {userArtistId === artistId && <Edit02Icon className="clickable-icon" color={"green"} onClick={onClickDeleteAlbum}/>}
                         {userArtistId === artistId && <Delete04Icon className="clickable-icon" color={"red"} onClick={onClickDeleteAlbum}/>}
