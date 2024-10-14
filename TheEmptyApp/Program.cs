@@ -71,6 +71,7 @@ builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();
 builder.Services.AddScoped<IImageService, ImageService>();
 builder.Services.AddScoped<IAudioService, AudioService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IQueryService, QueryService>();
 
 var app = builder.Build();
 
