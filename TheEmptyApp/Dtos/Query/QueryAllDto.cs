@@ -1,7 +1,7 @@
 ﻿namespace TheEmptyApp.Dtos.Query;
 
 public class QueryAllDto {
-    public IEnumerable<QueryArtistDto> Artists = [];
-    public IEnumerable<QueryAlbumDto> Albums = [];
-    public IEnumerable<QuerySongDto> Songs = [];
+    public List<QueryArtistDto> Artists { get; set; } = [];
+    public List<QueryAlbumDto> Albums { get; set; } = [];
+    public List<QuerySongDto> Songs { get; set; } = [];
 }

@@ -6,6 +6,7 @@ import Layout from "pages/Layout";
 import Home from "pages/Home";
 import Artist from "pages/Artist/Artist";
 import Album from "pages/Album/Album";
+import Search from "pages/Search";
 import Options from "pages/Options";
 import Contact from "pages/Contact";
 import NoPage from "pages/NoPage";
@@ -32,6 +33,7 @@ function App() {
           <Route path="/artist/:artistId" element={<Artist/>}/>
           <Route path="/artist/:artistId/album/:albumId" element={<Album/>}/>
           <Route path="/artist/:artistId/album/create" element={<CreateAlbum/>}/>
+          <Route path="/search/:searchQuery" element={<Search/>}/>
           <Route path="/options" element={<Options/>}/>
           <Route path="/contact" element={<Contact/>}/>
           <Route path="/artist/create" element={<CreateArtist/>}/>

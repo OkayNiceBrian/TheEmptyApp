@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 using TheEmptyApp.Dtos.Query;
 using TheEmptyApp.Helpers;
 using TheEmptyApp.Interfaces;
@@ -35,10 +36,11 @@ public class QueryController : ControllerBase {
         var albums = await _qs.QueryAlbum(query.QueryString, 0, 5);
         var songs = await _qs.QuerySong(query.QueryString, 0, 5);
 
-        return Ok(new QueryAllDto {
-            Artists = artists.Select(a => a.ToQueryArtistDto()),
-            Albums = albums.Select(a => a.ToQueryAlbumDto()),
-            Songs = songs.Select(s => s.ToQuerySongDto())
-        });
+        var qad = new QueryAllDto {
+            Artists = artists.Select(a => a.ToQueryArtistDto()).ToList(),
+            Albums = albums.Select(a => a.ToQueryAlbumDto()).ToList(),
+            Songs = songs.Select(s => s.ToQuerySongDto()).ToList()
+        };
+        return Ok(qad);
     }
 }

@@ -20,7 +20,7 @@ const AudioProvider = ({ children }) => {
     const [lastPlayedTrack, setLastPlayedTrack] = useState(null);
 
     // AudioPlayer Component State
-    const [isVisible, setIsVisible] = useState(true);
+    const [isVisible, setIsVisible] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
     const [trackInfo, setTrackInfo] = useState({});
 
@@ -139,7 +139,7 @@ const AudioProvider = ({ children }) => {
     return (
         <AudioPlayerContext.Provider value={{queueSong, playSong, playAlbum, skipSong}}>
             {children}
-            <AudioPlayer trackInfo={trackInfo} isVisible={isVisible} isPaused={isPaused} setIsPaused={setIsPaused} lastPlayedTrack={lastPlayedTrack} isPlaying={isPlaying} playSong={playSong} skipSong={skipSong} queueLength={trackQueue.length}/>
+            {isVisible && <AudioPlayer trackInfo={trackInfo} isVisible={isVisible} isPaused={isPaused} setIsPaused={setIsPaused} lastPlayedTrack={lastPlayedTrack} isPlaying={isPlaying} playSong={playSong} skipSong={skipSong} queueLength={trackQueue.length}/>}
         </AudioPlayerContext.Provider>
     );
 }

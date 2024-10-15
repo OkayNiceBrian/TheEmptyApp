@@ -1,0 +1,21 @@
+.search-container {
+    display: flex;
+    flex-direction: column;
+    padding-left: 40px;
+}
+
+.search-all-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+}
+
+.search-all-container h2 {
+    text-decoration: underline;
+}
+
+.search-all-items-container ul {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
