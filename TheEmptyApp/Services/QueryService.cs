@@ -12,22 +12,20 @@ public class QueryService : IQueryService {
     public async Task<List<Artist>> QueryArtist(string queryString, int pagesToSkip, int itemsPerPage) {
         return await _ctx.Artists.Skip(pagesToSkip * itemsPerPage).Take(itemsPerPage)
             .Include(a => a.Albums)
-            .OrderBy(a => a.Name!.StartsWith(queryString))
             .ToListAsync();
     }
     public async Task<List<Album>> QueryAlbum(string queryString, int pagesToSkip, int itemsPerPage) {
         return await _ctx.Albums.Skip(pagesToSkip * itemsPerPage).Take(itemsPerPage)
             .Include(a => a.Artist)
             .Include(a => a.Songs)
-            .OrderBy(a => a.Name!.StartsWith(queryString))
             .OrderByDescending(a => a.ReleaseDate)
             .ToListAsync();
     }
     public async Task<List<Song>> QuerySong(string queryString, int pagesToSkip, int itemsPerPage) {
-        return await _ctx.Songs.Skip(pagesToSkip * itemsPerPage).Take(itemsPerPage)
+        return await _ctx.Songs.Where(s => s.Name!.ToLower().Contains(queryString.ToLower()))
+            .Skip(pagesToSkip * itemsPerPage).Take(itemsPerPage)
             .Include(s => s.Artist)
             .Include(s => s.Album)
-            .OrderBy(s => s.Name!.StartsWith(queryString))
             .OrderByDescending(s => s.Album!.ReleaseDate)
             .ToListAsync();
     }
