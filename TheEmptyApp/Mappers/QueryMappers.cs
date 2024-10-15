@@ -15,6 +15,7 @@ public static class QueryMappers {
         return new QueryAlbumDto {
             Id = album.Id,
             Name = album.Name!,
+            ArtistId = (int) album.ArtistId!,
             ArtistName = album.Artist?.Name!,
             SongCount = album.Songs.Count,
             AlbumCoverGuid = album.CoverImageGuid
@@ -24,7 +25,9 @@ public static class QueryMappers {
         return new QuerySongDto {
             Id = song.Id,
             Name = song.Name!,
+            ArtistId = (int) song.ArtistId!,
             ArtistName = song.Artist?.Name!,
+            AlbumId = (int) song.AlbumId!,
             AlbumName = song.Album?.Name!,
         };
     }

@@ -19,3 +19,7 @@
     flex-direction: row;
     gap: 30px;
 }
+
+.search-all-items-container li {
+    background-color: black;
+}
