@@ -20,6 +20,43 @@
     gap: 30px;
 }
 
-.search-all-items-container li {
-    background-color: black;
+.search-all-items-container p {
+    color: white;
+}
+
+.search-song-item {
+    background-color: #101010;
+    border: gray 1px solid;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    min-width: 110px;
+}
+
+.search-album-item {
+    background-color: #101010;
+    border: gray 1px solid;
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+    gap: 10px;
+}
+
+.search-album-cover {
+    width: 100px;
+}
+
+.search-album-item-content {
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+}
+
+.search-artist-item {
+    background-color: #101010;
+    border: gray 1px solid;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    min-width: 110px;
 }

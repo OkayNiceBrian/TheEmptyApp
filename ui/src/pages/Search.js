@@ -1,7 +1,7 @@
-import { apiHost } from "config/host";
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useAuth } from "contexts/AuthContext";
+import { apiHost, blobUrl } from "config/host";
 import "styles/Search.css";
 
 const Search = () => {
@@ -46,8 +46,8 @@ const Search = () => {
         return songs.map(song => {
             return <Link key={song.id} to={`/artist/${song.artistId}/album/${song.albumId}`} className="link">
                 <li className="search-song-item">
-                    <p>{song.name}</p>
-                    <p>{song.artistName}</p>
+                    <h3>{song.name}</h3>
+                    <p>by {song.artistName}</p>
                     <p>{song.albumName}</p>
                 </li>
             </Link>
@@ -58,19 +58,23 @@ const Search = () => {
         return albums.map(album => {
             return <Link key={album.id} to={`/artist/${album.artistId}/album/${album.id}`} className="link">
                 <li className="search-album-item">
-                    <p>{album.name}</p>
-                    <p>{album.artistName}</p>
-                    <p>Songs: {album.songCount}</p>
+                    <img className="search-album-cover" src={`${blobUrl}/${album.albumCoverGuid}`} alt={album.name}/>
+                    <div className="search-album-item-content">
+                        <h3>{album.name}</h3>
+                        <p>{album.artistName}</p>
+                        <p>Songs: {album.songCount}</p>
+                    </div>
                 </li>
             </Link>
         })
     }
 
+    
     const renderArtists = (artists) => {
         return artists.map(artist => {
             return <Link key={artist.id} to={`/artist/${artist.id}`} className="link">
                 <li className="search-artist-item">
-                    <p>{artist.name}</p>
+                    <h3>{artist.name}</h3>
                     <p>Albums: {artist.albumCount}</p>
                 </li>
             </Link>
