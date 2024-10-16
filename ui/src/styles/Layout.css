@@ -26,6 +26,13 @@
     height: 60px;
 }
 
+.search-bar {
+    display: flex;
+    width: 200px;
+    height: 100%;
+    background-color: aliceblue;
+}
+
 .nav-list {
     display: flex;
     flex-direction: row;
