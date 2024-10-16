@@ -90,6 +90,7 @@ const Album = () => {
                 <p className="album-song-text">{album.name}</p>
                 <p className="album-song-text">{album.artistName}</p>
                 <p className="album-song-text">3:23</p>
+                <p className="album-song-text">Plays: {song.listens}</p>
                 <Queue02Icon className={"clickable-icon"} color={"green"} size={"20px"} onClick={() => queueSong({artistName: album.artistName, albumName: album.name, songName: song.name, guid: song.audioFileGuid, coverImageGuid: album.coverImageGuid})}/>
             </li>
         );

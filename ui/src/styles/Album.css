@@ -22,7 +22,6 @@
     flex-direction: row;
     justify-content: flex-start;
     background-color: #101010;
-    width: 90%;
     margin-bottom: 50px;
 }
 
@@ -64,7 +63,7 @@
 .album-song-container-grid {
     background-color: #101010;
     display: grid;
-    grid-template-columns: 3vw 3vw 18vw 12vw 10vw 6vw 3vw;
+    grid-template-columns: 3vw 3vw 18vw 12vw 10vw 6vw 6vw 3vw;
     align-items: center;
     border-color: gray;
     border-style: solid;

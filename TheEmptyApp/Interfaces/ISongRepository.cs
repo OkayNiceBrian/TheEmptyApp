@@ -4,6 +4,7 @@ using TheEmptyApp.Models;
 namespace TheEmptyApp.Interfaces;
 
 public interface ISongRepository {
+    Task<bool> AddListen(string guid);
     Task<List<Song>> GetAllAsync();
     Task<Song?> GetByIdAsync(int id);
     Task<Song> CreateAsync(Song songModel);

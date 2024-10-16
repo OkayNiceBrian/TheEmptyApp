@@ -15,6 +15,16 @@ public class SongRepository : ISongRepository {
         _as = auds;
     }
 
+    public async Task<bool> AddListen(string guid) {
+        var s = await _ctx.Songs.FirstOrDefaultAsync(s => s.AudioFileGuid == guid);
+        if (s == null)
+            return false;
+
+        s.Listens++;
+        await _ctx.SaveChangesAsync();
+        return true;
+    }
+
     public async Task<List<Song>> GetAllAsync() {
         return await _ctx.Songs.ToListAsync();
     }

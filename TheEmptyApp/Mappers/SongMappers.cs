@@ -12,6 +12,7 @@ public static class SongMappers {
             TrackNum = songModel.TrackNum,
             ArtistId = songModel.ArtistId,
             AlbumId = songModel.AlbumId,
+            Listens = songModel.Listens,
             AudioFileGuid = songModel.AudioFileGuid
         };
     }

@@ -13,9 +13,11 @@ namespace TheEmptyApp.Controllers;
 public class FilesController : ControllerBase {
     readonly IImageService _is;
     readonly IAudioService _as;
-    public FilesController(IImageService imageService, IAudioService audioService) {
+    readonly ISongRepository _sr;
+    public FilesController(IImageService imageService, IAudioService audioService, ISongRepository sr) {
         _is = imageService;
         _as = audioService;
+        _sr = sr;
     }
 
     [HttpPost("images")]
@@ -33,6 +35,7 @@ public class FilesController : ControllerBase {
     [HttpPost("audio/stream")]
     public async Task<IActionResult> StreamAudio([FromBody] FileGuidDto guidDto) {
         var s = await _as.StreamAudioFromStorage(guidDto.Guid!);
+        await _sr.AddListen(guidDto.Guid!);
         return Ok(s);
     }
 }

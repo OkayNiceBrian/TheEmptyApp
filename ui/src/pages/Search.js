@@ -49,6 +49,7 @@ const Search = () => {
                     <h3>{song.name}</h3>
                     <p>by {song.artistName}</p>
                     <p>{song.albumName}</p>
+                    <p>Plays: {song.listens}</p>
                 </li>
             </Link>
         })

@@ -29,6 +29,7 @@ public static class QueryMappers {
             ArtistName = song.Artist?.Name!,
             AlbumId = (int) song.AlbumId!,
             AlbumName = song.Album?.Name!,
+            Listens = (uint) song.Listens!,
         };
     }
 }
