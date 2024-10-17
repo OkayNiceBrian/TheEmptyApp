@@ -5,6 +5,7 @@ public class Song {
     public string? Name { get; set; }
     public int? TrackNum { get; set; }
     public uint? Listens { get; set; } = 0;
+    public List<User> LikedByUsers { get; } = [];
 
     public int? ArtistId { get; set; }
     public Artist? Artist { get; set; }

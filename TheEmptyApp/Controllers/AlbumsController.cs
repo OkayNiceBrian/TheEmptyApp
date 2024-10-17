@@ -4,6 +4,9 @@ using TheEmptyApp.Dtos.Album;
 using TheEmptyApp.Interfaces;
 using TheEmptyApp.Mappers;
 using TheEmptyApp.Data.Static;
+using System.Security.Claims;
+using TheEmptyApp.Dtos.Song;
+using TheEmptyApp.Models;
 
 namespace TheEmptyApp.Controllers;
 
@@ -22,8 +25,21 @@ public class AlbumsController : ControllerBase {
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetAlbum([FromRoute] int id) {
+        var u = User.Identity as ClaimsIdentity;
+        if (u == null)
+            return NotFound();
+
+        var uid = u.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+
         var a = await _ar.GetByIdAsync(id);
-        return a == null ? NotFound() : Ok(a.ToAlbumDto());
+        if (a == null) return NotFound();
+        var aDto = a.ToAlbumDto();
+        foreach (Song s in a.Songs) {
+            if (s.LikedByUsers.Select(u => u.Id).Contains(uid)) {
+                aDto.Songs.FirstOrDefault(sDto => sDto.Id == s.Id)!.isLikedByUser = true;
+            }
+        }
+        return Ok(aDto);
     }
 
     [HttpGet("genres")]

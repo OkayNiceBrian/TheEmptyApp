@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using TheEmptyApp.Data;
 using TheEmptyApp.Dtos.Song;
 using TheEmptyApp.Interfaces;
@@ -9,10 +11,12 @@ namespace TheEmptyApp.Repository;
 
 public class SongRepository : ISongRepository {
     readonly ApplicationDbContext _ctx;
+    readonly UserManager<User> _um;
     readonly IAudioService _as;
-    public SongRepository(ApplicationDbContext ctx, IAudioService auds) {
+    public SongRepository(ApplicationDbContext ctx, IAudioService auds, UserManager<User> um) {
         _ctx = ctx;
         _as = auds;
+        _um = um;
     }
 
     public async Task<bool> AddListen(string guid) {
@@ -29,6 +33,17 @@ public class SongRepository : ISongRepository {
         return await _ctx.Songs.ToListAsync();
     }
 
+    public async Task<List<Song>> GetLikesAsync(ClaimsPrincipal user) {
+        var u = await _um.GetUserAsync(user);
+
+        return await _ctx.Songs
+            .Include(s => s.Album)
+            .Include(s => s.Artist)
+            .Include(s => s.LikedByUsers)
+            .Where(s => s.LikedByUsers.Contains(u!))
+            .ToListAsync();
+    }
+
     public async Task<Song?> GetByIdAsync(int id) {
         return await _ctx.Songs.FindAsync(id);
     }
@@ -43,6 +58,15 @@ public class SongRepository : ISongRepository {
         if (sm == null) return null;
 
         sm.UpdateModelFromDto(songDto);
+        await _ctx.SaveChangesAsync();
+        return sm;
+    }
+
+    public async Task<Song?> LikeSong(int id, ClaimsPrincipal user) {
+        var sm = await _ctx.Songs.FirstOrDefaultAsync(s => s.Id == id);
+        var u = await _um.GetUserAsync(user);
+        if (sm == null || u == null) return null;
+        sm.LikedByUsers.Add(u);
         await _ctx.SaveChangesAsync();
         return sm;
     }

@@ -17,6 +17,21 @@ public static class SongMappers {
         };
     }
 
+    public static LikedSongDto ToLikedSongDto(this Song songModel) {
+        return new LikedSongDto {
+            Id = songModel.Id,
+            Name = songModel.Name,
+            TrackNum = songModel.TrackNum,
+            ArtistId = songModel.ArtistId,
+            ArtistName = songModel.Artist!.Name!,
+            AlbumId = songModel.AlbumId,
+            AlbumName = songModel.Album!.Name!,
+            Listens = songModel.Listens,
+            AudioFileGuid = songModel.AudioFileGuid,
+            CoverImageGuid = songModel.Album.CoverImageGuid,
+        };
+    }
+
     public static Song ToSongFromCreateDto(this CreateSongDto songDto) {
         return new Song {
             Name = songDto.Name,

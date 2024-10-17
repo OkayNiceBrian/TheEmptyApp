@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { PlayCircle02Icon, Edit02Icon, Delete04Icon, Queue02Icon } from "hugeicons-react";
+import { PlayCircle02Icon, Edit02Icon, Delete04Icon, Queue02Icon, StarIcon, StarCircleIcon } from "hugeicons-react";
 import { useAuth } from "contexts/AuthContext";
 import { useAudio } from "contexts/AudioPlayerContext";
 import { apiHost, blobUrl } from "config/host";
@@ -29,11 +29,10 @@ const Album = () => {
             }).then(rsp => {
                 if (rsp.status === 401) logout();
                 return rsp.json();
-            })
-            .then(data => {
+            }).then(data => {
                 setAlbum(data);
                 setLoading(false);
-            }).catch((e) => console.error(e));
+            }).catch(e => console.error(e));
         }
     })
 
@@ -89,11 +88,27 @@ const Album = () => {
                 <p className="album-song-title-text">{song.name}</p>
                 <p className="album-song-text">{album.name}</p>
                 <p className="album-song-text">{album.artistName}</p>
+                {!song.isLikedByUser ? <StarIcon className={"clickable-icon"} color={"white"} size={"20px"} onClick={() => likeSong(song)}/> : <StarCircleIcon color={"yellow"} size={"20px"}/>}
                 <p className="album-song-text">3:23</p>
                 <p className="album-song-text">Plays: {song.listens}</p>
                 <Queue02Icon className={"clickable-icon"} color={"green"} size={"20px"} onClick={() => queueSong({artistName: album.artistName, albumName: album.name, songName: song.name, guid: song.audioFileGuid, coverImageGuid: album.coverImageGuid})}/>
             </li>
         );
+    }
+
+    const likeSong = (song) => {
+        const url = `${apiHost}/songs/like/${song.id}`;
+        fetch(url, {
+            method: "PUT",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }).then(rsp => {
+            if (rsp === 401) logout();
+            return rsp.json();
+        }).then(data => {
+            setAlbum(Object.assign({}, album, {songs: album.songs.map(s => s.id === song.id ? data: s)}));
+        }).catch(e => console.error(e));
     }
 
     if (loading) return (

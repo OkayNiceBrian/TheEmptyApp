@@ -34,6 +34,7 @@ const AuthProvider = ({ children }) => {
         localStorage.removeItem("email");
         localStorage.removeItem("username");
         localStorage.removeItem("userArtistId");
+        window.location.reload(false);
     }
 
     const setCurrentArtist = (artistId) => {

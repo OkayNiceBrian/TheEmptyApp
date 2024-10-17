@@ -32,5 +32,10 @@
 }
 
 .link label:hover {
+    background-color: slateblue;
     cursor: pointer;
+}
+
+.link .options-field-container:hover {
+    background-color: slateblue;
 }

@@ -24,8 +24,10 @@ public class AlbumRepository : IAlbumRepository {
     }
 
     public async Task<Album?> GetByIdAsync(int id) {
-        return await _ctx.Albums.Include(a => a.Songs)
+        return await _ctx.Albums
             .Include(a => a.Artist)
+            .Include(a => a.Songs)
+            .ThenInclude(s => s.LikedByUsers)
             .FirstOrDefaultAsync(a => a.Id == id);
     }
 
