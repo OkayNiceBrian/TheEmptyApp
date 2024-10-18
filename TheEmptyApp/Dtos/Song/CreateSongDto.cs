@@ -7,5 +7,6 @@ public class CreateSongDto {
     public int? ArtistId { get; set; }
     public int? AlbumId { get; set; }
     public int? TrackNum { get; set; }
+    public float? Duration { get; set; }
     public string? AudioFileGuid { get; set; }
 }
