@@ -4,6 +4,7 @@ import { PlayCircle02Icon, Edit02Icon, Delete04Icon, Queue02Icon, StarIcon, Star
 import { useAuth } from "contexts/AuthContext";
 import { useAudio } from "contexts/AudioPlayerContext";
 import { apiHost, blobUrl } from "config/host";
+import { convertDuration } from "helpers/Util";
 import "styles/Album.css";
 
 const Album = () => {
@@ -50,16 +51,19 @@ const Album = () => {
     }
 
     const onClickPlayAlbum = (album) => {
-        const songList = album.songs.map(song => {
-            return {
-                artistName: album.artistName, 
-                albumName: album.name, 
-                songName: song.name, 
-                guid: song.audioFileGuid, 
-                coverImageGuid: album.coverImageGuid
-            }
-        });
+        const songList = album.songs.map(song => convertSongInfo(song));
         playAlbum(songList);
+    }
+
+    const convertSongInfo = (song) => {
+        return {
+            artistName: song.artistName,
+            albumName: song.albumName,
+            songName: song.name,
+            duration: song.duration,
+            guid: song.audioFileGuid, 
+            coverImageGuid: song.coverImageGuid
+        }
     }
 
     const renderAlbum = () => {
@@ -84,22 +88,16 @@ const Album = () => {
         return album.songs.map((song, index) => 
             <li key={song.id} className="album-song-container-grid" style={{borderTopWidth: index === 0 ? "1px" : 0}}>
                 <p className="album-song-text">{song.trackNum}</p>
-                <PlayCircle02Icon className={"clickable-icon"} color={"cornflowerblue"} onClick={() => playSong({artistName: album.artistName, albumName: album.name, songName: song.name, guid: song.audioFileGuid, coverImageGuid: album.coverImageGuid})}/>
+                <PlayCircle02Icon className={"clickable-icon"} color={"cornflowerblue"} onClick={() => playSong(convertSongInfo(song))}/>
                 <p className="album-song-title-text">{song.name}</p>
                 <p className="album-song-text">{album.name}</p>
                 <p className="album-song-text">{album.artistName}</p>
                 {!song.isLikedByUser ? <StarIcon className={"clickable-icon"} color={"white"} size={"20px"} onClick={() => likeSong(song)}/> : <StarCircleIcon color={"yellow"} size={"20px"}/>}
                 <p className="album-song-text">{convertDuration(song.duration)}</p>
                 <p className="album-song-text">Plays: {song.listens}</p>
-                <Queue02Icon className={"clickable-icon"} color={"green"} size={"20px"} onClick={() => queueSong({artistName: album.artistName, albumName: album.name, songName: song.name, guid: song.audioFileGuid, coverImageGuid: album.coverImageGuid})}/>
+                <Queue02Icon className={"clickable-icon"} color={"green"} size={"20px"} onClick={() => queueSong(convertSongInfo(song))}/>
             </li>
         );
-    }
-
-    const convertDuration = (f_duration) => {
-        const minutes = f_duration / 60;
-        const seconds = f_duration % 60;
-        return `${minutes.toString().split('.')[0]}:${seconds.toString().split('.')[0]}`;
     }
 
     const likeSong = (song) => {

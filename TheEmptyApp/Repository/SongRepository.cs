@@ -30,7 +30,10 @@ public class SongRepository : ISongRepository {
     }
 
     public async Task<List<Song>> GetAllAsync() {
-        return await _ctx.Songs.ToListAsync();
+        return await _ctx.Songs
+            .Include(s => s.Album)
+            .Include(s => s.Artist)
+            .ToListAsync();
     }
 
     public async Task<List<Song>> GetLikesAsync(ClaimsPrincipal user) {
@@ -45,7 +48,10 @@ public class SongRepository : ISongRepository {
     }
 
     public async Task<Song?> GetByIdAsync(int id) {
-        return await _ctx.Songs.FindAsync(id);
+        return await _ctx.Songs
+            .Include(s => s.Album)
+            .Include(s => s.Artist)
+            .FirstOrDefaultAsync(s => s.Id == id);
     }
 
     public async Task<Song> CreateAsync(Song songModel) {

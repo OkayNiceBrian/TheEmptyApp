@@ -133,7 +133,6 @@ const AudioProvider = ({ children }) => {
             }
         }
     }, [isPaused, audioSource])
-    
 
     return (
         <AudioPlayerContext.Provider value={{queueSong, playSong, playAlbum, skipSong}}>

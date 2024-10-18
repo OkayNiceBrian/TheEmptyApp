@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { PauseIcon, PlayCircle02Icon, PreviousIcon, VolumeHighIcon } from "hugeicons-react";
 import { blobUrl } from "config/host";
+import { convertDuration } from 'helpers/Util';
 import "styles/AudioPlayer.css";
 
 const AudioPlayer = ({ trackInfo, isVisible, isPaused, setIsPaused, isPlayerLoading, lastPlayedTrack, isPlaying, playSong, skipSong, queueLength }) => {
+    const [currentTime, setCurrentTime] = useState(0);
 
     const onClickPlay = () => {
         if (lastPlayedTrack && !isPlaying) {
@@ -29,6 +32,7 @@ const AudioPlayer = ({ trackInfo, isVisible, isPaused, setIsPaused, isPlayerLoad
                 <PreviousIcon className={queueLength > 0 ? "audioPlayer-icon" : "audioPlayer-icon-inactive"} style={{rotate: "180deg"}} size={"30px"} onClick={skipSong}/>
             </div>
             <div className="audioPlayer-volume-container">
+                <p>{currentTime}/{convertDuration(trackInfo.duration)}</p>
                 <VolumeHighIcon />
                 <div className="audioPlayer-volume-slider"/>
             </div>

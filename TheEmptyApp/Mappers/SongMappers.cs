@@ -12,9 +12,12 @@ public static class SongMappers {
             TrackNum = songModel.TrackNum,
             Duration = songModel.Duration,
             ArtistId = songModel.ArtistId,
+            ArtistName = songModel.Artist!.Name!,
             AlbumId = songModel.AlbumId,
+            AlbumName = songModel.Album!.Name!,
             Listens = songModel.Listens,
-            AudioFileGuid = songModel.AudioFileGuid
+            AudioFileGuid = songModel.AudioFileGuid,
+            CoverImageGuid = songModel.Album!.CoverImageGuid,
         };
     }
 
