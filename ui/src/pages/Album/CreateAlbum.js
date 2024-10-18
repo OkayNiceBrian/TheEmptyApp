@@ -91,7 +91,6 @@ const CreateAlbum = () => {
                         duration: parseFloat(songComponent.duration),
                         audioFileGuid: data.guid
                     };
-                    console.log(song);
                     fetch(songUrl, {
                         method: "POST",
                         headers: {

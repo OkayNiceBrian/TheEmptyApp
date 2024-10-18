@@ -21,7 +21,6 @@ const CreateArtist = () => {
     }, [isCreated, id, navigate]);
 
     const onClickSubmit = () => {
-        console.log(token);
         const artist = {
             name: name,
             email: email
@@ -41,11 +40,10 @@ const CreateArtist = () => {
         })
         .then(data => {
             if (data.id != null) {
-                console.log(data)
                 setId(data.id)
                 setIsCreated(true);
             }
-        }).catch(e => console.log(e));
+        }).catch(e => console.error(e));
     }
 
     return (

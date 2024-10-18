@@ -58,7 +58,6 @@ const AudioProvider = ({ children }) => {
     useEffect(function onAudioEnd() {
         if (audioSource) {
             audioSource.onended = (e) => {
-                console.log("onended");
                 if (trackQueue.length > 0) {
                     setIsPaused(false);
                     setPlayNextTrack(true);

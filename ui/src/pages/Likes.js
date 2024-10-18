@@ -25,7 +25,6 @@ const Likes = () => {
                 return rsp.json();
             }).then(data => {
                 setSongs(data);
-                console.log(data);
                 setLoading(false);
             }).catch(e => console.error(e));
         }

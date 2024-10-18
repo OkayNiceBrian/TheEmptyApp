@@ -38,7 +38,6 @@ const AuthProvider = ({ children }) => {
     }
 
     const setCurrentArtist = (artistId) => {
-        console.log(artistId)
         if (artistId) {
             setUserArtistId(artistId);
             localStorage.setItem("userArtistId", artistId);

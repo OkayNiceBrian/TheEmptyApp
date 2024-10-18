@@ -31,7 +31,6 @@ const Artist = () => {
                 return rsp.json();
             })
             .then((data) => {
-                console.log(data);
                 setArtist(data);
                 setIsLoading(false);
             }).catch(e => console.error(e));
@@ -49,7 +48,6 @@ const Artist = () => {
     }, [isDeleted, navigate])
 
     const onClickAlbum = (id) => {
-        console.log("asdf");
         navigate(`/artist/${artistId}/album/${id}`);
     }
 
