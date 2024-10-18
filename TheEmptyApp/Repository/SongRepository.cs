@@ -69,7 +69,7 @@ public class SongRepository : ISongRepository {
     }
 
     public async Task<Song?> LikeSong(int id, ClaimsPrincipal user) {
-        var sm = await _ctx.Songs.FirstOrDefaultAsync(s => s.Id == id);
+        var sm = await _ctx.Songs.Include(s => s.Album).Include(s => s.Artist).FirstOrDefaultAsync(s => s.Id == id);
         var u = await _um.GetUserAsync(user);
         if (sm == null || u == null) return null;
         sm.LikedByUsers.Add(u);

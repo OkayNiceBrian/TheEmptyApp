@@ -32,6 +32,7 @@ public static class SongMappers {
             AlbumId = songModel.AlbumId,
             AlbumName = songModel.Album!.Name!,
             Listens = songModel.Listens,
+            isLikedByUser = true,
             AudioFileGuid = songModel.AudioFileGuid,
             CoverImageGuid = songModel.Album.CoverImageGuid,
         };

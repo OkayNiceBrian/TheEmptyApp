@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { PlayCircle02Icon, Edit02Icon, Delete04Icon, Queue02Icon, StarIcon, StarCircleIcon } from "hugeicons-react";
+import { PlayCircle02Icon, Edit02Icon, Delete04Icon } from "hugeicons-react";
 import { useAuth } from "contexts/AuthContext";
 import { useAudio } from "contexts/AudioPlayerContext";
+import SongList from "components/SongList";
 import { apiHost, blobUrl } from "config/host";
-import { convertDuration } from "helpers/Util";
+import { convertSongInfo } from "helpers/Util";
 import "styles/Album.css";
 
 const Album = () => {
     const { artistId, albumId } = useParams();
     const { token, userArtistId, logout } = useAuth();
-    const { playSong, queueSong, playAlbum } = useAudio();
+    const { playAlbum } = useAudio();
 
     const [album, setAlbum] = useState();
     const [loading, setLoading] = useState(true);
@@ -55,17 +56,6 @@ const Album = () => {
         playAlbum(songList);
     }
 
-    const convertSongInfo = (song) => {
-        return {
-            artistName: song.artistName,
-            albumName: song.albumName,
-            songName: song.name,
-            duration: song.duration,
-            guid: song.audioFileGuid, 
-            coverImageGuid: song.coverImageGuid
-        }
-    }
-
     const renderAlbum = () => {
         return (
             <div className="album-container">
@@ -77,42 +67,9 @@ const Album = () => {
                         {userArtistId === artistId && <Delete04Icon className="clickable-icon" color={"red"} onClick={onClickDeleteAlbum}/>}
                     </div>
                 </div> 
-                <ul className="album-songs-container">
-                    {renderSongs(album)}
-                </ul>
+                <SongList songList={album.songs}/>
             </div>
         );
-    }
-
-    const renderSongs = (album) => {
-        return album.songs.map((song, index) => 
-            <li key={song.id} className="album-song-container-grid" style={{borderTopWidth: index === 0 ? "1px" : 0}}>
-                <p className="album-song-text">{song.trackNum}</p>
-                <PlayCircle02Icon className={"clickable-icon"} color={"cornflowerblue"} onClick={() => playSong(convertSongInfo(song))}/>
-                <p className="album-song-title-text">{song.name}</p>
-                <p className="album-song-text">{album.name}</p>
-                <p className="album-song-text">{album.artistName}</p>
-                {!song.isLikedByUser ? <StarIcon className={"clickable-icon"} color={"white"} size={"20px"} onClick={() => likeSong(song)}/> : <StarCircleIcon color={"yellow"} size={"20px"}/>}
-                <p className="album-song-text">{convertDuration(song.duration)}</p>
-                <p className="album-song-text">Plays: {song.listens}</p>
-                <Queue02Icon className={"clickable-icon"} color={"green"} size={"20px"} onClick={() => queueSong(convertSongInfo(song))}/>
-            </li>
-        );
-    }
-
-    const likeSong = (song) => {
-        const url = `${apiHost}/songs/like/${song.id}`;
-        fetch(url, {
-            method: "PUT",
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
-        }).then(rsp => {
-            if (rsp === 401) logout();
-            return rsp.json();
-        }).then(data => {
-            setAlbum(Object.assign({}, album, {songs: album.songs.map(s => s.id === song.id ? data: s)}));
-        }).catch(e => console.error(e));
     }
 
     if (loading) return (
