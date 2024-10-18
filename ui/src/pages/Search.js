@@ -16,6 +16,10 @@ const Search = () => {
     const [allData, setAllData] = useState(null);
 
     useEffect(() => {
+        setLoading(true);
+    }, [searchQuery])
+
+    useEffect(() => {
         if (loading) {
             const url = `${apiHost}/query`;
             const query = {

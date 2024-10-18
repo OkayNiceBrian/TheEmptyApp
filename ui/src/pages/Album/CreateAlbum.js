@@ -46,12 +46,11 @@ const CreateAlbum = () => {
     })
 
     useEffect(() => {
-        console.log(title + releaseDate + coverFile + primaryGenre);
         if (title !== "" && releaseDate !== "" && coverFile !== "" && primaryGenre !== "" && songComponents.length > 0) {
             setAreFieldsFilled(true);
             for (let i = 0; i < songComponents.length; i++) {
                 const s = songComponents[i];
-                if (s.name === "" || s.trackNum === 0 || s.file == {}) {
+                if (s.name === "" || s.trackNum === 0 || s.file.name == null) {
                     setAreFieldsFilled(false);
                     break;
                 }
@@ -89,6 +88,7 @@ const CreateAlbum = () => {
                         artistId: parseInt(artistId),
                         albumId: parseInt(albumId),
                         trackNum: parseInt(songComponent.trackNum),
+                        duration: parseFloat(songComponent.duration),
                         audioFileGuid: data.guid
                     };
                     console.log(song);

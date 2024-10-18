@@ -41,7 +41,7 @@ const Likes = () => {
                     <p className="likes-song-text">{song.albumName}</p>
                     <p className="likes-song-text">{song.artistName}</p>
                     <StarCircleIcon color={"yellow"} size={"20px"}/>
-                    <p className="likes-song-text">3:23</p>
+                    <p className="likes-song-text">{song.duration}</p>
                     <p className="likes-song-text">Plays: {song.listens}</p>
                     <Queue02Icon className={"clickable-icon"} color={"green"} size={"20px"} onClick={() => queueSong({artistName: song.artistName, albumName: song.albumName, songName: song.name, guid: song.audioFileGuid, coverImageGuid: song.coverImageGuid})}/>
                 </li>

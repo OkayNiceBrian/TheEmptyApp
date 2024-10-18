@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import "styles/CreateForm.css";
 
 const CreateSong = ({i, songComponents, setSongComponents}) => {
@@ -9,10 +8,23 @@ const CreateSong = ({i, songComponents, setSongComponents}) => {
         }))
     }
 
-    const assignFile = (e) => {
-        setSongComponents(songComponents.map((song, index) => {
-            return i === index ? Object.assign({}, song, {file: e.target.files[0], trackNum: i + 1}) : song
-        }));
+    const assignFile = async (e) => {
+        await readFile(e.target.files[0]);
+    }
+
+    const readFile = async (file) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const audio = new Audio();
+            audio.src = e.target.result;
+            audio.onloadedmetadata = () => {
+                setSongComponents(songComponents.map((song, index) => {
+                    return i === index ? Object.assign({}, song, {file: file, trackNum: i + 1, duration: audio.duration}) : song
+                }));
+            };
+            audio.onerror = (e) => console.error(e);
+        }
+        reader.readAsDataURL(file);
     }
 
     return (

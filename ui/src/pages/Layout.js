@@ -13,7 +13,6 @@ const Layout = () => {
     const trySearch = (key) => {
         if (key === "Enter" && searchQuery !== "") {
             navigate(`/search/${searchQuery}`);
-            window.location.reload();
         }
     }
 

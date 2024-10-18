@@ -89,11 +89,17 @@ const Album = () => {
                 <p className="album-song-text">{album.name}</p>
                 <p className="album-song-text">{album.artistName}</p>
                 {!song.isLikedByUser ? <StarIcon className={"clickable-icon"} color={"white"} size={"20px"} onClick={() => likeSong(song)}/> : <StarCircleIcon color={"yellow"} size={"20px"}/>}
-                <p className="album-song-text">3:23</p>
+                <p className="album-song-text">{convertDuration(song.duration)}</p>
                 <p className="album-song-text">Plays: {song.listens}</p>
                 <Queue02Icon className={"clickable-icon"} color={"green"} size={"20px"} onClick={() => queueSong({artistName: album.artistName, albumName: album.name, songName: song.name, guid: song.audioFileGuid, coverImageGuid: album.coverImageGuid})}/>
             </li>
         );
+    }
+
+    const convertDuration = (f_duration) => {
+        const minutes = f_duration / 60;
+        const seconds = f_duration % 60;
+        return `${minutes.toString().split('.')[0]}:${seconds.toString().split('.')[0]}`;
     }
 
     const likeSong = (song) => {
