@@ -4,7 +4,7 @@ import { blobUrl } from "config/host";
 import { convertDuration } from 'helpers/Util';
 import "styles/AudioPlayer.css";
 
-const AudioPlayer = ({ trackInfo, isVisible, isPaused, setIsPaused, isPlayerLoading, lastPlayedTrack, isPlaying, playSong, skipSong, queueLength }) => {
+const AudioPlayer = ({ trackInfo, isVisible, isPaused, setIsPaused, isPlayerLoading, lastPlayedTrack, isPlaying, playSong, skipSong, queueLength, volume, setVolume }) => {
     const [currentTime, setCurrentTime] = useState(0);
 
     const onClickPlay = () => {
@@ -34,7 +34,7 @@ const AudioPlayer = ({ trackInfo, isVisible, isPaused, setIsPaused, isPlayerLoad
             <div className="audioPlayer-volume-container">
                 <p className='audioPlayer-time-text'>{currentTime}/{convertDuration(trackInfo.duration)}</p>
                 <VolumeHighIcon />
-                <input type='range' className='audioPlayer-volume-slider' />
+                <input type='range' min="0" max="1" step="0.01" value={volume} onChange={e => setVolume(e.target.value)} className='audioPlayer-volume-slider' />
             </div>
         </div>
     );

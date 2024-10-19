@@ -14,10 +14,12 @@ const AudioProvider = ({ children }) => {
     const [trackQueue, setTrackQueue] = useState([]);
     const [audioStream, setAudioStream] = useState(null);
     const [audioSource, setAudioSource] = useState(null);
+    const [gainNode, setGainNode] = useState(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [toPlay, setToPlay] = useState(false);
     const [playNextTrack, setPlayNextTrack] = useState(true);
     const [lastPlayedTrack, setLastPlayedTrack] = useState(null);
+    const [volume, setVolume] = useState(0.5);
 
     // AudioPlayer Component State
     const [isVisible, setIsVisible] = useState(false);
@@ -111,10 +113,13 @@ const AudioProvider = ({ children }) => {
             const arrayBuffer = await new Response(audioStream).arrayBuffer();
             const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
             const source = await audioContext.createBufferSource();
-            source.connect(audioContext.destination);
+            const gainNode = audioContext.createGain();
+            source.connect(gainNode);
+            gainNode.connect(audioContext.destination);
             source.buffer = audioBuffer;
             source.start(0);
             setAudioSource(source);
+            setGainNode(gainNode);
         }
         if (audioStream) {
             setIsVisible(true);
@@ -123,6 +128,12 @@ const AudioProvider = ({ children }) => {
             setIsVisible(false);
         }
     }, [audioStream, audioContext]);
+
+    useEffect(function handleVolume() {
+        if (audioContext && gainNode) {
+            gainNode.gain.setValueAtTime(parseFloat(volume), audioContext.currentTime);
+        }
+    }, [audioContext, gainNode, volume]);
 
     useEffect(function handlePause() {
         if (audioSource) {
@@ -137,7 +148,7 @@ const AudioProvider = ({ children }) => {
     return (
         <AudioPlayerContext.Provider value={{queueSong, playSong, playAlbum, skipSong}}>
             {children}
-            {isVisible && <AudioPlayer trackInfo={trackInfo} isVisible={isVisible} isPaused={isPaused} setIsPaused={setIsPaused} lastPlayedTrack={lastPlayedTrack} isPlaying={isPlaying} playSong={playSong} skipSong={skipSong} queueLength={trackQueue.length}/>}
+            {isVisible && <AudioPlayer trackInfo={trackInfo} isVisible={isVisible} isPaused={isPaused} setIsPaused={setIsPaused} lastPlayedTrack={lastPlayedTrack} isPlaying={isPlaying} playSong={playSong} skipSong={skipSong} queueLength={trackQueue.length} volume={volume} setVolume={setVolume}/>}
         </AudioPlayerContext.Provider>
     );
 }
