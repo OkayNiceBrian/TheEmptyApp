@@ -32,9 +32,9 @@ const AudioPlayer = ({ trackInfo, isVisible, isPaused, setIsPaused, isPlayerLoad
                 <PreviousIcon className={queueLength > 0 ? "audioPlayer-icon" : "audioPlayer-icon-inactive"} style={{rotate: "180deg"}} size={"30px"} onClick={skipSong}/>
             </div>
             <div className="audioPlayer-volume-container">
-                <p>{currentTime}/{convertDuration(trackInfo.duration)}</p>
+                <p className='audioPlayer-time-text'>{currentTime}/{convertDuration(trackInfo.duration)}</p>
                 <VolumeHighIcon />
-                <div className="audioPlayer-volume-slider"/>
+                <input type='range' className='audioPlayer-volume-slider' />
             </div>
         </div>
     );

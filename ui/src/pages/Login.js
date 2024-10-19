@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "contexts/AuthContext";
 import { apiHost } from "config/host";
+import backgroundImage from "assets/home-bck.jpg";
 import "styles/Login.css";
 
 const Login = () => {
@@ -37,25 +38,27 @@ const Login = () => {
     }
 
     return (
+        <>
+        <img src={backgroundImage} alt={"Home"} className="login-background"/>
+        <p className="login-header">Welcome to Empty Music</p>
+        <p className="login-subheader">Streaming for the aspiring artist</p>
         <div className="login-container">
-            <div className="login-header">
-                <p className="login-header-text">Login to Empty Music!</p>
-            </div>
             <div className="login-form-container">
                 <div className="input-container">
-                    <label className="label-text">Email Address</label>
+                    <label className="login-label">Email Address</label>
                     <input type="text" value={email} onChange={(e) => setEmail(e.target.value)}/>
                 </div>
                 <div className="input-container">
-                    <label className="label-text">Password</label>
+                    <label className="login-label">Password</label>
                     <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                 </div>
                 <div className="input-container">
                     <input style={{marginTop: "20px", display: !validateForm() ? "none" : "unset"}} type="submit" onClick={onClickSubmit}/>
                 </div>
+                <p className="login-text" style={{marginTop: "40px"}}>Don't have an account? Create one <Link className="link-text" to={"/register"}>here</Link>.</p>
             </div>
-            <p className="label-text" style={{marginTop: "20px"}}>Don't have an account? Create one <Link className="link-text" to={"/register"}>here</Link>.</p>
         </div>
+        </>
     );
 }
 

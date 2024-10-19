@@ -45,15 +45,15 @@ const Options = () => {
             <div className="options-header-container">
                 <h1>Options</h1>
             </div>
-            <Link className="link" to="/artist/create"><div className="options-field-container">
-                <label>Create New Artist</label>
-            </div></Link>
             <div className="options-field-container">
                 <label>Set Current Artist</label>
                 <select defaultValue={userArtistId} onChange={(e) => setCurrentArtist(e.target.value)}>
                     {artists.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
                 </select>
             </div>
+            <Link className="link" to="/artist/create"><div className="options-field-container button">
+                <label>Create New Artist</label>
+            </div></Link>
         </div>
     );
     

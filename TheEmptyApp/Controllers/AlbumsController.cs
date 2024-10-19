@@ -34,6 +34,7 @@ public class AlbumsController : ControllerBase {
         var a = await _ar.GetByIdAsync(id);
         if (a == null) return NotFound();
         var aDto = a.ToAlbumDto();
+        aDto.Songs.OrderBy(s => s.TrackNum);
         foreach (Song s in a.Songs) {
             if (s.LikedByUsers.Select(u => u.Id).Contains(uid)) {
                 aDto.Songs.FirstOrDefault(sDto => sDto.Id == s.Id)!.isLikedByUser = true;
