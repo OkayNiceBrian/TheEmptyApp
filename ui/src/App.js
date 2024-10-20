@@ -13,6 +13,7 @@ import Contact from "pages/Contact";
 import NoPage from "pages/NoPage";
 import CreateArtist from "pages/Artist/CreateArtist";
 import CreateAlbum from "pages/Album/CreateAlbum";
+import EditAlbum from "pages/Album/EditAlbum";
 
 function App() {
   const { token } = useAuth();
@@ -33,6 +34,7 @@ function App() {
           <Route index element={<Home/>}/>
           <Route path="/artist/:artistId" element={<Artist/>}/>
           <Route path="/artist/:artistId/album/:albumId" element={<Album/>}/>
+          <Route path="/artist/:artistId/album/:albumId/edit" elemtn={<EditAlbum/>}/>
           <Route path="/artist/:artistId/album/create" element={<CreateAlbum/>}/>
           <Route path="/search/:searchQuery" element={<Search/>}/>
           <Route path="/likes" element={<Likes/>}/>
