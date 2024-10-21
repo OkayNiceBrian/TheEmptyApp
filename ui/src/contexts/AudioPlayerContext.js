@@ -10,7 +10,7 @@ const AudioProvider = ({ children }) => {
     const { token, logout } = useAuth();
 
     // Audio State
-    const [audioContext] = useState(new AudioContext());
+    const [audioContext, setAudioContext] = useState(null);
     const [trackQueue, setTrackQueue] = useState([]);
     const [audioStream, setAudioStream] = useState(null);
     const [audioSource, setAudioSource] = useState(null);
@@ -97,6 +97,9 @@ const AudioProvider = ({ children }) => {
         }
 
         if (trackQueue.length > 0 && playNextTrack) {
+            if (audioContext == null) {
+                setAudioContext(new AudioContext());
+            }
             setPlayNextTrack(false);
             const trackInfo = trackQueue.shift();
             setLastPlayedTrack(trackInfo);
@@ -106,7 +109,7 @@ const AudioProvider = ({ children }) => {
             setIsPlaying(true);
             setIsPaused(false);
         }
-    }, [trackQueue, token, playNextTrack, audioSource]);
+    }, [trackQueue, token, playNextTrack, audioSource, audioContext, logout]);
 
     useEffect(function handleAudio() {
         const readAudio = async () => {

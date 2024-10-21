@@ -8,7 +8,7 @@ import "styles/CreateForm.css";
 const CreateAlbum = () => {
     const { artistId } = useParams();
 
-    const { token, logout } = useAuth();
+    const { token, logout, userArtistId } = useAuth();
 
     const [loading, setLoading] = useState(true);
     const [genres, setGenres] = useState([]);
@@ -174,6 +174,15 @@ const CreateAlbum = () => {
         } catch (e) {
             console.error(e);
         }
+    }
+
+    if (userArtistId !== artistId) {
+        return <div className="form-container">
+            <label className="label-text">
+                You don't have access to this page.
+                If you control this artist, switch your current artist in the Options page.
+            </label>
+        </div>
     }
 
     return (

@@ -1,4 +1,4 @@
-import backgroundImage from "assets/home-bck.jpg";
+import backgroundImage from "assets/home-bck.webp";
 import "styles/Home.css";
 
 const Home = () => {

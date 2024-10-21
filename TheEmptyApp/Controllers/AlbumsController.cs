@@ -26,13 +26,13 @@ public class AlbumsController : ControllerBase {
     [HttpGet("{id}")]
     public async Task<IActionResult> GetAlbum([FromRoute] int id) {
         var u = User.Identity as ClaimsIdentity;
-        if (u == null)
-            return NotFound();
+        if (u == null) return NotFound();
 
         var uid = u.FindFirst(ClaimTypes.NameIdentifier)!.Value;
 
         var a = await _ar.GetByIdAsync(id);
         if (a == null) return NotFound();
+
         var aDto = a.ToAlbumDto();
         aDto.Songs.OrderBy(s => s.TrackNum);
         foreach (Song s in a.Songs) {
@@ -40,6 +40,20 @@ public class AlbumsController : ControllerBase {
                 aDto.Songs.FirstOrDefault(sDto => sDto.Id == s.Id)!.isLikedByUser = true;
             }
         }
+        return Ok(aDto);
+    }
+
+    [HttpGet("edit/{id}")]
+    public async Task<ActionResult> GetAlbumToEdit([FromRoute] int id) {
+        var u = User.Identity as ClaimsIdentity;
+        var am = await _ar.GetByIdAsync(id);
+        if (u == null || am == null) return NotFound();
+
+        var uid = u.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+        if (uid != am.Artist!.UserId) return Unauthorized();
+
+        var aDto = am.ToAlbumDto();
+        aDto.Songs.OrderBy(s => s.TrackNum);
         return Ok(aDto);
     }
 

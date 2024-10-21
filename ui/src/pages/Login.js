@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "contexts/AuthContext";
 import { apiHost } from "config/host";
-import backgroundImage from "assets/home-bck.jpg";
+import backgroundImage from "assets/home-bck.webp";
 import "styles/Login.css";
 
 const Login = () => {
