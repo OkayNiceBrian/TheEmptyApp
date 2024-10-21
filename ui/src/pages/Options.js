@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import Loading from "components/Loading";
 import { useAuth } from "contexts/AuthContext";
 import { apiHost } from "config/host";
 import "styles/Options.css";
@@ -32,13 +33,7 @@ const Options = () => {
         }
     })
 
-    if (loading) {
-        return ( 
-            <div className="options-container">
-                loading...
-            </div>
-        );
-    }
+    if (loading) return <Loading/>
 
     return (
         <div className="options-container">

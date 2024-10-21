@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { PlayCircle02Icon, Edit02Icon, Delete04Icon } from "hugeicons-react";
 import { useAuth } from "contexts/AuthContext";
 import { useAudio } from "contexts/AudioPlayerContext";
+import Loading from "components/Loading";
 import SongList from "components/SongList";
 import { apiHost, blobUrl } from "config/host";
 import { convertSongInfo } from "helpers/Util";
@@ -72,11 +73,7 @@ const Album = () => {
         );
     }
 
-    if (loading) return (
-        <div className="album-body">
-            <p className="album-header-text">loading...</p>
-        </div>
-    );
+    if (loading) return <Loading/>;
 
     return (
         <div className="album-body">

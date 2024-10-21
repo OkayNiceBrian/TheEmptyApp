@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Delete04Icon, AddCircleIcon} from "hugeicons-react";
+import Loading from "components/Loading";
 import { useAuth } from "contexts/AuthContext";
 import { apiHost, blobUrl } from "config/host";
 import "styles/Artist.css";
@@ -77,11 +78,7 @@ const Artist = () => {
         }
     }
 
-    if (isLoading) return (
-        <div className="artist-container">
-            <p className="artist-header-text">loading...</p>
-        </div>
-    );
+    if (isLoading) return <Loading/>
 
     return (
         <div className="artist-container">

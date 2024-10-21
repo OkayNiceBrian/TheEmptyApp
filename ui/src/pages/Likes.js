@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "contexts/AuthContext";
+import Loading from "components/Loading";
 import SongList from "components/SongList";
 import { apiHost } from "config/host";
 import "styles/Likes.css";
@@ -28,11 +29,7 @@ const Likes = () => {
         }
     });
 
-    if (loading) return (
-        <div className="likes-container">
-            loading...
-        </div>
-    )
+    if (loading) return <Loading/>
 
     return (
         <div className="likes-container">

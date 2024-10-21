@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Loading from "components/Loading";
 import CreateSong from "./components/CreateSong";
 import { useAuth } from "contexts/AuthContext";
 import { apiHost, blobUrl } from "config/host";
@@ -11,6 +12,7 @@ const CreateAlbum = () => {
     const { token, logout, userArtistId } = useAuth();
 
     const [loading, setLoading] = useState(true);
+    const [uploading, setUploading] = useState(false);
     const [genres, setGenres] = useState([]);
     const [title, setTitle] = useState("");
     const [releaseDate, setReleaseDate] = useState("");
@@ -164,12 +166,13 @@ const CreateAlbum = () => {
             }).then(data => {
                 setAlbumId(data.id);
                 setAreSongsUploading(true);
-            });
+            }).finally(() => setUploading(false));
         });
     }
 
     const onClickSubmit = async () => {
         try {
+            setUploading(true);
             await uploadAlbumCoverThenAlbum();
         } catch (e) {
             console.error(e);
@@ -184,6 +187,8 @@ const CreateAlbum = () => {
             </label>
         </div>
     }
+
+    if (loading || uploading) return <Loading/>
 
     return (
         <div className="form-container">

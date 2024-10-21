@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import Loading from "components/Loading";
 import { useAuth } from "contexts/AuthContext";
 import { apiHost, blobUrl } from "config/host";
 import "styles/Search.css";
@@ -86,13 +87,7 @@ const Search = () => {
         })
     }
 
-    if (loading) {
-        return (
-            <div className="search-container">
-                <h1>loading...</h1>
-            </div>
-        );
-    }
+    if (loading) return <Loading/>
 
     return (
         <div className="search-container">

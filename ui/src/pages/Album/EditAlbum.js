@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Loading from "components/Loading";
 import { useAuth } from "contexts/AuthContext";
 import { apiHost } from "config/host";
 import { convertDuration } from "helpers/Util";
@@ -81,11 +82,7 @@ const EditAlbum = () => {
         }).catch(e => console.error(e));
     }
 
-    if (loading) return (
-        <div className="form-container">
-            <p className="form-header">loading...</p>
-        </div>
-    );
+    if (loading) return <Loading/>;
 
     return (
         <div className="form-container">
