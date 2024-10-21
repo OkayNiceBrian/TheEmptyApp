@@ -13,6 +13,11 @@ public class ApplicationDbContext : IdentityDbContext<User> {
     public DbSet<Album> Albums { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder builder) {
+        builder.Entity<Album>()
+            .HasMany(e => e.AllowedUsers)
+            .WithMany(e => e.AllowedAlbums)
+            .UsingEntity<AllowedAlbumUser>();
+
         base.OnModelCreating(builder);
 
         List<IdentityRole> roles = [

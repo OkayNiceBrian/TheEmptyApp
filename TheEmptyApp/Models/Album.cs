@@ -15,5 +15,8 @@ public class Album {
     public string PrimaryGenre { get; set; } = string.Empty;
     public string SecondaryGenre { get; set; } = string.Empty;
 
+    public bool IsPrivate { get; set; } = false;
+    public List<User> AllowedUsers { get; } = [];
+
     public string CoverImageGuid { get; set; } = string.Empty;
 }
