@@ -48,12 +48,13 @@ const CreateArtist = () => {
 
     return (
         <div className="form-container">
+            <p className="form-header">Create New Artist</p>
             <div className="input-container">
                 <p className="label-text">Artist Name: </p>
                 <input name="artistName" value={name} onChange={(e) => setName(e.target.value)}/>
             </div>
             <div className="input-container">
-                <button onClick={onClickSubmit}>Submit</button>
+                <button style={{display: name !== "" ? "unset" : "none"}} onClick={onClickSubmit}>Submit</button>
             </div>
         </div>
     );
