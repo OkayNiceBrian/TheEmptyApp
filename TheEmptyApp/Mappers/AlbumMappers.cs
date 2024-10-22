@@ -14,6 +14,8 @@ public static class AlbumMappers {
             ReleaseDate = albumModel.ReleaseDate,
             PrimaryGenre = albumModel.PrimaryGenre,
             SecondaryGenre = albumModel.SecondaryGenre,
+            AllowedEmails = albumModel.AllowedUsers.Select(u => u.Email).ToList()!,
+            IsPrivate = albumModel.IsPrivate,
             CoverImageGuid = albumModel.CoverImageGuid,
         };
     }
@@ -25,6 +27,7 @@ public static class AlbumMappers {
             ReleaseDate = albumDto.ReleaseDate,
             PrimaryGenre = albumDto.PrimaryGenre,
             SecondaryGenre = albumDto.SecondaryGenre,
+            IsPrivate = albumDto.IsPrivate,
             CoverImageGuid = albumDto.CoverImageGuid,
         };
     }
@@ -35,6 +38,7 @@ public static class AlbumMappers {
         albumModel.ReleaseDate = albumDto.ReleaseDate;
         albumModel.PrimaryGenre = albumDto.PrimaryGenre;
         albumModel.SecondaryGenre = albumDto.SecondaryGenre;
+        albumModel.IsPrivate = albumDto.IsPrivate;
         albumModel.CoverImageGuid = albumDto.CoverImageGuid;
     }
 }

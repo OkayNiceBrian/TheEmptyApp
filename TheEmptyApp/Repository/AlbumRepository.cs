@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using TheEmptyApp.Data;
 using TheEmptyApp.Dtos.Album;
@@ -13,10 +14,12 @@ public class AlbumRepository : IAlbumRepository {
     readonly ApplicationDbContext _ctx;
     readonly IImageService _is;
     readonly ISongRepository _sr;
-    public AlbumRepository(ApplicationDbContext ctx, IImageService imageService, ISongRepository sr) {
+    readonly UserManager<User> _um;
+    public AlbumRepository(ApplicationDbContext ctx, IImageService imageService, ISongRepository sr, UserManager<User> um) {
         _ctx = ctx;
         _is = imageService;
         _sr = sr;
+        _um = um;
     } 
 
     public async Task<List<Album>> GetAllAsync() {
@@ -41,6 +44,12 @@ public class AlbumRepository : IAlbumRepository {
         if (am == null) return null;
 
         am.UpdateModelFromDto(albumDto);
+        foreach (string email in albumDto.AllowedEmails) {
+            if (!am.AllowedUsers.Select(u => u.Email).ToList().Contains(email)) {
+                var u = await _um.FindByEmailAsync(email);
+                if (u != null) am.AllowedUsers.Add(u);
+            }
+        }
         await _ctx.SaveChangesAsync();
         return am;
     }

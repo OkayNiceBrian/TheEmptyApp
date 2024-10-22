@@ -7,6 +7,8 @@ using TheEmptyApp.Data.Static;
 using System.Security.Claims;
 using TheEmptyApp.Dtos.Song;
 using TheEmptyApp.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 
 namespace TheEmptyApp.Controllers;
 
@@ -15,7 +17,11 @@ namespace TheEmptyApp.Controllers;
 [Authorize]
 public class AlbumsController : ControllerBase {
     readonly IAlbumRepository _ar;
-    public AlbumsController(IAlbumRepository ar) => _ar = ar;
+    readonly UserManager<User> _um;
+    public AlbumsController(IAlbumRepository ar, UserManager<User> um) {
+        _ar = ar;
+        _um = um;
+    }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<AlbumDto>>> GetAlbums() {
@@ -65,9 +71,16 @@ public class AlbumsController : ControllerBase {
     [HttpPost]
     public async Task<IActionResult> CreateAlbum([FromBody] CreateAlbumDto albumDto) {
         var a = albumDto.ToAlbumFromCreateDto();
+
+        foreach (string email in albumDto.AllowedEmails) {
+            if (!email.IsNullOrEmpty()) {
+                var u = await _um.FindByEmailAsync(email);
+                if (u != null) a.AllowedUsers.Add(u); 
+            }
+        }
+
         await _ar.CreateAsync(a);
-        return CreatedAtAction(nameof(GetAlbum),
-            new { id = a.Id }, a.ToAlbumDto());
+        return CreatedAtAction(nameof(GetAlbum), new { id = a.Id }, a.ToAlbumDto());
     }
 
     [HttpPut("{id}")]
