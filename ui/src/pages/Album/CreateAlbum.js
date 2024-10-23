@@ -22,7 +22,6 @@ const CreateAlbum = () => {
     const [primaryGenre, setPrimaryGenre] = useState("");
     const [secondaryGenre, setSecondaryGenre] = useState("");
     const [isPrivate, setIsPrivate] = useState(false);
-    const [allowedEmails, setAllowedEmails] = useState([]);
     const [allowedEmailsString, setAllowedEmailsString] = useState("");
     const [areFieldsFilled, setAreFieldsFilled] = useState(false);
     const [albumId, setAlbumId] = useState(0);
@@ -159,7 +158,7 @@ const CreateAlbum = () => {
                     primaryGenre: primaryGenre,
                     secondaryGenre: secondaryGenre,
                     isPrivate: isPrivate,
-                    allowedEmails: allowedEmails,
+                    allowedEmails: parseEmails(allowedEmailsString),
                     coverImageGuid: data.guid
                 })
             }).then(rsp => {

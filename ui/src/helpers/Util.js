@@ -22,6 +22,9 @@ export const getTodaysDate = () => {
 
 export const parseEmails = (s_emails) => {
     let emails = s_emails.split("\n");
-    emails.map(e => e.trim());
+    emails = emails.map(e => e.trim());
+    if (emails.length === 1 && emails[0] === "") {
+        emails = [];
+    }
     return JSON.stringify(emails);
 }
