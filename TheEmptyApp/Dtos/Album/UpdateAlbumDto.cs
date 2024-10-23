@@ -2,7 +2,7 @@
 
 public class UpdateAlbumDto {
     public string? Name { get; set; }
-    public int? ArtistId { get; set; }
+    public required int ArtistId { get; set; }
     public DateOnly? ReleaseDate { get; set; }
     public string PrimaryGenre { get; set; } = string.Empty;
     public string SecondaryGenre { get; set; } = string.Empty;

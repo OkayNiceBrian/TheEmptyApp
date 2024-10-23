@@ -1,6 +1,6 @@
 import { parseEmails } from "helpers/Util";
 
-test("parseEmails returns json list of emails", () => {
+test("parseEmails returns list of emails", () => {
     const s_emails = `example@email.com
             test@email.com
         brian@email.com`;

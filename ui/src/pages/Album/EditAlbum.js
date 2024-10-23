@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "components/Loading";
+import EditSong from "./components/EditSong";
 import { useAuth } from "contexts/AuthContext";
 import { apiHost } from "config/host";
 import { convertDuration, getTodaysDate, parseEmails } from "helpers/Util";
@@ -22,10 +23,10 @@ const EditAlbum = () => {
     const [primaryGenre, setPrimaryGenre] = useState("");
     const [secondaryGenre, setSecondaryGenre] = useState("");
     const [isPrivate, setIsPrivate] = useState(false);
-    const [allowedEmails, setAllowedEmails] = useState([]);
     const [allowedEmailsString, setAllowedEmailsString] = useState("");
     const [coverFile, setCoverFile] = useState({});
     const [coverGuid, setCoverGuid] = useState("");
+    const [audioUpdates, setAudioUpdates] = useState([]);
 
     const [isAlbumEdited, setIsAlbumEdited] = useState(false);
 
@@ -66,7 +67,7 @@ const EditAlbum = () => {
             setPrimaryGenre(album.primaryGenre);
             setSecondaryGenre(album.secondaryGenre);
             setIsPrivate(album.isPrivate);
-            setAllowedEmails(album.allowedEmails);
+            setAllowedEmailsString(album.allowedEmails.join('\n'));
         }
     }, [album])
     
@@ -85,9 +86,15 @@ const EditAlbum = () => {
             </ul>
         )
     }
-
+    
     const clickEditSong = (song) => {
+        if (!audioUpdates.map(a => a.song.name).includes(song.name)) {
+            setAudioUpdates(prev => [...prev, {file: {}, song: song}]);
+        }
+    }
 
+    const renderSongComponents = () => {
+        return audioUpdates.map((audio, index) => <EditSong key={index} song={audio.song} audioUpdates={audioUpdates} setAudioUpdates={setAudioUpdates} />)
     }
 
     const pressSubmit = () => {
@@ -98,7 +105,7 @@ const EditAlbum = () => {
             primaryGenre: primaryGenre,
             secondaryGenre: secondaryGenre,
             isPrivate: isPrivate,
-            allowedEmails: parseEmails(setAllowedEmailsString),
+            allowedEmails: parseEmails(allowedEmailsString),
             coverImageGuid: coverGuid
         };
         fetch(url, {
@@ -124,6 +131,7 @@ const EditAlbum = () => {
                 <input value={albumTitle} onChange={e => setAlbumTitle(e.target.value)}/>
             </div>
             {renderSongs()}
+            <div style={{marginLeft: "80px"}}>{renderSongComponents()}</div>
             <div className="input-container">
                 <label className="label-text">Release Date</label>
                 <input type="date" value={releaseDate} max={getTodaysDate()} onChange={e => setReleaseDate(e.target.value)}/>
@@ -152,7 +160,7 @@ const EditAlbum = () => {
             </div>
             {isPrivate && <div className="input-container">
                 <label className="label-text">Allowed Users (If Private)</label>
-                <textarea onChange={(e) => setAllowedEmailsString(e.target.value)} placeholder={`example@email.com\ntest@email.com\nhelloworld@email.com`} className="input-textBox"/>
+                <textarea value={allowedEmailsString} onChange={(e) => setAllowedEmailsString(e.target.value)} placeholder={`example@email.com\ntest@email.com\nhelloworld@email.com`} className="input-textBox"/>
                 <label>Press enter (newline) after each email.</label>
             </div>}
             {isAlbumEdited && <div className="input-container">
