@@ -13,4 +13,15 @@ export const convertSongInfo = (song) => {
         guid: song.audioFileGuid, 
         coverImageGuid: song.coverImageGuid
     }
+};
+
+export const getTodaysDate = () => {
+    const currentDate = new Date();
+    return currentDate.toISOString().split("T")[0];
+};
+
+export const parseEmails = (s_emails) => {
+    let emails = s_emails.split("\n");
+    emails.map(e => e.trim());
+    return JSON.stringify(emails);
 }

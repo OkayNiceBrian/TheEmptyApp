@@ -4,6 +4,7 @@ import Loading from "components/Loading";
 import CreateSong from "./components/CreateSong";
 import { useAuth } from "contexts/AuthContext";
 import { apiHost, blobUrl } from "config/host";
+import { getTodaysDate } from "helpers/Util";
 import "styles/CreateForm.css";
 
 const CreateAlbum = () => {
@@ -105,7 +106,7 @@ const CreateAlbum = () => {
                         if (i === songComponents.length - 1) {
                             setIsAlbumCreated(true);
                         }
-                    })
+                    }).finally(() => setUploading(false));
                 })
             }
         }
@@ -118,11 +119,6 @@ const CreateAlbum = () => {
             }
         }
     }, [areSongsUploading, songComponents, albumId, artistId, token, setIsAlbumCreated, logout])
-
-    const getTodaysDate = () => {
-        const currentDate = new Date();
-        return currentDate.toISOString().split("T")[0];
-    }
 
     const addSongToCreate = () => {
         setSongComponents(prev => [...prev, {artistId: artistId, name: "", trackNum: 0, file: {}}]);
@@ -166,7 +162,7 @@ const CreateAlbum = () => {
             }).then(data => {
                 setAlbumId(data.id);
                 setAreSongsUploading(true);
-            }).finally(() => setUploading(false));
+            });
         });
     }
 

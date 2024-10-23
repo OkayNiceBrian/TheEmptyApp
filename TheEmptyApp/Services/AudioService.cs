@@ -38,6 +38,21 @@ public class AudioService : IAudioService {
         return guid;
     }
 
+    public async void UpdateAudioInStorage(string guid, IFormFile file) {
+        using MemoryStream fileUploadStream = new();
+        file.CopyTo(fileUploadStream);
+        fileUploadStream.Position = 0;
+
+        BlobContainerClient bcc = new(_ao.ConnectionString, _ao.Container);
+        BlobClient bc = bcc.GetBlobClient(guid);
+
+        await bc.UploadAsync(fileUploadStream, new BlobUploadOptions() {
+            HttpHeaders = new BlobHttpHeaders {
+                ContentType = "audio/mpeg"
+            }
+        }, cancellationToken: default);
+    }
+
     public async Task<bool> DeleteAudioFromStorage(string guid) {
         BlobContainerClient bcc = new(_ao.ConnectionString, _ao.Container);
         BlobClient bc = bcc.GetBlobClient(guid);

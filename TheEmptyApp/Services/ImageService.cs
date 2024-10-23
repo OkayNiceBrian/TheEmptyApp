@@ -30,6 +30,20 @@ public class ImageService : IImageService {
         
         return guid;
     }
+    public async void UpdateImageInStorage(string guid, IFormFile file) {
+        using MemoryStream fileUploadStream = new();
+        file.CopyTo(fileUploadStream);
+        fileUploadStream.Position = 0;
+
+        BlobContainerClient bcc = new(_ao.ConnectionString, _ao.Container);
+        BlobClient bc = bcc.GetBlobClient(guid);
+
+        await bc.UploadAsync(fileUploadStream, new BlobUploadOptions() {
+            HttpHeaders = new BlobHttpHeaders {
+                ContentType = "image/bitmap"
+            }
+        }, cancellationToken: default);
+    }
 
     public async Task<bool> DeleteImageFromStorage(string guid) {
         BlobContainerClient bcc = new(_ao.ConnectionString, _ao.Container);

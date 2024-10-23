@@ -30,6 +30,11 @@
     font-size: 14pt;
 }
 
+.input-textBox {
+    height: 140px;
+    width: 400px;
+}
+
 .image-thumbnail {
     height: 100px;
     width: auto;

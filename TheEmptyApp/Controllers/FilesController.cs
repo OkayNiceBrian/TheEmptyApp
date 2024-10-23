@@ -26,10 +26,22 @@ public class FilesController : ControllerBase {
         return Ok(FileMappers.ToFileGuidDto(guid));
     }
 
+    [HttpPut("images/{guid}")]
+    public async Task<IActionResult> UpdateImage(UploadImageDto imageDto, [FromRoute] string guid) {
+        _is.UpdateImageInStorage(guid, imageDto.File);
+        return Ok();
+    }
+
     [HttpPost("audio")]
     public async Task<IActionResult> UploadAudio(UploadAudioDto audioDto) {
         var guid = await _as.UploadAudioToStorage(audioDto.File);
         return Ok(FileMappers.ToFileGuidDto(guid));
+    }
+
+    [HttpPut("audio/{guid}")]
+    public async Task<IActionResult> UpdateAudio(UploadAudioDto audioDto, [FromRoute] string guid) {
+        _as.UpdateAudioInStorage(guid, audioDto.File);
+        return Ok();
     }
 
     [HttpPost("audio/stream")]

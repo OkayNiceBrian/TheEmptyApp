@@ -28,6 +28,11 @@ public class AlbumsController : ControllerBase {
         var a = await _ar.GetAllAsync();
         return Ok(a.Select(a => a.ToAlbumDto()));
     }
+    
+    [HttpGet("genres")]
+    public IActionResult GetGenres() {
+        return Ok(Genres.GenreList);
+    }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetAlbum([FromRoute] int id) {
@@ -61,11 +66,6 @@ public class AlbumsController : ControllerBase {
         var aDto = am.ToAlbumDto();
         aDto.Songs.OrderBy(s => s.TrackNum);
         return Ok(aDto);
-    }
-
-    [HttpGet("genres")]
-    public IActionResult GetGenres() {
-        return Ok(Genres.GenreList);
     }
 
     [HttpPost]
