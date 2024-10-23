@@ -48,6 +48,18 @@ public static class SongMappers {
             AudioFileGuid = songDto.AudioFileGuid
         };
     }
+    public static SongDto ToSongDtoMin(this Song songModel) {
+        return new SongDto {
+            Id = songModel.Id,
+            Name = songModel.Name,
+            TrackNum = songModel.TrackNum,
+            Duration = songModel.Duration,
+            ArtistId = songModel.ArtistId,
+            AlbumId = songModel.AlbumId,
+            Listens = songModel.Listens,
+            AudioFileGuid = songModel.AudioFileGuid,
+        };
+    }
 
     public static void UpdateModelFromDto(this Song songModel, UpdateSongDto songDto) {
         songModel.Name = songDto.Name;

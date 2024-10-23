@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "contexts/AuthContext";
 import { apiHost } from "config/host";
 import "styles/Login.css";
 const Register = () => {
     const { setUserData } = useAuth();
+    const { navigate } = useNavigate();
 
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -33,6 +35,7 @@ const Register = () => {
         .then(data => {
             if (data.token) {
                 setUserData(data);
+                navigate("/");
             }
         }).catch(e => console.error(e));
     }
@@ -60,7 +63,7 @@ const Register = () => {
                     <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
                 </div>
                 <div className="input-container">
-                    <input type="submit" onClick={onClickSubmit} style={{marginTop: "20px", display: !validateForm() ? "none" : "unset"}}/>
+                    <input type="submit" onClick={() => onClickSubmit()} style={{marginTop: "20px", display: !validateForm() ? "none" : "unset"}}/>
                 </div>
             </div>
         </div>

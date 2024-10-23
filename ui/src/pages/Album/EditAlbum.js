@@ -23,6 +23,7 @@ const EditAlbum = () => {
     const [secondaryGenre, setSecondaryGenre] = useState("");
     const [isPrivate, setIsPrivate] = useState(false);
     const [allowedEmails, setAllowedEmails] = useState([]);
+    const [allowedEmailsString, setAllowedEmailsString] = useState("");
     const [coverFile, setCoverFile] = useState({});
     const [coverGuid, setCoverGuid] = useState("");
 
@@ -97,7 +98,7 @@ const EditAlbum = () => {
             primaryGenre: primaryGenre,
             secondaryGenre: secondaryGenre,
             isPrivate: isPrivate,
-            allowedEmails: parseEmails(allowedEmails),
+            allowedEmails: parseEmails(setAllowedEmailsString),
             coverImageGuid: coverGuid
         };
         fetch(url, {
@@ -151,7 +152,7 @@ const EditAlbum = () => {
             </div>
             {isPrivate && <div className="input-container">
                 <label className="label-text">Allowed Users (If Private)</label>
-                <textarea placeholder={`example@email.com\ntest@email.com\nhelloworld@email.com`} className="input-textBox"/>
+                <textarea onChange={(e) => setAllowedEmailsString(e.target.value)} placeholder={`example@email.com\ntest@email.com\nhelloworld@email.com`} className="input-textBox"/>
                 <label>Press enter (newline) after each email.</label>
             </div>}
             {isAlbumEdited && <div className="input-container">

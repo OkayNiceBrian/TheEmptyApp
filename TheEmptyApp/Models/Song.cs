@@ -8,10 +8,10 @@ public class Song {
     public float? Duration { get; set; }
     public List<User> LikedByUsers { get; } = [];
 
-    public int? ArtistId { get; set; }
+    public required int ArtistId { get; set; }
     public Artist? Artist { get; set; }
 
-    public int? AlbumId { get; set; }
+    public required int AlbumId { get; set; }
     public Album? Album { get; set; }
 
     public string? AudioFileGuid { get; set; }

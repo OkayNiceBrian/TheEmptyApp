@@ -50,7 +50,7 @@ public class SongsController : ControllerBase {
         var s = songDto.ToSongFromCreateDto();
         await _sr.CreateAsync(s);
         return CreatedAtAction(nameof(GetSong),
-            new { id = s.Id }, s.ToSongDto());
+            new { id = s.Id }, s.ToSongDtoMin());
     }
 
     [HttpPut("{id}")]

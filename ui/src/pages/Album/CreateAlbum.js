@@ -4,7 +4,7 @@ import Loading from "components/Loading";
 import CreateSong from "./components/CreateSong";
 import { useAuth } from "contexts/AuthContext";
 import { apiHost, blobUrl } from "config/host";
-import { getTodaysDate } from "helpers/Util";
+import { getTodaysDate, parseEmails } from "helpers/Util";
 import "styles/CreateForm.css";
 
 const CreateAlbum = () => {
@@ -21,6 +21,9 @@ const CreateAlbum = () => {
     const [coverGuid, setCoverGuid] = useState("");
     const [primaryGenre, setPrimaryGenre] = useState("");
     const [secondaryGenre, setSecondaryGenre] = useState("");
+    const [isPrivate, setIsPrivate] = useState(false);
+    const [allowedEmails, setAllowedEmails] = useState([]);
+    const [allowedEmailsString, setAllowedEmailsString] = useState("");
     const [areFieldsFilled, setAreFieldsFilled] = useState(false);
     const [albumId, setAlbumId] = useState(0);
 
@@ -155,6 +158,8 @@ const CreateAlbum = () => {
                     releaseDate: releaseDate,
                     primaryGenre: primaryGenre,
                     secondaryGenre: secondaryGenre,
+                    isPrivate: isPrivate,
+                    allowedEmails: allowedEmails,
                     coverImageGuid: data.guid
                 })
             }).then(rsp => {
@@ -203,18 +208,27 @@ const CreateAlbum = () => {
             </div>
             <div className="input-container">
                 <label className="label-text">Primary Genre</label>
-                <select onChange={e => setPrimaryGenre(e.target.value)}>
+                <select value={primaryGenre} onChange={e => setPrimaryGenre(e.target.value)}>
                     {genres.map((genre, index) => <option key={index} value={genre}>{genre}</option>)}
                     <option value=""></option>
                 </select>
             </div>
             <div className="input-container">
                 <label className="label-text">Secondary Genre</label>
-                <select onChange={e => setSecondaryGenre(e.target.value)}>
+                <select value={secondaryGenre} onChange={e => setSecondaryGenre(e.target.value)}>
                     {genres.map((genre, index) => <option key={index} value={genre}>{genre}</option>)}
                     <option value="">None</option>
                 </select>
             </div>
+            <div className="input-container" style={{flexDirection: "row", gap: "10px"}}>
+                <label className="label-text">Make Private?</label>
+                <input type="checkbox" checked={isPrivate} onChange={e => setIsPrivate(e.target.checked)}/>
+            </div>
+            {isPrivate && <div className="input-container">
+                <label className="label-text">Allowed Users (If Private)</label>
+                <textarea onChange={(e) => setAllowedEmailsString(e.target.value)} placeholder={`example@email.com\ntest@email.com\nhelloworld@email.com`} className="input-textBox"/>
+                <label>Press enter (newline) after each email.</label>
+            </div>}
             <div className="input-container">
                 <label className="label-text">Songs</label>
                 {songComponents.map((song, index) => <CreateSong key={index} i={index} songComponents={songComponents} setSongComponents={setSongComponents} />)}
