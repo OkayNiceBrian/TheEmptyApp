@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Loading from "components/Loading";
 import { useAuth } from "contexts/AuthContext";
 import { apiHost } from "config/host";
 import backgroundImage from "assets/home-bck.webp";
@@ -8,6 +9,7 @@ import "styles/Login.css";
 const Login = () => {
     const { setUserData } = useAuth();
 
+    const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -17,25 +19,34 @@ const Login = () => {
     }
 
     const onClickSubmit = () => {
-        const url = apiHost + "/account/login";
-        const login = {
-            email: email,
-            password: password
-        }
-        fetch(url, {
-            method: "POST",
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(login)
-        }).then(rsp => rsp.json())
-        .then(data => {
-            if (data.token) {
-                setUserData(data);
-            }
-        }).catch(e => console.error(e));
+        setLoading(true);
     }
+
+    useEffect(() => {
+        if (loading) {
+            const url = apiHost + "/account/login";
+            const login = {
+                email: email,
+                password: password
+            }
+            fetch(url, {
+                method: "POST",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(login)
+            }).then(rsp => rsp.json())
+            .then(data => {
+                if (data.token) {
+                    setUserData(data);
+                }
+            }).finally(() => setLoading(false))
+            .catch(e => console.error(e));
+        }
+    }, [loading])
+
+    if (loading) return <Loading/>
 
     return (
         <>
