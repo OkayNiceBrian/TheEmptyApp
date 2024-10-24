@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { PlayCircle02Icon, Queue02Icon, StarIcon, StarCircleIcon } from "hugeicons-react";
+import { useViewport } from "contexts/ViewportContext";
 import { useAuth } from "contexts/AuthContext";
 import { useAudio } from "contexts/AudioPlayerContext";
 import { convertDuration } from "helpers/Util";
@@ -8,6 +9,7 @@ import { convertSongInfo } from "helpers/Util";
 import "styles/SongList.css";
 
 const SongList = ({ songList }) => {
+    const { width } = useViewport();
     const { token, logout } = useAuth();
     const { playSong, queueSong } = useAudio();
 
@@ -49,11 +51,11 @@ const SongList = ({ songList }) => {
                     <p className="songlist-song-text">{index + 1}</p>
                     <PlayCircle02Icon className={"clickable-icon"} color={"cornflowerblue"} onClick={() => playSong(convertSongInfo(song))}/>
                     <p className="songlist-song-title-text">{song.name}</p>
-                    <p className="songlist-song-text">{song.albumName}</p>
+                    {width > 800 && <p className="songlist-song-text">{song.albumName}</p>}
                     <p className="songlist-song-text">{song.artistName}</p>
                     {!song.isLikedByUser ? <StarIcon className={"clickable-icon"} color={"white"} size={"20px"} onClick={() => likeSong(song)}/> : <StarCircleIcon color={"yellow"} size={"20px"}/>}
                     <p className="songlist-song-text">{convertDuration(song.duration)}</p>
-                    <p className="songlist-song-text">Plays: {song.listens}</p>
+                    {width > 800 && <p className="songlist-song-text">Plays: {song.listens}</p>}
                     <Queue02Icon className={"clickable-icon"} color={"green"} size={"20px"} onClick={() => queueSong(convertSongInfo(song))}/>
                 </li>
             )}
