@@ -11,7 +11,7 @@ import { Edit02Icon } from "hugeicons-react";
 const EditAlbum = () => {
     const { artistId, albumId } = useParams();
     const { token, logout } = useAuth();
-    const { navigate } = useNavigate();
+    const navigate = useNavigate();
 
     const [loading, setLoading] = useState(true);
     const [uploading, setUploading] = useState(false);
@@ -53,11 +53,10 @@ const EditAlbum = () => {
                     return rsp.json();
                 }).then(data => {
                     setAlbum(data);
-                    setLoading(false);
                 })
             }).catch(e => console.error(e));
         }
-    });
+    }, [albumId, loading, logout, token]);
 
     useEffect(() => {
         if (album !== null) {
@@ -68,14 +67,9 @@ const EditAlbum = () => {
             setSecondaryGenre(album.secondaryGenre);
             setIsPrivate(album.isPrivate);
             setAllowedEmailsString(album.allowedEmails.join('\n'));
+            setLoading(false);
         }
     }, [album])
-    
-    useEffect(() => {
-        if (isAlbumEdited) {
-            navigate("/artist/" + artistId);
-        }
-    }, [isAlbumEdited, artistId, navigate]);
 
     const renderSongs = () => {
         return (
@@ -97,6 +91,29 @@ const EditAlbum = () => {
         return audioUpdates.map((audio, index) => <EditSong key={index} song={audio.song} audioUpdates={audioUpdates} setAudioUpdates={setAudioUpdates} />)
     }
 
+    useEffect(() => {
+        if (!loading) {
+            console.log(albumTitle + " " + album.name);
+            console.log(releaseDate + " " + album.releaseDate);
+            console.log(primaryGenre + " " + album.primaryGenre);
+            console.log(secondaryGenre + " " + album.secondaryGenre);
+            console.log(isPrivate + " " + album.isPrivate);
+            console.log(album.allowedEmails.join('\n') + " " + allowedEmailsString);
+            if (albumTitle !== album.name || releaseDate !== album.releaseDate || JSON.stringify(coverFile) !== JSON.stringify({}) ||
+            primaryGenre !== album.primaryGenre || secondaryGenre !== album.secondaryGenre || 
+            isPrivate !== album.isPrivate) { //|| JSON.stringify(album.allowedEmails.join('\n').trimEnd()) !== allowedEmailsString) {
+                setIsAlbumEdited(true);  
+                if (audioUpdates.length > 0) {
+                    audioUpdates.forEach((a) => {
+                        if (JSON.stringify(a.file) === JSON.stringify({})) {
+                            setIsAlbumEdited(false);
+                        }
+                    })
+                }  
+            }
+        }
+    }, [loading, albumTitle, releaseDate, coverFile, primaryGenre, secondaryGenre, isPrivate, allowedEmailsString, audioUpdates, album])
+
     const pressSubmit = () => {
         const url = `${apiHost}/albums/${albumId}`;
         const a = {
@@ -117,7 +134,7 @@ const EditAlbum = () => {
             },
             body: JSON.stringify(a)
         }).then(rsp => {
-            
+            navigate("/artist/" + artistId);
         }).catch(e => console.error(e));
     }
 
