@@ -53,7 +53,7 @@ const Login = () => {
                     <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
                 </div>
                 <div className="input-container">
-                    <input style={{marginTop: "20px", backgroundColor: validateForm() ? "orange" : "gray"}} type="submit" onClick={validateForm() ? onClickSubmit : null}/>
+                    <input style={{marginTop: "20px", backgroundColor: validateForm() ? "orange" : "gray"}} className="login-button" type="submit" onClick={validateForm() ? onClickSubmit : null}/>
                 </div>
                 <p className="login-text" style={{marginTop: "40px"}}>Don't have an account? Create one <Link className="link-text" to={"/register"}>here</Link>.</p>
             </div>
