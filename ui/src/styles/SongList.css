@@ -7,10 +7,10 @@
 
 .songlist-song-container-grid {
     background-color: #101010;
-    display: flex;
+    display: grid;
+    grid-template-columns: 5% 5% 20% 20% 20% 5% 10% 10% 5%;
     justify-content: space-around;
     align-items: center;
-    gap: 10px;
     border-color: gray;
     border-style: solid;
     border-width: 0;
@@ -34,4 +34,10 @@
 .songlist-song-text {
     font-size: 12pt;
     font-weight: lighter;
+}
+
+@media (width <= 800px) {
+    .songlist-song-container-grid {
+        grid-template-columns: 5% 5% 30% 30% 5% 10% 5%;
+    }
 }
