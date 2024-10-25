@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { PauseIcon, PlayCircle02Icon, PreviousIcon, VolumeHighIcon } from "hugeicons-react";
 import { blobUrl } from "config/host";
 import { convertDuration } from 'helpers/Util';
@@ -19,8 +20,8 @@ const AudioPlayer = ({ trackInfo, isVisible, isPaused, setIsPaused, isPlayerLoad
             <div className="audioPlayer-info-container">
                 <img className={"audioPlayer-cover-image"} src={blobUrl + "/" + trackInfo.coverImageGuid} alt={"cover"}/>
                 <div className={"audioPlayer-info-text-container"}>
-                    <p className="audioPlayer-info-text-song">{trackInfo.songName}</p>
-                    <p className="audioPlayer-info-text-artist">{trackInfo.artistName}</p>
+                    <Link className='audioPlayer-link' to={`/artist/${trackInfo.artistId}/album/${trackInfo.albumId}`}><p className="audioPlayer-info-text-song">{trackInfo.songName}</p></Link>
+                    <Link className='audioPlayer-link' to={`/artist/${trackInfo.artistId}`}><p className="audioPlayer-info-text-artist">{trackInfo.artistName}</p></Link>
                 </div>
             </div>
             <div className="audioPlayer-controls-container">

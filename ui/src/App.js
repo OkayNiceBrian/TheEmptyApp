@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useAuth } from "contexts/AuthContext";
+import AudioProvider from 'contexts/AudioPlayerContext';
 import Login from "pages/Login";
 import Register from "pages/Register";
 import Layout from "pages/Layout";
@@ -29,21 +30,23 @@ function App() {
     </BrowserRouter>
   ) : (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout/>}>
-          <Route index element={<Home/>}/>
-          <Route path="/artist/:artistId" element={<Artist/>}/>
-          <Route path="/artist/:artistId/album/:albumId" element={<Album/>}/>
-          <Route path="/artist/:artistId/album/:albumId/edit" element={<EditAlbum/>}/>
-          <Route path="/artist/:artistId/album/create" element={<CreateAlbum/>}/>
-          <Route path="/search/:searchQuery" element={<Search/>}/>
-          <Route path="/likes" element={<Likes/>}/>
-          <Route path="/options" element={<Options/>}/>
-          <Route path="/contact" element={<Contact/>}/>
-          <Route path="/artist/create" element={<CreateArtist/>}/>
-          <Route path="*" element={<NoPage/>}/>
-        </Route>
-      </Routes>
+      <AudioProvider>
+        <Routes>
+          <Route path="/" element={<Layout/>}>
+            <Route index element={<Home/>}/>
+            <Route path="/artist/:artistId" element={<Artist/>}/>
+            <Route path="/artist/:artistId/album/:albumId" element={<Album/>}/>
+            <Route path="/artist/:artistId/album/:albumId/edit" element={<EditAlbum/>}/>
+            <Route path="/artist/:artistId/album/create" element={<CreateAlbum/>}/>
+            <Route path="/search/:searchQuery" element={<Search/>}/>
+            <Route path="/likes" element={<Likes/>}/>
+            <Route path="/options" element={<Options/>}/>
+            <Route path="/contact" element={<Contact/>}/>
+            <Route path="/artist/create" element={<CreateArtist/>}/>
+            <Route path="*" element={<NoPage/>}/>
+          </Route>
+        </Routes>
+      </AudioProvider>
     </BrowserRouter>
   );
 }

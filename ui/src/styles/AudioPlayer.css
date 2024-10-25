@@ -41,12 +41,22 @@
 .audioPlayer-info-text-song {
     font-weight: bold;
     white-space: nowrap;
+    color: white;
 }
 
 .audioPlayer-info-text-artist {
     font-weight: lighter;
     white-space: nowrap;
+    color: white;
 }   
+
+.audioPlayer-link {
+    text-decoration: none;
+}
+
+.audioPlayer-link p:hover {
+    color: gray;
+}
 
 .audioPlayer-volume-container {
     display: flex;

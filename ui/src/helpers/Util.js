@@ -9,6 +9,8 @@ export const convertSongInfo = (song) => {
         artistName: song.artistName,
         albumName: song.albumName,
         songName: song.name,
+        artistId: song.artistId,
+        albumId: song.albumId,
         duration: song.duration,
         guid: song.audioFileGuid, 
         coverImageGuid: song.coverImageGuid
