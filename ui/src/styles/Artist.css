@@ -55,6 +55,11 @@
     font-size: 20pt;
 }
 
+.artist-album-subheader-text {
+    font-size: 14pt;
+    font-weight: lighter;
+}
+
 .artist-album-cover {
     height: 300px;
     width: 300px;
