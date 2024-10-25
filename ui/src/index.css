@@ -23,7 +23,7 @@ input {
 body {
   margin: 0;
   color: white;
-  font-family: -apple-system, BlinkMacSystemFont, 'Bookman Old Style','Segoe UI', 'Roboto', 'Oxygen',
+  font-family: -apple-system, BlinkMacSystemFont, "Noto Sans", Sans-Serif, 'Bookman Old Style','Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;

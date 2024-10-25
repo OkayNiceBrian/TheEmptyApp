@@ -55,7 +55,7 @@
     border: 5px solid gray;
 }
 
-@media (width <= 1000px) {
+@media (width <= 1200px) {
     .album-container {
         display: flex;
         width: 90vw;

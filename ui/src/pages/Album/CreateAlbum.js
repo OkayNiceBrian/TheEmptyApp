@@ -14,6 +14,8 @@ const CreateAlbum = () => {
 
     const [loading, setLoading] = useState(true);
     const [uploading, setUploading] = useState(false);
+    const [uploadProgress, setUploadProgress] = useState(0);
+
     const [genres, setGenres] = useState([]);
     const [title, setTitle] = useState("");
     const [releaseDate, setReleaseDate] = useState("");
@@ -31,6 +33,7 @@ const CreateAlbum = () => {
     const [hasCoverUploaded, setHasCoverUploaded] = useState(false);
     const [isAlbumCreated, setIsAlbumCreated] = useState(false);
     const [areSongsUploading, setAreSongsUploading] = useState(false);
+    const uploadTotal = songComponents.length * 2 + 2;
 
     const navigate = useNavigate();
 
@@ -97,6 +100,7 @@ const CreateAlbum = () => {
                         duration: parseFloat(songComponent.duration),
                         audioFileGuid: data.guid
                     };
+                    setUploadProgress(prev => prev + 1);
                     fetch(songUrl, {
                         method: "POST",
                         headers: {
@@ -109,6 +113,7 @@ const CreateAlbum = () => {
                         if (i === songComponents.length - 1) {
                             setIsAlbumCreated(true);
                         }
+                        setUploadProgress(prev => prev + 1);
                     });
                 })
             }
@@ -141,6 +146,7 @@ const CreateAlbum = () => {
         }).then(rsp => {
             if (rsp.status === 401) logout();
             if (rsp.ok) setHasCoverUploaded(true);
+            setUploadProgress(prev => prev + 1);
             return rsp.json();
         }).then(data => {
             setCoverGuid(data.guid);
@@ -166,6 +172,7 @@ const CreateAlbum = () => {
                 return rsp.json();
             }).then(data => {
                 setAlbumId(data.id);
+                setUploadProgress(prev => prev + 1);
                 setAreSongsUploading(true);
             });
         });
@@ -189,7 +196,9 @@ const CreateAlbum = () => {
         </div>
     }
 
-    if (loading || uploading) return <Loading/>
+    if (loading) return <Loading/>
+
+    if (uploading) return <Loading percent={Math.floor((uploadProgress / uploadTotal) * 100)}/>
 
     return (
         <div className="form-container">
