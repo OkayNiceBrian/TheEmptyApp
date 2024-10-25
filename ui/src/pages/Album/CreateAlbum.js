@@ -65,6 +65,7 @@ const CreateAlbum = () => {
 
     useEffect(() => {
         if (isAlbumCreated) {
+            setUploading(false);
             navigate("/artist/" + artistId);
         }
     }, [isAlbumCreated, artistId, navigate]);
@@ -108,7 +109,7 @@ const CreateAlbum = () => {
                         if (i === songComponents.length - 1) {
                             setIsAlbumCreated(true);
                         }
-                    }).finally(() => setUploading(false));
+                    });
                 })
             }
         }

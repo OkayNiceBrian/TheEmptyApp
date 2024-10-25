@@ -52,6 +52,7 @@
 .album-cover {
     height: 300px;
     width: 300px;
+    border: 5px solid gray;
 }
 
 @media (width <= 1000px) {

@@ -62,7 +62,7 @@ const Album = () => {
             <div className="album-container">
                 <div className="album-cover-container">
                     <img className="album-cover" src={blobUrl + "/" + album.coverImageGuid} alt={album.name}/>
-                    <PlayCircle02Icon className={"clickable-icon"} color={"cornflowerblue"} size={"100px"} onClick={() => onClickPlayAlbum(album)}/>
+                    <PlayCircle02Icon className={"clickable-icon"} color={"cornflowerblue"} size={"170px"} onClick={() => onClickPlayAlbum(album)}/>
                     <div className="album-header-items-container">
                         {userArtistId === artistId && <Edit02Icon className="clickable-icon" color={"green"} onClick={() => navigate(`edit`)}/>}
                         {userArtistId === artistId && <Delete04Icon className="clickable-icon" color={"red"} onClick={onClickDeleteAlbum}/>}

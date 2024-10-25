@@ -34,7 +34,7 @@ public class QueryController : ControllerBase {
 
         var artists = await _qs.QueryArtist(query.QueryString, 0, 5);
         var albums = await _qs.QueryAlbum(query.QueryString, 0, 5);
-        var songs = await _qs.QuerySong(query.QueryString, 0, 5);
+        var songs = await _qs.QuerySong(query.QueryString, 0, 15);
 
         var qad = new QueryAllDto {
             Artists = artists.Select(a => a.ToQueryArtistDto()).ToList(),
