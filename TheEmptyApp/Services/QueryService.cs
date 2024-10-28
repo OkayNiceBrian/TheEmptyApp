@@ -22,6 +22,7 @@ public class QueryService : IQueryService {
         return await _ctx.Albums
             .Include(a => a.Artist)
             .Include(a => a.Songs)
+            .Where(a => !a.IsPrivate)
             .Where(a => a.Name!.ToLower().Contains(queryString.ToLower())
             || a.Artist!.Name!.ToLower().Contains(queryString.ToLower())
             || a.Songs.Select(s => s.Name!.ToLower()).Contains(queryString.ToLower()))
@@ -32,6 +33,7 @@ public class QueryService : IQueryService {
         return await _ctx.Songs
             .Include(s => s.Artist)
             .Include(s => s.Album)
+            .Where(s => !s.Album!.IsPrivate)
             .Where(s => s.Name!.ToLower().Contains(queryString.ToLower()) 
             || s.Album!.Name!.ToLower().Contains(queryString.ToLower()) 
             || s.Artist!.Name!.ToLower().Contains(queryString.ToLower()))

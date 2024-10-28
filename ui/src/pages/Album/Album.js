@@ -30,7 +30,7 @@ const Album = () => {
                     "Authorization": `Bearer ${token}`
                 }
             }).then(rsp => {
-                if (rsp.status === 401) logout();
+                if (rsp.status === 401) navigate("*");
                 return rsp.json();
             }).then(data => {
                 setAlbum(data);

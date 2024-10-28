@@ -34,6 +34,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout/>}>
             <Route index element={<Home/>}/>
+            <Route path="/register" element={<Home/>}/>
             <Route path="/artist/:artistId" element={<Artist/>}/>
             <Route path="/artist/:artistId/album/:albumId" element={<Album/>}/>
             <Route path="/artist/:artistId/album/:albumId/edit" element={<EditAlbum/>}/>

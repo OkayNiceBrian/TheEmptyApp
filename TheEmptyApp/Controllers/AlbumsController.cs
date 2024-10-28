@@ -44,6 +44,9 @@ public class AlbumsController : ControllerBase {
         var a = await _ar.GetByIdAsync(id);
         if (a == null) return NotFound();
 
+        if (a.IsPrivate && a.Artist!.UserId != uid && !a.AllowedUsers.Select(u => u.Id).Contains(uid))
+            return Unauthorized();
+
         var aDto = a.ToAlbumDto();
         aDto.Songs.OrderBy(s => s.TrackNum);
         foreach (Song s in a.Songs) {

@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using TheEmptyApp.Dtos.Artist;
 using TheEmptyApp.Interfaces;
@@ -33,8 +35,22 @@ public class ArtistsController : ControllerBase {
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetArtist([FromRoute] int id) {
+        var u = User.Identity as ClaimsIdentity;
+        if (u == null) return NotFound();
+
+        var uid = u.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+
         var a = await _ar.GetByIdAsync(id);
-        return a == null ? NotFound() : Ok(a.ToArtistDto());
+        if (a == null) return NotFound();
+
+        for (int i = 0; i < a.Albums.Count; i++) {
+            var album = a.Albums.ElementAt(i);
+            if (album.IsPrivate && a.UserId != uid && !album.AllowedUsers.Select(u => u.Id).Contains(uid)) {
+                a.Albums.Remove(album);
+            }
+        }
+
+        return Ok(a.ToArtistDto());
     }
     
     [HttpPost]

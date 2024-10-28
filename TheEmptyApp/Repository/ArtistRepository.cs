@@ -22,6 +22,8 @@ public class ArtistRepository : IArtistRepository {
         return await _ctx.Artists
             .Include(a => a.Albums)
                 .ThenInclude(a => a.Songs)
+            .Include(a => a.Albums)
+                .ThenInclude(a => a.AllowedUsers)
             .FirstOrDefaultAsync(a => a.Id == id);
     }
 
