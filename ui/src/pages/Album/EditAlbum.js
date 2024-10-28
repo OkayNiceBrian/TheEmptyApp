@@ -29,6 +29,8 @@ const EditAlbum = () => {
     const [audioUpdates, setAudioUpdates] = useState([]);
 
     const [isAlbumEdited, setIsAlbumEdited] = useState(false);
+    const [uploadProgress, setUploadProgress] = useState(0);
+    const uploadTotal = audioUpdates.length + (coverFile instanceof File) ? 2 : 1;
 
     useEffect(() => {
         if (loading) {
@@ -67,6 +69,7 @@ const EditAlbum = () => {
             setSecondaryGenre(album.secondaryGenre);
             setIsPrivate(album.isPrivate);
             setAllowedEmailsString(album.allowedEmails.join('\n'));
+            setCoverGuid(album.coverImageGuid);
             setLoading(false);
         }
     }, [album])
@@ -99,9 +102,10 @@ const EditAlbum = () => {
             console.log(secondaryGenre + " " + album.secondaryGenre);
             console.log(isPrivate + " " + album.isPrivate);
             console.log(album.allowedEmails.join('\n') + " " + allowedEmailsString);
-            if (albumTitle !== album.name || releaseDate !== album.releaseDate || JSON.stringify(coverFile) !== JSON.stringify({}) ||
+            console.log(coverFile + " " + {})
+            if (albumTitle !== album.name || releaseDate !== album.releaseDate || (coverFile instanceof File) ||
             primaryGenre !== album.primaryGenre || secondaryGenre !== album.secondaryGenre || 
-            isPrivate !== album.isPrivate) { //|| JSON.stringify(album.allowedEmails.join('\n').trimEnd()) !== allowedEmailsString) {
+            isPrivate !== album.isPrivate || album.allowedEmails.join('\n').trim() !== allowedEmailsString.trim()) {
                 setIsAlbumEdited(true);  
                 if (audioUpdates.length > 0) {
                     audioUpdates.forEach((a) => {
@@ -110,14 +114,18 @@ const EditAlbum = () => {
                         }
                     })
                 }  
+            } else {
+                setIsAlbumEdited(false);
             }
         }
     }, [loading, albumTitle, releaseDate, coverFile, primaryGenre, secondaryGenre, isPrivate, allowedEmailsString, audioUpdates, album])
 
     const pressSubmit = () => {
+        setUploading(true);
         const url = `${apiHost}/albums/${albumId}`;
         const a = {
             name: albumTitle,
+            artistId: artistId,
             releaseDate: releaseDate,
             primaryGenre: primaryGenre,
             secondaryGenre: secondaryGenre,
@@ -134,11 +142,52 @@ const EditAlbum = () => {
             },
             body: JSON.stringify(a)
         }).then(rsp => {
-            navigate("/artist/" + artistId);
-        }).catch(e => console.error(e));
+            if (rsp.status !== 200) return;
+            else setUploadProgress(prev => prev + 1);
+        }).then(() => {
+            if (coverFile instanceof File) {
+                let imageData = new FormData();
+                imageData.append("file", coverFile);
+                const coverUrl = `${apiHost}/files/images/${coverGuid.split("/")[1]}`;
+                fetch(coverUrl, {
+                    method: "PUT",
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    },
+                    body: imageData
+                }).then(rsp => {
+                    if (rsp.status === 200) setUploadProgress(prev => prev + 1);
+                })
+            }
+        })
+        .then(() => {
+            audioUpdates.forEach(audio => {
+                let audioData = new FormData();
+                audioData.append("file", audio.file);
+                const audioUrl = `${apiHost}/files/audio/${audio.song.audioFileGuid.split("/")[1]}`;
+                fetch(audioUrl, {
+                    method: "PUT",
+                    headers: {
+                        "Authorization": `Bearer ${token}`
+                    },
+                    body: audioData
+                }).then(rsp => {
+                    if (rsp.status === 200) setUploadProgress(prev => prev + 1);
+                })
+            });
+        })
+        .catch(e => console.error(e));
     }
 
-    if (loading || uploading) return <Loading/>;
+    useEffect(() => {
+        if (Math.floor((uploadProgress / uploadTotal) * 100) === 100) {
+            navigate(`/artist/${artistId}/album/${albumId}`);
+        }
+    })
+
+    if (loading) return <Loading/>;
+
+    if (uploading) return <Loading percent={Math.floor((uploadProgress / uploadTotal) * 100)}/>
 
     return (
         <div className="form-container">

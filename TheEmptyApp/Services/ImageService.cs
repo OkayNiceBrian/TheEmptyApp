@@ -36,7 +36,7 @@ public class ImageService : IImageService {
         fileUploadStream.Position = 0;
 
         BlobContainerClient bcc = new(_ao.ConnectionString, _ao.Container);
-        BlobClient bc = bcc.GetBlobClient(guid);
+        BlobClient bc = bcc.GetBlobClient("images/" + guid);
 
         await bc.UploadAsync(fileUploadStream, new BlobUploadOptions() {
             HttpHeaders = new BlobHttpHeaders {

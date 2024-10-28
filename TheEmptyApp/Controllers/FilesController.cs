@@ -6,7 +6,6 @@ using TheEmptyApp.Mappers;
 
 namespace TheEmptyApp.Controllers;
 
-
 [Route("api/files")]
 [ApiController]
 [Authorize]
