@@ -30,7 +30,7 @@ const EditAlbum = () => {
 
     const [isAlbumEdited, setIsAlbumEdited] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
-    const uploadTotal = audioUpdates.length + (coverFile instanceof File) ? 2 : 1;
+    const uploadTotal = audioUpdates.length * 2 + (coverFile instanceof File) ? 2 : 1;
 
     useEffect(() => {
         if (loading) {
