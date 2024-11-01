@@ -6,6 +6,7 @@ using TheEmptyApp.Data;
 using TheEmptyApp.Repository;
 using TheEmptyApp.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 
 namespace TheEmptyApp.Tests.Repository;
 
