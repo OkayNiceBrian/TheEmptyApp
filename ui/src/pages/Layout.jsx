@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import { useViewport } from "contexts/ViewportContext";
 import { useAuth } from "contexts/AuthContext";
+import MenuDrawer from "components/MenuDrawer";
 import logo from "assets/logo.png"
 import 'styles/Layout.css';
 
@@ -44,8 +45,9 @@ const Layout = () => {
                         <li className="nav-item">
                             <Link className="link" onClick={() => logout()}><p className="nav-text">Logout</p></Link>
                         </li>
-                    </ul> : 
-                    <div></div>
+                    </ul> 
+                    : 
+                    <MenuDrawer/>
                 }
             </nav>
 

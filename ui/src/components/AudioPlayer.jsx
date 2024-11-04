@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { PauseIcon, PlayCircle02Icon, PreviousIcon, VolumeHighIcon } from "hugeicons-react";
 import { blobUrl } from "config/host";
 import { convertDuration } from 'helpers/Util';
-import "styles/AudioPlayer.css";
+import "./styles/AudioPlayer.css";
 
 const AudioPlayer = memo(({ trackInfo, isVisible, isPaused, setIsPaused, isPlayerLoading, lastPlayedTrack, isPlaying, playSong, skipSong, queueLength, volume, setVolume }) => {
     const [currentTime] = useState(0);

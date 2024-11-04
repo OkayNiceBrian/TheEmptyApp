@@ -1,5 +1,5 @@
 import { Audio } from "react-loader-spinner";
-import "styles/Loading.css";
+import "./styles/Loading.css";
 
 const Loading = ({ percent }) => {
 

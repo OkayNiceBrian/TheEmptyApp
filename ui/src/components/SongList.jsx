@@ -6,7 +6,7 @@ import { useAudio } from "contexts/AudioPlayerContext";
 import { convertDuration } from "helpers/Util";
 import { apiHost } from "config/host";
 import { convertSongInfo } from "helpers/Util";
-import "styles/SongList.css";
+import "./styles/SongList.css";
 
 const SongList = ({ songList }) => {
     const { width } = useViewport();

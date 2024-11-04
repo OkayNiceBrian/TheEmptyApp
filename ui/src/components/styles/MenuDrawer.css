@@ -1,0 +1,26 @@
+.drawer-icon {
+    margin-right: 1rem;
+}
+
+.drawer-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #003135;
+    display: flex;
+    flex-direction: column;
+    padding: 3rem;
+    z-index: 100;
+}
+
+.drawer-container li {
+    margin-top: 2rem;
+}
+
+.drawer-container p {
+    color: white;
+    font-size: 20px;
+    font-weight: lighter;
+}
