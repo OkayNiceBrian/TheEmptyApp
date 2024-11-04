@@ -1,18 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
 import './index.css';
 import ViewportProvider from './contexts/ViewportContext';
 import AuthProvider from './contexts/AuthContext';
+import configureAppStore from './store/store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const store = configureAppStore();
+
 root.render(
   <React.StrictMode>
     <ViewportProvider>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
+      <Provider store={store}>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </Provider>
     </ViewportProvider>
   </React.StrictMode>
 );
