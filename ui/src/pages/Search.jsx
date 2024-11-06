@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import Loading from "components/Loading";
-import { useAuth } from "contexts/AuthContext";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "store/rootReducer";
 import { apiHost, blobUrl } from "config/host";
 import "styles/Search.css";
 
 const Search = () => {
     const { searchQuery } = useParams();
-    const { token, logout } = useAuth();
+    const dispatch = useDispatch();
+    const token = useSelector(state => state.token);
 
     const [itemsPerPage] = useState(10);
     const [pageNum] = useState(1);
@@ -38,14 +40,14 @@ const Search = () => {
                 },
                 body: JSON.stringify(query)
             }).then(rsp => {
-                if (rsp.status === 401) logout();
+                if (rsp.status === 401) dispatch(logout());
                 return rsp.json();
             }).then(data => {
                 if (searchType === "all") setAllData(data);
                 setLoading(false);
             }).catch(e => console.error(e));
         }
-    }, [itemsPerPage, loading, logout, pageNum, searchQuery, searchType, token]);
+    }, [itemsPerPage, loading, pageNum, searchQuery, searchType, token]);
 
     const renderSongs = (songs) => {
         return songs.map(song => {

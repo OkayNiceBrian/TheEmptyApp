@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import './index.css';
 import ViewportProvider from './contexts/ViewportContext';
-import AuthProvider from './contexts/AuthContext';
 import configureAppStore from './store/store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -15,9 +14,7 @@ root.render(
   <React.StrictMode>
     <ViewportProvider>
       <Provider store={store}>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
+        <App />
       </Provider>
     </ViewportProvider>
   </React.StrictMode>

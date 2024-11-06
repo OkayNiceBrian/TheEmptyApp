@@ -2,14 +2,17 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Delete04Icon, AddCircleIcon} from "hugeicons-react";
 import Loading from "components/Loading";
-import { useAuth } from "contexts/AuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "store/rootReducer";
 import { apiHost, blobUrl } from "config/host";
 import "styles/Artist.css";
 
 const Artist = () => {
     const { artistId } = useParams();
 
-    const { token, userArtistId, logout } = useAuth();
+    const dispatch = useDispatch();
+    const token = useSelector(state => state.token);
+    const userArtistId = useSelector(state => state.userArtistId);
 
     const [isLoading, setIsLoading] = useState(true);
     const [artist, setArtist] = useState(null);
@@ -28,7 +31,7 @@ const Artist = () => {
                 }
             })
             .then((rsp) => {
-                if (rsp.status === 401) logout();
+                if (rsp.status === 401) dispatch(logout());
                 return rsp.json();
             })
             .then((data) => {
@@ -40,7 +43,7 @@ const Artist = () => {
         if (isLoading) {
             fetchArtist();
         }
-    }, [artistId, isLoading, token, logout]);
+    }, [artistId, isLoading, token]);
 
     useEffect(() => {
         if (isDeleted) {
@@ -71,7 +74,7 @@ const Artist = () => {
                     "Authorization": "Bearer " + token
                 }
             }).then(rsp => {
-                if (rsp.status === 401) logout();
+                if (rsp.status === 401) dispatch(logout());
                 if (rsp.status === 204) setIsDeleted(true);
             });
         } catch (e) {

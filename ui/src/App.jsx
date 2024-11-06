@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useAuth } from "contexts/AuthContext";
+import { useSelector } from "react-redux";
 import AudioProvider from 'contexts/AudioPlayerContext';
 import Login from "pages/Login";
 import Register from "pages/Register";
@@ -17,7 +17,7 @@ import CreateAlbum from "pages/Album/CreateAlbum";
 import EditAlbum from "pages/Album/EditAlbum";
 
 function App() {
-  const { token } = useAuth();
+  const token = useSelector(state => state.token);
 
   return (!token) ? 
   (

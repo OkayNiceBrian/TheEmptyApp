@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "components/Loading";
 import CreateSong from "./components/CreateSong";
-import { useAuth } from "contexts/AuthContext";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "store/rootReducer";
 import { apiHost, blobUrl } from "config/host";
 import { getTodaysDate, parseEmails } from "helpers/Util";
 import "styles/CreateForm.css";
@@ -10,7 +11,9 @@ import "styles/CreateForm.css";
 const CreateAlbum = () => {
     const { artistId } = useParams();
 
-    const { token, logout, userArtistId } = useAuth();
+    const dispatch = useDispatch();
+    const token = useSelector(state => state.token);
+    const userArtistId = useSelector(state => state.userArtistId);
 
     const [loading, setLoading] = useState(true);
     const [uploading, setUploading] = useState(false);
@@ -44,7 +47,7 @@ const CreateAlbum = () => {
                 method: "GET",
                 headers: { "Authorization": `Bearer ${token}` }
             }).then(rsp => {
-                if (rsp.status === 401) logout();
+                if (rsp.status === 401) dispatch(logout());
                 return rsp.json();
             }).then(data => {
                 setGenres(data);
@@ -88,7 +91,7 @@ const CreateAlbum = () => {
                     },
                     body: audioData
                 }).then(rsp => {
-                    if (rsp.status === 401) logout();
+                    if (rsp.status === 401) dispatch(logout());
                     return rsp.json();
                 })
                 .then(data => {
@@ -126,7 +129,7 @@ const CreateAlbum = () => {
                 console.error(e);
             }
         }
-    }, [areSongsUploading, songComponents, albumId, artistId, token, setIsAlbumCreated, logout])
+    }, [areSongsUploading, songComponents, albumId, artistId, token, setIsAlbumCreated])
 
     const addSongToCreate = () => {
         setSongComponents(prev => [...prev, {artistId: artistId, name: "", trackNum: 0, file: {}}]);
@@ -144,7 +147,7 @@ const CreateAlbum = () => {
             },
             body: imageData
         }).then(rsp => {
-            if (rsp.status === 401) logout();
+            if (rsp.status === 401) dispatch(logout());
             if (rsp.ok) setHasCoverUploaded(true);
             setUploadProgress(prev => prev + 1);
             return rsp.json();

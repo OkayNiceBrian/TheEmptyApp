@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "contexts/AuthContext";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "store/rootReducer";
 import Loading from "components/Loading";
 import SongList from "components/SongList";
 import { apiHost } from "config/host";
 import "styles/Likes.css";
 
 const Likes = () => {
-    const { token, logout } = useAuth();
+    const dispatch = useDispatch();
+    const token = useSelector(state => state.token);
 
     const [loading, setLoading] = useState(true);
     const [songs, setSongs] = useState();
@@ -20,7 +22,7 @@ const Likes = () => {
                     "Authorization": `Bearer ${token}`
                 }
             }).then(rsp => {
-                if (rsp.status === 401) logout();
+                if (rsp.status === 401) dispatch(logout());
                 return rsp.json();
             }).then(data => {
                 setSongs(data);

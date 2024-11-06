@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "contexts/AuthContext";
+import { useDispatch } from "react-redux";
+import { setAuthData } from "store/rootReducer";
 import { apiHost } from "config/host";
 import "styles/Login.css";
 const Register = () => {
-    const { setUserData } = useAuth();
-    const { navigate } = useNavigate();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -34,7 +35,7 @@ const Register = () => {
         }).then(rsp => rsp.json())
         .then(data => {
             if (data.token) {
-                setUserData(data);
+                dispatch(setAuthData(data));
                 navigate("/");
             }
         }).catch(e => console.error(e));

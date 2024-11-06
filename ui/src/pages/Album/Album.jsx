@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { PlayCircle02Icon, Edit02Icon, Delete04Icon } from "hugeicons-react";
-import { useAuth } from "contexts/AuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "store/rootReducer";
 import { useAudio } from "contexts/AudioPlayerContext";
 import Loading from "components/Loading";
 import SongList from "components/SongList";
@@ -11,7 +12,9 @@ import "styles/Album.css";
 
 const Album = () => {
     const { artistId, albumId } = useParams();
-    const { token, userArtistId, logout } = useAuth();
+    const dispatch = useDispatch();
+    const token = useSelector(state => state.token);
+    const userArtistId = useSelector(state => state.userArtistId);
     const { playAlbum } = useAudio();
 
     const [album, setAlbum] = useState();
@@ -47,7 +50,7 @@ const Album = () => {
                 "Authorization": `Bearer ${token}`
             }
         }).then(rsp => {
-            if (rsp.status === 401) logout();
+            if (rsp.status === 401) dispatch(logout());
             if (rsp.status === 204) navigate(`/artist/${artistId}`);
         }).catch(e => console.error(e));
     }

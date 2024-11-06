@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "components/Loading";
 import EditSong from "./components/EditSong";
-import { useAuth } from "contexts/AuthContext";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "store/rootReducer";
 import { apiHost } from "config/host";
 import { convertDuration, getTodaysDate, parseEmails } from "helpers/Util";
 import "styles/CreateForm.css";
@@ -10,7 +11,8 @@ import { Edit02Icon } from "hugeicons-react";
 
 const EditAlbum = () => {
     const { artistId, albumId } = useParams();
-    const { token, logout } = useAuth();
+    const dispatch = useDispatch();
+    const token = useSelector(state => state.token);
     const navigate = useNavigate();
 
     const [loading, setLoading] = useState(true);
@@ -39,7 +41,7 @@ const EditAlbum = () => {
                 method: "GET",
                 headers: { "Authorization": `Bearer ${token}` }
             }).then(rsp => {
-                if (rsp.status === 401) logout();
+                if (rsp.status === 401) dispatch(logout());
                 return rsp.json();
             }).then(data => {
                 setGenres(data);
@@ -51,14 +53,14 @@ const EditAlbum = () => {
                         "Authorization": `Bearer ${token}`
                     }
                 }).then(rsp => {
-                    if (rsp.status === 401) logout();
+                    if (rsp.status === 401) dispatch(logout());
                     return rsp.json();
                 }).then(data => {
                     setAlbum(data);
                 })
             }).catch(e => console.error(e));
         }
-    }, [albumId, loading, logout, token]);
+    }, [albumId, loading, token]);
 
     useEffect(() => {
         if (album !== null) {

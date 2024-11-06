@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { useAuth } from "contexts/AuthContext";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "store/rootReducer";
 import AudioPlayer from "components/AudioPlayer";
 import { apiHost } from "config/host";
 
@@ -7,7 +8,8 @@ import { apiHost } from "config/host";
 const AudioPlayerContext = createContext();
 
 const AudioProvider = ({ children }) => {
-    const { token, logout } = useAuth();
+    const dispatch = useDispatch();
+    const token = useSelector(state => state.token);
 
     // Audio State
     const [audioContext, setAudioContext] = useState(null);
@@ -88,7 +90,7 @@ const AudioProvider = ({ children }) => {
                     },
                     body: JSON.stringify(guidDto)
                 });
-                if (rsp.status === 401) logout();
+                if (rsp.status === 401) dispatch(logout());
                 const stream = rsp.body;
                 setAudioStream(stream);
             } catch (e) {
@@ -109,7 +111,7 @@ const AudioProvider = ({ children }) => {
             setIsPlaying(true);
             setIsPaused(false);
         }
-    }, [trackQueue, token, playNextTrack, audioSource, audioContext, logout]);
+    }, [trackQueue, token, playNextTrack, audioSource, audioContext]);
 
     useEffect(function handleAudio() {
         const readAudio = async () => {

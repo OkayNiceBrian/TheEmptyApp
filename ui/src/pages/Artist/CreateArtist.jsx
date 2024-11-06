@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "contexts/AuthContext";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "store/rootReducer";
 import { apiHost } from "config/host";
 import "styles/CreateForm.css";
 
 const CreateArtist = () => {
-    const { token, email, logout } = useAuth();
+    const dispatch = useDispatch();
+    const token = useSelector(state => state.token);
+    const email = useSelector(state => state.email);
 
     const [name, setName] = useState("");
     const [id, setId] = useState(null);
@@ -35,7 +38,7 @@ const CreateArtist = () => {
             },
             body: JSON.stringify(artist)
         }).then(rsp => {
-            if (rsp.status === 401) logout();
+            if (rsp.status === 401) dispatch(logout());
             return rsp.json();
         })
         .then(data => {

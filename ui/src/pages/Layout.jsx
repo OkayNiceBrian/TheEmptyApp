@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import { useViewport } from "contexts/ViewportContext";
-import { useAuth } from "contexts/AuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "store/rootReducer";
 import MenuDrawer from "components/MenuDrawer";
 import logo from "assets/logo.png"
 import 'styles/Layout.css';
 
 const Layout = () => {
     const { width } = useViewport();
-    const { logout, userArtistId } = useAuth();
     const navigate = useNavigate();
+    
+    const userArtistId = useSelector(state => state.userArtistId);
+    const dispatch = useDispatch();
 
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -43,7 +46,7 @@ const Layout = () => {
                             <Link className="link" to="/contact"><p className="nav-text">Contact</p></Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="link" onClick={() => logout()}><p className="nav-text">Logout</p></Link>
+                            <Link className="link" onClick={() => dispatch(logout())}><p className="nav-text">Logout</p></Link>
                         </li>
                     </ul> 
                     : 

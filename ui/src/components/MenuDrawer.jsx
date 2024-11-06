@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Menu01Icon, Cancel01Icon } from "hugeicons-react";
-import { useAuth } from "contexts/AuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "store/rootReducer";
 import "./styles/MenuDrawer.css";
 
 const MenuDrawer = () => {
-    const { logout, userArtistId } = useAuth();
+    const dispatch = useDispatch();
+    const userArtistId = useSelector(state => state.userArtistId);
     const [isOpen, setIsOpen] = useState(false);
 
     return !isOpen ? (
@@ -29,7 +31,7 @@ const MenuDrawer = () => {
                     <Link className="link" to="/contact"><p>Contact</p></Link>
                 </li>
                 <li>
-                    <Link className="link" onClick={() => logout()}><p>Logout</p></Link>
+                    <Link className="link" onClick={() => dispatch(logout())}><p>Logout</p></Link>
                 </li>
             </ul>
         </div>

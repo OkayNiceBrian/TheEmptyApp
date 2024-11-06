@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { PlayCircle02Icon, Queue02Icon, StarIcon, StarCircleIcon } from "hugeicons-react";
 import { useViewport } from "contexts/ViewportContext";
-import { useAuth } from "contexts/AuthContext";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "store/rootReducer";
 import { useAudio } from "contexts/AudioPlayerContext";
 import { convertDuration } from "helpers/Util";
 import { apiHost } from "config/host";
@@ -10,7 +11,8 @@ import "./styles/SongList.css";
 
 const SongList = ({ songList }) => {
     const { width } = useViewport();
-    const { token, logout } = useAuth();
+    const token = useSelector(state => state.token);
+    const dispatch = useDispatch();
     const { playSong, queueSong } = useAudio();
 
     const [loading, setLoading] = useState(true);
@@ -31,7 +33,7 @@ const SongList = ({ songList }) => {
                 "Authorization": `Bearer ${token}`
             }
         }).then(rsp => {
-            if (rsp === 401) logout();
+            if (rsp === 401) dispatch(logout());
             return rsp.json();
         }).then(data => {
             setSongs(songs.map((s) => s.id === song.id ? data : s));

@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Loading from "components/Loading";
-import { useAuth } from "contexts/AuthContext";
+import { useDispatch } from "react-redux";
+import { setAuthData } from "store/rootReducer";
 import { apiHost } from "config/host";
 import backgroundImage from "assets/home-bck.webp";
 import "styles/Login.css";
 
 const Login = () => {
-    const { setUserData } = useAuth();
+    const dispatch = useDispatch();
 
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
@@ -39,7 +40,7 @@ const Login = () => {
             }).then(rsp => rsp.json())
             .then(data => {
                 if (data.token) {
-                    setUserData(data);
+                    dispatch(setAuthData(data));
                 }
             }).finally(() => setLoading(false))
             .catch(e => console.error(e));
