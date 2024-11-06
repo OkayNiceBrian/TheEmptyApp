@@ -51,6 +51,10 @@ const Artist = () => {
         }
     }, [isDeleted, navigate])
 
+    useEffect(() => {
+
+    }, [artistId]);
+
     const onClickAlbum = (id) => {
         navigate(`/artist/${artistId}/album/${id}`);
     }
@@ -81,7 +85,7 @@ const Artist = () => {
             console.error(e);
         }
     }
-
+    
     if (isLoading) return <Loading/>
 
     return (
@@ -94,7 +98,7 @@ const Artist = () => {
             <div className="artist-album-list-container">
                 {renderAlbums()}
             </div>
-            {userArtistId === artistId && <AddCircleIcon className="clickable-icon" color={"green"} size={"40px"} onClick={() => navigate(`/artist/${artistId}/album/create`)} style={{marginBottom: "100px"}}/>}
+            {userArtistId == artistId ? <AddCircleIcon className="clickable-icon" color={"green"} size={"40px"} onClick={() => navigate(`/artist/${artistId}/album/create`)} style={{marginBottom: "100px"}}/> : null}
         </div>
     );
 };

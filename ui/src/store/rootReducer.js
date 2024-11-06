@@ -16,7 +16,6 @@ export const rootSlice = createSlice({
             localStorage.setItem("email", action.payload.email);
             state.username = action.payload.userName;
             localStorage.setItem("username", action.payload.userName);
-            console.log(action.payload);
             if (action.payload.artists && action.payload.artists.length > 0) {
                 state.userArtistId = action.payload.artists[0].id;
                 localStorage.setItem("userArtistId", action.payload.artists[0].id);
