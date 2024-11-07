@@ -4,7 +4,7 @@ import Loading from "components/Loading";
 import { useDispatch } from "react-redux";
 import { setAuthData } from "store/rootReducer";
 import { apiHost } from "config/host";
-import backgroundImage from "assets/home-bck.webp";
+import backgroundImage from "assets/home-bck.png";
 import "styles/Login.css";
 
 const Login = () => {

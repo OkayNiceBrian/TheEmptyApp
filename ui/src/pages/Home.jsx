@@ -1,4 +1,4 @@
-import backgroundImage from "assets/home-bck.webp";
+import backgroundImage from "assets/home-bck.png";
 import { useSelector } from "react-redux";
 import "styles/Home.css";
 
