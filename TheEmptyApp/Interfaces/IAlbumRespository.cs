@@ -6,6 +6,7 @@ namespace TheEmptyApp.Interfaces;
 
 public interface IAlbumRepository {
     Task<List<Album>> GetAllAsync();
+    Task<List<Album>> GetRecentAsync();
     Task<Album?> GetByIdAsync(int id);
     Task<Album> CreateAsync(Album albumModel);
     Task<Album?> UpdateAsync(int id, UpdateAlbumDto albumDto);

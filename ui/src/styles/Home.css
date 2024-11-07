@@ -14,7 +14,6 @@
 
 .home-header {
     font-size: 6vw;
-    /* font-size: 60pt; */
     font-weight: lighter;
     position: absolute;
     top: 40%;
@@ -25,7 +24,6 @@
 
 .home-body {
     font-size: 6vw;
-    /* font-size: 30pt; */
     font-weight: lighter;
     position: absolute;
     top: 50%;

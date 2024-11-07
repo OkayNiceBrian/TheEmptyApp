@@ -28,6 +28,12 @@ public class AlbumsController : ControllerBase {
         var a = await _ar.GetAllAsync();
         return Ok(a.Select(a => a.ToAlbumDto()));
     }
+
+    [HttpGet("index")]
+    public async Task<ActionResult<IEnumerable<AlbumDto>>> GetRecentAlbums() {
+        var a = await _ar.GetRecentAsync();
+        return Ok(a.Select(a => a.ToAlbumDto()));
+    }
     
     [HttpGet("genres")]
     public IActionResult GetGenres() {

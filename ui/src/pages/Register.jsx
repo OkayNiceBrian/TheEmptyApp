@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setAuthData } from "store/rootReducer";
 import { apiHost } from "config/host";
+import backgroundImage from "assets/home-bck.png";
 import "styles/Login.css";
 const Register = () => {
     const dispatch = useDispatch();
@@ -43,6 +44,7 @@ const Register = () => {
 
     return (
         <div className="login-container">
+            <img src={backgroundImage} alt={"Home"} className="login-background"/>
             <div className="login-header">
                 <p className="login-header-text">Register</p>
             </div>
