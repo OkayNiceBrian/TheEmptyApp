@@ -24,6 +24,7 @@
     max-width: fit-content;
     margin: 3rem;
     margin-bottom: 0px;
+    margin-top: 0px;
 }
 
 .home-releases {
@@ -35,12 +36,35 @@
     margin-top: 0px;
     overflow-x: auto;
     border: white 2px solid;
-    border-radius: 20px;
+    border-radius: 10px;
     padding: 1rem;
 }
 
-.home-releases img:hover {
+.home-releases p {
+    white-space: nowrap;
+}
+
+.home-album-container {
+    background-color: transparent;
+    border: white 1px solid;
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+.home-album-container:hover {
+    background-color: rgba(0, 0, 0, 0.7);
     cursor: pointer;
+}
+
+.home-album-container li {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.home-albumInfo {
+    display: flex;
+    flex-direction: column;
 }
 
 .home-releases-container p {

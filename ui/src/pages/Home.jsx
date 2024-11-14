@@ -54,11 +54,18 @@ const Home = () => {
     const renderReleases = (releases) => {
         return <ul className="home-releases">
             {releases.map((album) => {
-                return <li key={album.id}>
-                    <img src={`${blobUrl}/${album.coverImageGuid}`} onClick={() => navigate(`artist/${album.artistId}/album/${album.id}`)} className="home-releaseImage"/>
-                    <p><Link to={`artist/${album.artistId}/album/${album.id}`} className="home-artistLink">{album.name}</Link> by <Link to={`artist/${album.artistId}`} className="home-artistLink">{album.artistName}</Link></p>
-                    <p>{album.releaseDate}</p>
-                </li>
+                return <div id={album.id} className="home-album-container" onClick={() => navigate(`artist/${album.artistId}/album/${album.id}`)}>
+                    <li key={album.id}>
+                        <img src={`${blobUrl}/${album.coverImageGuid}`} className="home-releaseImage"/>
+                        <div className="home-albumInfo">
+                            <p style={{fontWeight: "bold"}}>{album.name}</p>
+                            <p> by <Link to={`artist/${album.artistId}`} className="home-artistLink" onClick={(e) => e.stopPropogation()}>{album.artistName}</Link></p>
+                            <p>{album.releaseDate}</p>
+                            <p style={{fontWeight: "lighter"}}>{album.primaryGenre}</p>
+                            <p style={{fontWeight: "lighter"}}>{album.secondaryGenre}</p>
+                        </div>
+                    </li>
+                </div>
             })}
         </ul>;
     }
