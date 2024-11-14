@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "store/rootReducer";
+import { setUserArtistId, logout } from "store/rootReducer";
 import { apiHost } from "config/host";
 import "styles/CreateForm.css";
 
@@ -43,7 +43,8 @@ const CreateArtist = () => {
         })
         .then(data => {
             if (data.id != null) {
-                setId(data.id)
+                setId(data.id);
+                dispatch(setUserArtistId(data.id));
                 setIsCreated(true);
             }
         }).catch(e => console.error(e));
