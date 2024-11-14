@@ -45,6 +45,10 @@
     gap: 10px;
 }
 
+.artist-album-container:hover {
+    cursor: pointer;
+}
+
 .artist-album-header-container {
     display: flex;
     align-items: center;
