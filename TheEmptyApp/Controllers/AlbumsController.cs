@@ -82,7 +82,7 @@ public class AlbumsController : ControllerBase {
         var a = albumDto.ToAlbumFromCreateDto();
 
         foreach (string email in albumDto.AllowedEmails) {
-            if (!email.IsNullOrEmpty()) {
+            if (!string.IsNullOrEmpty(email)) {
                 var u = await _um.FindByEmailAsync(email);
                 if (u != null) a.AllowedUsers.Add(u); 
             }
