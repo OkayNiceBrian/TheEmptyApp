@@ -64,7 +64,7 @@ const Artist = () => {
             <div onClick={() => onClickAlbum(album.id)} key={album.id} className="artist-album-container">
                 <img className="artist-album-cover" src={blobUrl + "/" + album.coverImageGuid} alt={album.name}/>
                 <p className="artist-album-header-text">{album.name}</p>
-                <p className="artist-album-subheader-text">{album.releaseDate.split("-")[0]}</p>
+                <p className="artist-album-subheader-text">{album.releaseDate}</p>
             </div>
         );
     }

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
+import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "store/rootReducer";
-import { apiHost } from "config/host";
+import { apiHost, blobUrl } from "config/host";
 import Loading from "components/Loading";
 import backgroundImage from "assets/home-bck.png";
 import "styles/Home.css";
@@ -30,11 +31,15 @@ const Home = () => {
     }, [loading]);
 
     const renderReleases = () => {
-        return <ul>
+        return <ul className="home-releases">
             {recentReleases.map((album) => {
-                return <li>
-
-                </li>;
+                return <Link key={album.id} className="link" to={`artist/${album.artistId}/album/${album.id}`}>
+                    <li>
+                        <img src={`${blobUrl}/${album.coverImageGuid}`} className="home-releaseImage"/>
+                        <p>{album.name} by <Link to={`artist/${album.artistId}`} className="home-artistLink">{album.artistName}</Link></p>
+                        <p>{album.releaseDate}</p>
+                    </li>
+                </Link>
             })}
         </ul>;
     }
@@ -44,8 +49,14 @@ const Home = () => {
     return (
         <div className="home-container">
             <img src={backgroundImage} alt={"Home"} className="home-image"/>
-            <p className="home-header">Welcome to Empty Music,</p>
-            <p className="home-body">{username}!</p>
+            <div className="home-header-container">
+                <p>Welcome to Empty Music, {username}.</p>
+            </div>
+            <div className="home-releases-container">
+                <h3>Recent Releases</h3>
+                {renderReleases()}
+            </div>
+            
         </div>
     );
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { PlayCircle02Icon, Edit02Icon, Delete04Icon } from "hugeicons-react";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "store/rootReducer";
@@ -81,7 +81,7 @@ const Album = () => {
     return (
         <div className="album-body">
             <div className="album-header-container">
-                <p className="album-header-text">{album.name} - {album.artistName}</p>
+                <p className="album-header-text">{album.name} by <Link to={`../artist/${album.artistId}`} className="album-artistLink">{album.artistName}</Link></p>
             </div>
             {renderAlbum()}
         </div>
