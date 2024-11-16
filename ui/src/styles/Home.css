@@ -35,8 +35,8 @@
     margin: 2rem;
     margin-top: 0px;
     overflow-x: auto;
-    border: white 2px solid;
-    border-radius: 5px;
+    border: white 1px solid;
+    border-radius: 10px;
     padding: 1rem;
     box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, .2);
 }
@@ -48,7 +48,7 @@
 .home-album-container {
     background-color: transparent;
     border: white 1px solid;
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 1rem;
     box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, .2);
 }
