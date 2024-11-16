@@ -153,7 +153,20 @@ const AudioProvider = ({ children }) => {
     return (
         <AudioPlayerContext.Provider value={{queueSong, playSong, playAlbum, skipSong}}>
             {children}
-            {isVisible && <AudioPlayer trackInfo={trackInfo} isVisible={isVisible} isPaused={isPaused} setIsPaused={setIsPaused} lastPlayedTrack={lastPlayedTrack} isPlaying={isPlaying} playSong={playSong} skipSong={skipSong} queueLength={trackQueue.length} volume={volume} setVolume={setVolume}/>}
+            {isVisible && 
+            <AudioPlayer trackInfo={trackInfo} 
+                isVisible={isVisible} 
+                isPaused={isPaused} 
+                setIsPaused={setIsPaused} 
+                lastPlayedTrack={lastPlayedTrack} 
+                isPlaying={isPlaying} 
+                playSong={playSong} 
+                skipSong={skipSong} 
+                queueLength={trackQueue.length} 
+                currentTime={audioContext ? String(audioContext.currentTime).split(".")[0] : 0} 
+                volume={volume} 
+                setVolume={setVolume}
+            />}
         </AudioPlayerContext.Provider>
     );
 }
