@@ -3,7 +3,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #003135;
 }
 
 .artist-header-container {
@@ -16,6 +15,7 @@
     border-style: solid;
     border-width: 1px;
     width: 100%;
+    box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, .2);
 }
 
 .artist-header-text {
@@ -43,6 +43,7 @@
     border-style: solid;
     border-width: 1px;
     gap: 10px;
+    box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, .2);
 }
 
 .artist-album-container:hover {

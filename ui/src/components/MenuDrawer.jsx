@@ -16,7 +16,9 @@ const MenuDrawer = () => {
         </div>
     ) : (
         <div className="drawer-container">
-            <Cancel01Icon onClick={() => setIsOpen(false)}/>
+            <div className="drawer-x-container">
+                <Cancel01Icon className="drawer-x-icon" onClick={() => setIsOpen(false)} size="36px"/>    
+            </div>
             <ul onClick={() => setIsOpen(false)}>
                 <li>
                     <Link className="link" to={`/artist/${userArtistId}`}><p>My Music</p></Link>

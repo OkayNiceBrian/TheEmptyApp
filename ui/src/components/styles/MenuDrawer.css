@@ -1,5 +1,13 @@
 .drawer-icon {
-    margin-right: 1rem;
+    margin-right: 2rem;
+}
+
+.drawer-icon:hover {
+    cursor: pointer;
+}
+
+.drawer-x-icon:hover {
+    cursor: pointer;
 }
 
 .drawer-container {
@@ -21,6 +29,17 @@
 
 .drawer-container p {
     color: white;
-    font-size: 20px;
-    font-weight: lighter;
+    font-size: 24pt;
+    font-weight: normal;
+}
+
+.drawer-container p:hover {
+    color: violet;
+}
+
+.drawer-x-container {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    width: 80vw;
 }
