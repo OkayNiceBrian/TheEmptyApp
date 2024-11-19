@@ -82,7 +82,7 @@ const Home = () => {
                 <h3>Recent Releases</h3>
                 {renderReleases(recentReleases)}
             </div>
-            {userArtistId && 
+            {userArtistId && yourReleases.length > 0 &&
             <div className="home-releases-container">
                 <h3>Your Releases</h3>
                 {renderReleases(yourReleases)}
