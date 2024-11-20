@@ -27,7 +27,6 @@
     align-items: center;
     padding-left: 4px;
     gap: 16px;
-    width: 150px;
 }
 
 .audioPlayer-cover-image {
@@ -76,4 +75,16 @@
     background-color: white;
     color:coral;
     scrollbar-color: coral;
+}
+
+@media (width > 800px) {
+    .audioPlayer-info-text-container {
+        width: 150px;
+    }
+}
+
+@media (width <= 800px) {
+    .audioPlayer-volume-slider {
+        width: 100px;
+    }
 }
