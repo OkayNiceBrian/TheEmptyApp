@@ -22,6 +22,11 @@ const AudioProvider = ({ children }) => {
     const [playNextTrack, setPlayNextTrack] = useState(true);
     const [lastPlayedTrack, setLastPlayedTrack] = useState(null);
     const [volume, setVolume] = useState(0.5);
+    const [startTime, setStartTime] = useState(0);
+    let currentTime = 0;
+    if (audioContext) {
+        currentTime = String(audioContext.currentTime - startTime).split(".")[0];
+    }
 
     // AudioPlayer Component State
     const [isVisible, setIsVisible] = useState(false);
@@ -125,6 +130,7 @@ const AudioProvider = ({ children }) => {
             source.start(0);
             setAudioSource(source);
             setGainNode(gainNode);
+            setStartTime(audioContext.currentTime);
         }
         if (audioStream) {
             setIsVisible(true);
@@ -163,7 +169,7 @@ const AudioProvider = ({ children }) => {
                 playSong={playSong} 
                 skipSong={skipSong} 
                 queueLength={trackQueue.length} 
-                currentTime={audioContext ? String(audioContext.currentTime).split(".")[0] : 0} 
+                currentTime={currentTime} 
                 volume={volume} 
                 setVolume={setVolume}
             />}

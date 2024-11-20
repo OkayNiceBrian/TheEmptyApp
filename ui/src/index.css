@@ -5,12 +5,12 @@
   font-style: normal;
 }
 
-@font-face {
+/* @font-face {
   font-family: "Lato";
-  src: url("assets/fonts/Lato/Lato-Light.ttf") format("truetype");
+  src: url("assets/fonts/Lato/Lato-Thin.ttf") format("truetype");
   font-weight: lighter;
   font-style: normal;
-}
+} */
 
 @font-face {
   font-family: "Lato";
