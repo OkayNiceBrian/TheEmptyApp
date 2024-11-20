@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setAuthData } from "store/rootReducer";
 import { apiHost } from "config/host";
@@ -69,6 +69,7 @@ const Register = () => {
                     <input type="submit" onClick={() => onClickSubmit()} style={{marginTop: "20px", display: !validateForm() ? "none" : "unset"}}/>
                 </div>
             </div>
+            <p className="login-text" style={{marginTop: "40px"}}>Back to <Link className="link-text" to={"/"}>login</Link>.</p>
         </div>
     );
 }
