@@ -54,8 +54,8 @@ const Home = () => {
     const renderReleases = (releases) => {
         return <ul className="home-releases">
             {releases.map((album) => {
-                return <div id={album.id} className="home-album-container" onClick={() => navigate(`artist/${album.artistId}/album/${album.id}`)}>
-                    <li key={album.id}>
+                return <div key={album.id} className="home-album-container" onClick={() => navigate(`artist/${album.artistId}/album/${album.id}`)}>
+                    <li>
                         <img src={`${blobUrl}/${album.coverImageGuid}`} className="home-releaseImage"/>
                         <div className="home-albumInfo">
                             <p style={{fontWeight: "bold"}}>{album.name}</p>

@@ -52,7 +52,7 @@ const AudioProvider = ({ children }) => {
 
     useEffect(function countSeconds() {
         const interval = setInterval(() => {
-            if (counting) {
+            if (counting && currentTime < trackInfo.duration) {
                 setCurrentTime(prev => prev + 1);
             }
         }, 1000);
