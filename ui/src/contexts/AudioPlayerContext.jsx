@@ -22,11 +22,8 @@ const AudioProvider = ({ children }) => {
     const [playNextTrack, setPlayNextTrack] = useState(true);
     const [lastPlayedTrack, setLastPlayedTrack] = useState(null);
     const [volume, setVolume] = useState(0.5);
-    const [startTime, setStartTime] = useState(0);
-    let currentTime = 0;
-    if (audioContext) {
-        currentTime = String(audioContext.currentTime - startTime).split(".")[0];
-    }
+    const [currentTime, setCurrentTime] = useState(0);
+    const [counting, setCounting] = useState(false);
 
     // AudioPlayer Component State
     const [isVisible, setIsVisible] = useState(false);
@@ -52,6 +49,16 @@ const AudioProvider = ({ children }) => {
             setToPlay(true);
         }
     }
+
+    useEffect(function countSeconds() {
+        const interval = setInterval(() => {
+            if (counting) {
+                setCurrentTime(prev => prev + 1);
+            }
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [counting]);
 
     useEffect(function checkTracksQueued() {
         if (toPlay) {
@@ -115,6 +122,7 @@ const AudioProvider = ({ children }) => {
             streamAudio(trackInfo.guid);
             setIsPlaying(true);
             setIsPaused(false);
+            setCurrentTime(0);
         }
     }, [trackQueue, token, playNextTrack, audioSource, audioContext]);
 
@@ -150,8 +158,10 @@ const AudioProvider = ({ children }) => {
         if (audioSource) {
             if (isPaused) {
                 audioSource.playbackRate.value = 0;
+                setCounting(false);
             } else {
                 audioSource.playbackRate.value = 1;
+                setCounting(true);
             }
         }
     }, [isPaused, audioSource])
