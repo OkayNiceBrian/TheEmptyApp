@@ -103,6 +103,10 @@ const Home = () => {
                     </li>
                 </div>
             })}
+            {releases.length == 0 && <div>
+                <h3>Nothing Yet...</h3>
+                <h3>:(</h3>
+            </div>}
         </ul>;
     }
 
