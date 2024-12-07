@@ -1,20 +1,10 @@
-import { 
-    Container, 
-    AppBar, 
-    Toolbar, 
-    Typography, 
-    Box,
-    Card,
-    CardHeader, 
-    Avatar, 
-    IconButton,
- } from "@mui/material";
+import { Box, Container } from "@mui/material";
 
 const Contact = () => {
     return (
-        <div>
-            
-        </div>
+        <Container>
+            <Box></Box>
+        </Container>
     );
 }
 

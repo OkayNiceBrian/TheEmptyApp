@@ -6,8 +6,7 @@
             "pages/*": ["pages/*"],
             "styles/*": ["styles/*"]
         },
-        "lib": ["dom", "dom.iterable", "esnext"],    
-        "target": "ESNext",    
+        "lib": ["dom", "dom.iterable", "esnext"],
         "types": ["vite/client"],
         "isolatedModules": true,
     }

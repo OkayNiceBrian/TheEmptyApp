@@ -4,7 +4,7 @@ import jsconfigPaths from 'vite-jsconfig-paths'
 
 export default defineConfig({
     // depending on your application, base can also be "/"
-    base: '',
+    base: '/',
     plugins: [react(), jsconfigPaths()],
     server: {    
         // this ensures that the browser opens upon server start
