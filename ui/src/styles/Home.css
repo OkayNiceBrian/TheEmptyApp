@@ -18,6 +18,15 @@
     font-weight: lighter;
 }
 
+.home-browseGenres-container {
+    display: flex;
+    flex-direction: column;
+    max-width: fit-content;
+    margin: 3rem;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
 .home-releases-container {
     display: flex;
     flex-direction: column;
@@ -25,6 +34,31 @@
     margin: 3rem;
     margin-bottom: 0px;
     margin-top: 0px;
+}
+
+.home-browseGenres {
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+    margin: 2rem;
+    margin-top: 0;
+    overflow-x: auto;
+    border: white 1px solid;
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, .2);
+}
+
+.home-browseGenres p {
+    color: white;
+    cursor: auto;
+    text-wrap: nowrap;
+    text-decoration: none;
+}
+
+.home-browseGenres p:hover {
+    color: cornflowerblue;
+    cursor: pointer;
 }
 
 .home-releases {

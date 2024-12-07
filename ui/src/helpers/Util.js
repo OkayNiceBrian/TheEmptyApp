@@ -28,3 +28,7 @@ export const parseEmails = (s_emails) => {
     emails = emails.filter(e => e !== "");
     return emails;
 }
+
+export const setUppercaseFirstCharacter = (text) => {
+    return text[0].toUpperCase() + text.substring(1, text.length);
+}

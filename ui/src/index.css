@@ -36,6 +36,23 @@ li {
   list-style: none;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background-color: transparent;
+  padding: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+  padding: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: white;
+  border-radius: 50px;
+}
+
 input {
   border-radius: 10px;
   border-color: white;

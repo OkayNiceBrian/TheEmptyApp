@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "store/rootReducer";
 import { apiHost, blobUrl } from "config/host";
+import { setUppercaseFirstCharacter } from "helpers/Util";
 import Loading from "components/Loading";
 import backgroundImage from "assets/home-bck.png";
 import "styles/Home.css";
@@ -13,12 +14,33 @@ const Home = () => {
     const username = useSelector(state => state.username);
     const token = useSelector(state => state.token);
     const userArtistId = useSelector(state => state.userArtistId);
-    const [recentReleases, setRecentReleases] = useState([]);
+    const [genres, setGenres] = useState([]);
+    const [releases, setReleases] = useState([]);
+    const [releasesType, setReleasesType] = useState("recent");
     const [yourReleases, setYourReleases] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [loadingGenres, setLoadingGenres] = useState(true);
 
     useEffect(() => {
-        if (loading) {
+        if (loadingGenres) {
+            const url = `${apiHost}/albums/genres`;
+            fetch(url, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }).then(rsp => {
+                if (rsp.status === 401) dispatch(logout());
+                return rsp.json();
+            }).then(data => {
+                setGenres(data);
+                setLoadingGenres(false);
+            }).catch(e => console.error(e));
+        }
+    }, [loadingGenres])
+
+    useEffect(() => { // TODO: Separate userReleases loading logic, make genre of release dynamic with releasesType
+        if (loading && !loadingGenres) {
             const url = `${apiHost}/albums/index`;
             fetch(url, {
                 method: "GET",
@@ -29,7 +51,7 @@ const Home = () => {
                 if (rsp.status === 401) dispatch(logout());
                 return rsp.json();
             }).then(data => {
-                setRecentReleases(data);
+                setReleases(data);
                 if (!userArtistId) setLoading(false);
             }).then(() => {
                 if (userArtistId) {
@@ -49,7 +71,13 @@ const Home = () => {
                 }
             }).catch(e => console.error(e))
         }
-    }, [loading]);
+    }, [loading, loadingGenres]);
+
+    const renderBrowseGenres = () => {
+        return <div className="home-browseGenres">
+            {genres.map((genre, index) => <p key={index} onClick={() => setReleasesType(genre)}>{genre}</p>)}
+        </div>
+    }
 
     const renderReleases = (releases) => {
         return <ul className="home-releases">
@@ -78,9 +106,13 @@ const Home = () => {
             <div className="home-header-container">
                 <p>Welcome to Empty Music, {username}.</p>
             </div>
+            <div className="home-browseGenres-container">
+                <h3>Browse Genres</h3>
+                {renderBrowseGenres()}
+            </div>
             <div className="home-releases-container">
-                <h3>Recent Releases</h3>
-                {renderReleases(recentReleases)}
+                <h3>{setUppercaseFirstCharacter(releasesType)} Releases</h3>
+                {renderReleases(releases)}
             </div>
             {userArtistId && yourReleases.length > 0 &&
             <div className="home-releases-container">

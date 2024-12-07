@@ -52,7 +52,7 @@ const Artist = () => {
     }, [isDeleted, navigate])
 
     useEffect(() => {
-
+        // TODO: something happens when artistId changes
     }, [artistId]);
 
     const onClickAlbum = (id) => {
