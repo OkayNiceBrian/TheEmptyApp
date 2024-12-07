@@ -18,7 +18,8 @@ const Home = () => {
     const [releases, setReleases] = useState([]);
     const [releasesType, setReleasesType] = useState("recent");
     const [yourReleases, setYourReleases] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loadingReleases, setLoadingReleases] = useState(true);
+    const [loadingYourReleases, setLoadingYourReleases] = useState(true);
     const [loadingGenres, setLoadingGenres] = useState(true);
 
     useEffect(() => {
@@ -39,9 +40,9 @@ const Home = () => {
         }
     }, [loadingGenres])
 
-    useEffect(() => { // TODO: Separate userReleases loading logic, make genre of release dynamic with releasesType
-        if (loading && !loadingGenres) {
-            const url = `${apiHost}/albums/index`;
+    useEffect(() => {
+        if (loadingReleases && !loadingGenres) {
+            const url = `${apiHost}/albums/index/${releasesType}`; //TODO: Backend support
             fetch(url, {
                 method: "GET",
                 headers: {
@@ -52,31 +53,38 @@ const Home = () => {
                 return rsp.json();
             }).then(data => {
                 setReleases(data);
-                if (!userArtistId) setLoading(false);
-            }).then(() => {
-                if (userArtistId) {
-                    const artistUrl = `${apiHost}/artists/${userArtistId}`;
-                    fetch(artistUrl, {
-                        method: "GET",
-                        headers: {
-                            "Authorization": `Bearer ${token}`
-                        }
-                    }).then(rsp => {
-                        if (rsp.status === 401) dispatch(logout());
-                        return rsp.json();
-                    }).then(data => {
-                        setYourReleases(data.albums);
-                        setLoading(false);
-                    })
-                }
+                setLoadingReleases(false);
             }).catch(e => console.error(e))
         }
-    }, [loading, loadingGenres]);
+    }, [loadingReleases, loadingGenres, releasesType]);
+
+    useEffect(() => {
+        if (loadingYourReleases && userArtistId) {
+            const artistUrl = `${apiHost}/artists/${userArtistId}`;
+            fetch(artistUrl, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }).then(rsp => {
+                if (rsp.status === 401) dispatch(logout());
+                return rsp.json();
+            }).then(data => {
+                setYourReleases(data.albums);
+                setLoadingYourReleases(false);
+            }).catch(e => console.error(e));
+        }
+    }, [loadingYourReleases])
 
     const renderBrowseGenres = () => {
         return <div className="home-browseGenres">
-            {genres.map((genre, index) => <p key={index} onClick={() => setReleasesType(genre)}>{genre}</p>)}
+            {genres.map((genre, index) => <p key={index} onClick={() => onClickGenre(genre)}>{genre}</p>)}
         </div>
+    }
+
+    const onClickGenre = (genre) => {
+        setReleasesType(genre);
+        setLoadingReleases(true);
     }
 
     const renderReleases = (releases) => {
@@ -98,7 +106,7 @@ const Home = () => {
         </ul>;
     }
 
-    if (loading) return <Loading/>;
+    if (loadingYourReleases) return <Loading/>;
     
     return (
         <div className="home-container">
@@ -112,7 +120,7 @@ const Home = () => {
             </div>
             <div className="home-releases-container">
                 <h3>{setUppercaseFirstCharacter(releasesType)} Releases</h3>
-                {renderReleases(releases)}
+                {loadingReleases ? <Loading/> : renderReleases(releases)}
             </div>
             {userArtistId && yourReleases.length > 0 &&
             <div className="home-releases-container">
