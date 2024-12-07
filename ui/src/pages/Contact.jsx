@@ -2,9 +2,9 @@ import { Box, Button, Container, Paper, TextareaAutosize, TextField, Typography 
 
 const Contact = () => {
     return (
-        <Container sx={{bgcolor: "gray", height: "100vh", width: "100vw"}}>
+        <Container sx={{bgcolor: "white", height: "100vh", width: "100vw"}}>
             <Box display="flex" flexDirection="column" alignItems="center" pt="2rem" gap="2rem">
-                <Typography variant="h2">Contact</Typography>
+                <Typography variant="h3" color="black">Contact</Typography>
                 <Paper elevation={16}>
                     <Box p={"2rem"} display="flex" flexDirection={"column"} sx={{minWidth: "300px"}}>
                         <Typography>Email Address</Typography>
