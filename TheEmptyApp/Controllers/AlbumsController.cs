@@ -29,9 +29,9 @@ public class AlbumsController : ControllerBase {
         return Ok(a.Select(a => a.ToAlbumDto()));
     }
 
-    [HttpGet("index")]
-    public async Task<ActionResult<IEnumerable<AlbumDto>>> GetRecentAlbums() {
-        var a = await _ar.GetRecentAsync();
+    [HttpGet("index/{genre}")]
+    public async Task<ActionResult<IEnumerable<AlbumDto>>> GetRecentAlbums([FromRoute] string genre) {
+        var a = await _ar.GetRecentAsync(genre);
         return Ok(a.Select(a => a.ToAlbumDto()));
     }
     

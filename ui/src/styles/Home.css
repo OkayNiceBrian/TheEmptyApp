@@ -73,6 +73,7 @@
     border-radius: 10px;
     padding: 1rem;
     box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, .2);
+    max-height: 20rem;
 }
 
 .home-releases p {

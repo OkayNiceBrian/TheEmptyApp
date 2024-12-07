@@ -120,7 +120,7 @@ const Home = () => {
             </div>
             <div className="home-releases-container">
                 <h3>{setUppercaseFirstCharacter(releasesType)} Releases</h3>
-                {loadingReleases ? <Loading/> : renderReleases(releases)}
+                {renderReleases(releases)}
             </div>
             {userArtistId && yourReleases.length > 0 &&
             <div className="home-releases-container">

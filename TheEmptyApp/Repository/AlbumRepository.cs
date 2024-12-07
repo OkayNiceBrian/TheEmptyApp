@@ -26,10 +26,11 @@ public class AlbumRepository : IAlbumRepository {
         return await _ctx.Albums.Include(a => a.Songs).Include(a => a.AllowedUsers).ToListAsync();
     }
 
-    public async Task<List<Album>> GetRecentAsync() {
+    public async Task<List<Album>> GetRecentAsync(string genre) {
         const int albumsToTake = 5;
         return await _ctx.Albums
             .Where(a => !a.IsPrivate)
+            .Where(a => genre == "recent" ? true : a.PrimaryGenre == genre || a.SecondaryGenre == genre)
             .OrderByDescending(a => a.ReleaseDate)
             .Take(albumsToTake)
             .Include(a => a.Artist)
