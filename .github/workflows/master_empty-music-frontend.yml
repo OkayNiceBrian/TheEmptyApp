@@ -31,8 +31,18 @@ jobs:
           npm run build --if-present
           npm run test --if-present
 
+      - name: Test directories
+        run: |
+          pwd
+          ls
+
       - name: Zip artifact for deployment
         run: Compress-Archive -Path .\* -Destination release.zip
+
+      - name: Test directories
+        run: |
+          pwd
+          ls
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
