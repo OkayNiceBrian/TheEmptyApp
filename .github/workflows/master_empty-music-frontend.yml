@@ -15,7 +15,7 @@ jobs:
     
     defaults:
       run:
-        working-directory: ui
+        working-directory: ../ui
 
     steps:
       - uses: actions/checkout@v4
@@ -42,7 +42,7 @@ jobs:
     
     defaults:
       run:
-        working-directory: ui
+        working-directory: ../ui
 
     needs: build
     environment:
