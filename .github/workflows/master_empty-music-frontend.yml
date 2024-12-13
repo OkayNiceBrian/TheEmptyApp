@@ -12,6 +12,10 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    
+    defaults:
+      run:
+        working-directory: ui
 
     steps:
       - uses: actions/checkout@v4
@@ -35,6 +39,11 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: ui
+
     needs: build
     environment:
       name: 'Production'
